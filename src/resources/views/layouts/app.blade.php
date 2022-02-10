@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="{{ asset("css/index.css") }}">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-
 </head>
+
 <body class="antialiased">
 <div class="relative flex items-top justify-center min-h-slogo.tifcreen dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
     <div class="row">
@@ -41,24 +40,6 @@
                 </div>
                 <ul>
                     <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи вот так вот да такой вот длинный текст тут написан</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">У это статьи очень очень длинное название</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">У это статьи очень очень длинное название</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
-                    <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
                     <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">У это статьи очень очень длинное название</a></li>
                     <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>
                     <li><p class="date">дд.мм.гггг</p><a href="#" class="state-name">Название статьи</a></li>

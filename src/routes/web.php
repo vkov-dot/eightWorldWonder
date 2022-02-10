@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\StartController;
 use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\MediaController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\StateController as StateController;
+use \App\Http\Controllers\StateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,13 +26,13 @@ Route::group([
     'as' => 'start.',
     'prefix' => 'start'
 ], function () {
-    Route::get('/', [Controller::class, 'index'])->name('index');
-    Route::put('/create', [Controller::class, 'create'])->name('create');
-    Route::post('/', [Controller::class, 'store'])->name('store');
-    Route::put('/{start}', [Controller::class, 'show'])->name('show');
-    Route::get('/{start}/edit', [Controller::class, 'edit'])->name('edit');
-    Route::put('/{start}', [Controller::class, 'update'])->name('edit');
-    Route::delete('/{start}', [Controller::class, 'destroy'])->name('destroy');
+    Route::get('/', [StartController::class, 'index'])->name('index');
+    Route::put('/create', [StartController::class, 'create'])->name('create');
+    Route::post('/', [StartController::class, 'store'])->name('store');
+    Route::put('/{start}', [StartController::class, 'show'])->name('show');
+    Route::get('/{start}/edit', [StartController::class, 'edit'])->name('edit');
+    Route::put('/{start}', [StartController::class, 'update'])->name('edit');
+    Route::delete('/{start}', [StartController::class, 'destroy'])->name('destroy');
 });
 
 Route::group([

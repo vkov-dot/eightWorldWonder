@@ -42,7 +42,7 @@ ul {
     font-size: 18px;
 }
 .add-to-archive {
-    margin: auto 0;
+    margin: auto 1.5rem;
 }
 .add-to-archive button{
     width: 150px;
@@ -63,7 +63,8 @@ ul {
 }
 .last-states-title {
     font-size: 24px;
-    margin: 10px 0 10px 24px;
+    margin: 10px 0;
+    text-align: center;
 }
 .menu-list {
     list-style: none;

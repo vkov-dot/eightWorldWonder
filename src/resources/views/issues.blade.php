@@ -1,12 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Page Title')
 
 
 @section('content')
     <div>
         <p>
-            Страница выпусков
+            Наши выпуски
         </p>
+        <ul>
+            <li>
+                <img src="{{ asset('') }}">
+            </li>
+            <li></li>
+        </ul>
     </div>
 @endsection
