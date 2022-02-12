@@ -15,10 +15,10 @@ class CreateIssuesTable extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 40);
-            $table->string('link', 150);
-            $table->nullableNumericMorphs('heading_id');
-            $table->foreign('heading_id')->references('id')->on('headings');
+            $table->string('name');
+            $table->string('link');
+            $table->unsignedInteger('heading_id')->nullable();
+            $table->foreignId('heading_id')->constrained('headings');
             $table->timestamps();
         });
     }

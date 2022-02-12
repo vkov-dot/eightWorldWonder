@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\State;
 use Illuminate\Http\Request;
 
 class StateController extends Controller
@@ -13,7 +14,8 @@ class StateController extends Controller
      */
     public function index()
     {
-        return view('states');
+        $lastStates = State::all();
+        return view('states', ['lastStates' =>$lastStates] );
     }
 
     /**
@@ -79,6 +81,6 @@ class StateController extends Controller
      */
     public function destroy($id)
     {
-
+        State::find($id)->destroy();
     }
 }

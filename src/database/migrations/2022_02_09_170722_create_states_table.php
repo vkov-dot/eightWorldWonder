@@ -15,8 +15,9 @@ class CreateStatesTable extends Migration
     {
         Schema::create('states', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->longText('stateText');
+            $table->string('title');
+            $table->string('logo');
+            $table->mediumText('body');
             $table->timestamps();
         });
     }

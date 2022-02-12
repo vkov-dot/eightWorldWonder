@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Heading;
 use Illuminate\Http\Request;
 
 class HeadingController extends Controller
@@ -79,7 +80,7 @@ class HeadingController extends Controller
      */
     public function destroy($id)
     {
-
+        Heading::find($id)->destroy();
     }
 }
 

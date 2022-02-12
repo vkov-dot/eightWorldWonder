@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Issue;
 use Illuminate\Http\Request;
 
 class IssueController extends Controller
@@ -79,6 +80,6 @@ class IssueController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Issue::find($id)->destroy();
     }
 }

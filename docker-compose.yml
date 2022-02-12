@@ -20,7 +20,9 @@ services:
       - work
 
   php:
-    image: php:8.1-fpm-alpine3.15
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
     container_name: php-work
     environment:
       TZ: Europe/Kiev

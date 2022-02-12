@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\State;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class StartController extends Controller
      */
     public function index()
     {
-        return view('start');
+        $lastStates = State::orderBy('id', 'desc')->take(10)->get();
+        return view('start', ['lastStates' =>$lastStates] );
     }
 
     /**

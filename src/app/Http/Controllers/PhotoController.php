@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Photo;
 use Illuminate\Http\Request;
 
 class PhotoController extends Controller
@@ -79,6 +80,6 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Photo::find($id)->destroy();
     }
 }

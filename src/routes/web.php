@@ -18,13 +18,10 @@ use \App\Http\Controllers\StateController;
 */
 
 
-Route::get('/', function () {
-    return view('start');
-});
 
 Route::group([
     'as' => 'start.',
-    'prefix' => 'start'
+    'prefix' => ''
 ], function () {
     Route::get('/', [StartController::class, 'index'])->name('index');
     Route::put('/create', [StartController::class, 'create'])->name('create');

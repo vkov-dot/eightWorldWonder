@@ -15,9 +15,10 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 40);
-            $table->char('link', 150);
-
+            $table->string('name');
+            $table->string('link');
+            $table->unsignedInteger('heading_id')->nullable();
+            $table->foreignId('heading_id')->constrained('headings');
             $table->timestamps();
         });
     }
