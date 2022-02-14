@@ -18,6 +18,7 @@ class CreateStatesTable extends Migration
             $table->string('title');
             $table->string('logo');
             $table->mediumText('body');
+            $table->foreignId('heading_id')->constrained('headings');
             $table->timestamps();
         });
     }

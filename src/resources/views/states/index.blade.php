@@ -9,12 +9,12 @@
                 <p></p>
             </div>
             <ul>
-                @foreach($lastStates as $state)
+                @foreach($states as $state)
                     <li>
                         <p class="date">
                             {{ $state->created_at }}
                         </p>
-                        <a href="#" class="state-name">
+                        <a href="{{ route('states.show') }}" class="state-name">
                             {{ $state->name }}
                         </a>
                     </li>

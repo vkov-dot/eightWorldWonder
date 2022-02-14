@@ -14,7 +14,7 @@ class IssueController extends Controller
      */
     public function index()
     {
-        return view('issues');
+        return view('issues.index');
     }
 
     /**

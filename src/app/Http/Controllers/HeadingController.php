@@ -14,7 +14,7 @@ class HeadingController extends Controller
      */
     public function index()
     {
-        return view('headings');
+        return view('headings.index');
     }
 
     /**

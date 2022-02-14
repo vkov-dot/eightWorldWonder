@@ -15,11 +15,7 @@ class StatesTableSeeder extends Seeder
     public function run()
     {
         DB::table('states')->insert([
-            [
-                'name' => 'статья 1',
-                'stateText' => 'edrfgbhvgfrdedrfgv',
-                ''
-            ],
+
         ]);
     }
 }

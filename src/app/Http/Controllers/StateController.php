@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Heading;
 use App\Models\State;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class StateController extends Controller
@@ -14,40 +16,50 @@ class StateController extends Controller
      */
     public function index()
     {
-        $lastStates = State::all();
-        return view('states', ['lastStates' =>$lastStates] );
+        $states = State::all();
+        //Carbon::parse($states)->isoFormat('d.m.Y');
+        return view('states.index', ['states' =>$states] );
     }
 
     /**
      * Show the form for creating a new resource
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-
+        $heading = Heading::all();
+        return view('states.create', ['heading' => $heading]);
     }
 
     /**
      * Store a nuwky created resource in storage
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Responce
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
+        State::create([
+            'name' => $request->title,
+            'description' => $request->logo,
+            'category_id' => $request->body,
+            'heading_id' =>$request->heading_id
+        ]);
 
+        return redirect()->route('states.index');
     }
 
     /**
-     * Display the cpecified resource
+     * Display the specified resource
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
-
+        $task = State::findOrFail($id);
+        return view('states.show', ['task' => $task]);
     }
 
     /**
