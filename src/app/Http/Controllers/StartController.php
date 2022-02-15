@@ -16,6 +16,7 @@ class StartController extends Controller
     public function index()
     {
         $lastStates = State::orderBy('id', 'desc')->take(10)->get();
+
         return view('start', ['lastStates' =>$lastStates] );
     }
 

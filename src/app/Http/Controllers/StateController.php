@@ -6,6 +6,7 @@ use App\Models\Heading;
 use App\Models\State;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 class StateController extends Controller
 {
@@ -17,7 +18,7 @@ class StateController extends Controller
     public function index()
     {
         $states = State::all();
-        //Carbon::parse($states)->isoFormat('d.m.Y');
+
         return view('states.index', ['states' =>$states] );
     }
 
@@ -29,6 +30,7 @@ class StateController extends Controller
     public function create()
     {
         $heading = Heading::all();
+
         return view('states.create', ['heading' => $heading]);
     }
 
@@ -40,12 +42,7 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        State::create([
-            'name' => $request->title,
-            'description' => $request->logo,
-            'category_id' => $request->body,
-            'heading_id' =>$request->heading_id
-        ]);
+        State::create($request);
 
         return redirect()->route('states.index');
     }
@@ -58,19 +55,23 @@ class StateController extends Controller
      */
     public function show($id)
     {
-        $task = State::findOrFail($id);
-        return view('states.show', ['task' => $task]);
+        $state = State::find($id);
+
+        return view('states.show', ['state' => $state]);
     }
 
     /**
      * Show the form for editing the specified resource
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
     {
+        $state = State::find($id);
+        $headings = Heading::all();
 
+        return view('states.edit', ['state' => $state, 'headings' => $headings]);
     }
 
     /**
@@ -78,11 +79,15 @@ class StateController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
+        $data = $request->except('_token', '_method');
+        $state = State::find($id);
+        $state->update($data);
 
+        return redirect()->route('states.show', ['state' => $id]);
     }
 
     /**
@@ -96,3 +101,4 @@ class StateController extends Controller
         State::find($id)->destroy();
     }
 }
+

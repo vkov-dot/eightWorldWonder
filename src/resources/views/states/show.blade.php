@@ -6,10 +6,10 @@
     <div class="row">
         <div class="last-states col-8 states">
             <div class="last-states-title">
-                <p>SHOW</p>
+                <p>{{ $state->title }}</p>
+                <p>{{ $state->body }}</p>
             </div>
-            <ul>
-            </ul>
+
         </div>
     </div>
 

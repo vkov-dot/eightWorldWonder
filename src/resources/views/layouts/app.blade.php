@@ -29,8 +29,8 @@
                             <li><a href="{{ route('headings.index') }}">Рубрики</a></li>
                         </ul>
                     </div>
-                    <div class="add-to-archive">
-                        <button>Опублікувати</button>
+                    <div id="add-to-archive">
+                        <a href="{{ route('addInfo') }}">Опублікувати</a>
                     </div>
                 </nav>
             </div>

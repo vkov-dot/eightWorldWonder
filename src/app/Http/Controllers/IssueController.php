@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Heading;
 use App\Models\Issue;
 use Illuminate\Http\Request;
 
@@ -14,50 +15,60 @@ class IssueController extends Controller
      */
     public function index()
     {
-        return view('issues.index');
+        $issues = Issue::all();
+        return view('issues.index', ['issues' => $issues]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $heading = Heading::all();
+
+        return view('issues.create', ['heading' => $heading]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        Issue::create($request);
+
+        return redirect()->route('issues.index');
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $issue = Issue::find($id);
+
+        return view('issues.show', ['state' => $issue]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $issue = Issue::find($id);
+        $headings = Heading::all();
+
+        return view('issues.edit', ['issue' => $issue, 'headings' => $headings]);
     }
 
     /**
@@ -65,11 +76,15 @@ class IssueController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->except('_token', '_method');
+        $issue = Issue::find($id);
+        $issue->update($data);
+
+        return redirect()->route('issues.show', ['issue' => $id]);
     }
 
     /**

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Photo;
 use Illuminate\Http\Request;
 
-class PhotoController extends Controller
+class AddInfoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = Photo::all();
-
-        return view('photos.index', ['photos' =>$photos] );
+        return view('addInfo');
     }
 
     /**
@@ -82,6 +79,6 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        Photo::find($id)->destroy();
+        //
     }
 }

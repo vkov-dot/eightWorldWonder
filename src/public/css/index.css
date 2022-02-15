@@ -41,10 +41,11 @@ ul {
     padding: 8px 12px;
     font-size: 18px;
 }
-.add-to-archive {
-    margin: auto 1.5rem;
+#add-to-archive {
+    display: flex;
+    align-items: center;
 }
-.add-to-archive button{
+#add-to-archive a{
     width: 150px;
     height: 40px;
     font-size: 20px;
@@ -57,9 +58,10 @@ ul {
     align-items: center;
     -webkit-transition: all .2s ease-out;
 }
-.add-to-archive button:hover {
+#add-to-archive a:hover {
     background-color: #f39c66;
     -webkit-transition: all .2s ease-out;
+    color: white;
 }
 .last-states-title {
     font-size: 24px;
@@ -92,7 +94,7 @@ ul {
     padding: 10px 1.5rem;
 }
 .menu-list li:hover {
-    background-color: #f8f4f1;
+    background-color: #f3ece5;
     color: #ec8443;
     -webkit-transition: all .2s ease-out;
 }
@@ -110,4 +112,8 @@ a {
 }
 .content {
     margin-top: 20px;
+}
+.add-list li{
+    list-style: none;
+
 }
