@@ -18,6 +18,7 @@ class CreateVideosTable extends Migration
             $table->string('name');
             $table->string('link');
             $table->foreignId('heading_id')->constrained('headings');
+            $table->foreignId('media_folder_id')->constrained('media_folders');
             $table->timestamps();
         });
     }

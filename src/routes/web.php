@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddInfoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MediaFolderController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\IssueController;
@@ -52,13 +53,13 @@ Route::group([
     'as' => 'media.',
     'prefix' => 'media'
 ], function () {
-    Route::get('/', [MediaController::class, 'index'])->name('index');
-    Route::put('/create', [MediaController::class, 'create'])->name('create');
-    Route::post('/', [MediaController::class, 'store'])->name('store');
-    Route::get('/{media}', [MediaController::class, 'show'])->name('show');
-    Route::get('/{media}/edit', [MediaController::class, 'edit'])->name('edit');
-    Route::put('/{media}', [MediaController::class, 'update'])->name('edit');
-    Route::delete('/{media}', [MediaController::class, 'destroy'])->name('destroy');
+    Route::get('/', [MediaFolderController::class, 'index'])->name('index');
+    Route::put('/create', [MediaFolderController::class, 'create'])->name('create');
+    Route::post('/', [MediaFolderController::class, 'store'])->name('store');
+    Route::get('/{media}', [MediaFolderController::class, 'show'])->name('show');
+    Route::get('/{media}/edit', [MediaFolderController::class, 'edit'])->name('edit');
+    Route::put('/{media}', [MediaFolderController::class, 'update'])->name('edit');
+    Route::delete('/{media}', [MediaFolderController::class, 'destroy'])->name('destroy');
 });
 
 Route::group([

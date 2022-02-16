@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Media;
+use App\Models\MediaFolder;
 use App\Models\Photo;
 use App\Models\Video;
 use Illuminate\Http\Request;
 
-class MediaController extends Controller
+class MediaFolderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,9 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $photo = Photo::all();
-        $video = Video::all();
-        //$media = array_merge(Video::all(), Photo::all());
-        return view('media.index', ['videos' => $video, 'photos' => $photo]);
+        $mediaFolders = MediaFolder::all();
+
+        return view('media.index', ['mediaFolders' => $mediaFolders]);
     }
 
     /**
@@ -47,11 +46,20 @@ class MediaController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $photos = Photo::where('media_folder_id', $id)->get();
+        $videos = Video::where('media_folder_id', $id)->get();
+        //$fullMedia = array_merge($photos, $videos);
+        //dd($fullMedia);
+        $mediaFolder = MediaFolder::find($id);
+        return view('media.show', [
+            'photos' => $photos,
+            'videos' => $videos,
+            'mediaFolder' => $mediaFolder
+        ]);
     }
 
     /**
@@ -85,6 +93,6 @@ class MediaController extends Controller
      */
     public function destroy($id)
     {
-        Media::find($id)->destroy();
+        //
     }
 }

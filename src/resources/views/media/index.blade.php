@@ -8,19 +8,10 @@
             <p>Скарбничка спогадів</p>
         </div>
         <ul>
-            @foreach($photos as $photo)
+            @foreach($mediaFolders as $folder)
                 <li>
-                    <a href="{{ route('media.show', ['media' => $photo->id ]) }}" class="state-name">
-                        {{ $photo->name }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-        <ul>
-            @foreach($videos as $video)
-                <li>
-                    <a href="{{ route('media.show', ['media' => $video->id ]) }}" class="state-name">
-                        {{ $video->name }}
+                    <a href="{{ route('media.show', ['media' => $folder->id ]) }}" class="state-name">
+                        {{ $folder->name }}
                     </a>
                 </li>
             @endforeach
