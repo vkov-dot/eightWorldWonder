@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddInfoController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\IssueController;
@@ -28,7 +29,7 @@ Route::group([
     Route::get('/', [StartController::class, 'index'])->name('index');
     Route::put('/create', [StartController::class, 'create'])->name('create');
     Route::post('/', [StartController::class, 'store'])->name('store');
-    Route::get('/{start}', [StartController::class, 'show'])->name('show');
+    Route::get('/start/{start}', [StartController::class, 'show'])->name('show');
     Route::get('/{start}/edit', [StartController::class, 'edit'])->name('edit');
     Route::put('/{start}', [StartController::class, 'update'])->name('edit');
     Route::delete('/{start}', [StartController::class, 'destroy'])->name('destroy');
@@ -62,7 +63,7 @@ Route::group([
 
 Route::group([
     'as' => 'headings.',
-    'prefix' => 'headings'
+    'prefix' => 'headings',
 ], function () {
     Route::get('/', [HeadingController::class, 'index'])->name('index');
     Route::put('/create', [HeadingController::class, 'create'])->name('create');
@@ -86,6 +87,11 @@ Route::group([
     Route::delete('/{state}', [StateController::class, 'destroy'])->name('destroy');
 });
 
-Route::get('/addInfo', [AddInfoController::class, 'index'] )->name('addInfo');
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('addInfo');
+
+//Route::get('/addInfo', [AddInfoController::class, 'index'] )->name('addInfo');
 
 

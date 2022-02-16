@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
+use App\Models\Photo;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
@@ -14,7 +16,10 @@ class MediaController extends Controller
      */
     public function index()
     {
-        return view('media.index');
+        $photo = Photo::all();
+        $video = Video::all();
+        //$media = array_merge(Video::all(), Photo::all());
+        return view('media.index', ['videos' => $video, 'photos' => $photo]);
     }
 
     /**

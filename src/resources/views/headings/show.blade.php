@@ -5,16 +5,17 @@
 @section('content')
     <div class="col-4 last-states">
         <div class="last-states-title">
-            <p>Последние статьи</p>
+            <p>«{{ $heading->name }}»   </p>
         </div>
         <ul>
-            @foreach($headings as $heading)
+            @foreach($issues as $issue)
                 <li>
-                    <a href="{{ route('headings.show', ['heading' => $heading->id ]) }}" class="state-name">
-                        {{ $heading->name }}
+                    <a href="{{ route('issues.show', ['issue' => $issue->id ]) }}" class="state-name">
+                        {{ $issue->name }}
                     </a>
                 </li>
             @endforeach
         </ul>
     </div>
+
 @endsection

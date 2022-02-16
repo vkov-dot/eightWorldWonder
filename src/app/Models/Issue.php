@@ -11,7 +11,7 @@ class Issue extends Model
 
     protected $fillable = ['name', 'link', 'heading_id'];
 
-    public function heading()
+    public function heading(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Heading::class);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Heading;
+use App\Models\Issue;
 use Illuminate\Http\Request;
 
 class HeadingController extends Controller
@@ -14,7 +15,9 @@ class HeadingController extends Controller
      */
     public function index()
     {
-        return view('headings.index');
+        $headings = Heading::all();
+
+        return view('headings.index', ['headings' => $headings]);
     }
 
     /**
@@ -46,7 +49,12 @@ class HeadingController extends Controller
      */
     public function show($id)
     {
-
+        $issues = Issue::where('heading_id', $id)->get();
+        $heading = Heading::find($id);
+        return view('headings.show', [
+            'issues' => $issues,
+            'heading' => $heading
+        ]);
     }
 
     /**

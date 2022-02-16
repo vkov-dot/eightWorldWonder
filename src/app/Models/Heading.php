@@ -11,15 +11,15 @@ class Heading extends Model
 
     protected $fillable = ['name'];
 
-    public function issue()
+    public function issue(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Issue::class);
     }
-    public function photo()
+    public function photo(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Photo::class);
     }
-    public function video()
+    public function video(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Video::class);
     }

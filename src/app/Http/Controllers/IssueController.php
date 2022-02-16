@@ -54,7 +54,7 @@ class IssueController extends Controller
     {
         $issue = Issue::find($id);
 
-        return view('issues.show', ['state' => $issue]);
+        return view('issues.show', ['issue' => $issue]);
     }
 
     /**

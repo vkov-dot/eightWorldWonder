@@ -15,7 +15,7 @@
                             {{ $state->created_at }}
                         </p>
                         <a href="{{ route('states.show', ['state' => $state->id]) }}" class="state-name">
-                            {{ $state->name }}
+                            {{ $state->title }}
                         </a>
                     </li>
                 @endforeach
