@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-
-
 @section('content')
     <div class="col-4 last-states">
         <div class="last-states-title">
@@ -10,7 +8,7 @@
         <ul>
             @foreach($issues as $issue)
                 <li>
-                    <a href="{{ route('issues.show', ['issue' => $issue->id ]) }}" class="state-name">
+                    <a href="{{ $issue->link }}" class="state-name">
                         {{ $issue->name }}
                     </a>
                 </li>
