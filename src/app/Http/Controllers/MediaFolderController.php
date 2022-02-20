@@ -16,7 +16,7 @@ class MediaFolderController extends Controller
      */
     public function index()
     {
-        $mediaFolders = MediaFolder::all();
+        $mediaFolders = MediaFolder::orderBy('id', 'desc')->get();
 
         return view('media.index', ['mediaFolders' => $mediaFolders]);
     }
@@ -52,12 +52,12 @@ class MediaFolderController extends Controller
     {
         $photos = Photo::where('media_folder_id', $id)->get();
         $videos = Video::where('media_folder_id', $id)->get();
-        //$fullMedia = array_merge($photos, $videos);
-        //dd($fullMedia);
+        $media = $photos->merge($videos);
+        $media->sortByDesc('id');
         $mediaFolder = MediaFolder::find($id);
+
         return view('media.show', [
-            'photos' => $photos,
-            'videos' => $videos,
+            'media' => $media,
             'mediaFolder' => $mediaFolder
         ]);
     }

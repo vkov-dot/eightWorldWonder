@@ -1,18 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-4 last-states">
-        <div class="last-states-title">
-            <p>«Наші видання»</p>
+    <div class="row">
+        <div class="col-6 last-states issues-list">
+            <ul>
+                @foreach($issues as $issue)
+                    <li>
+                        <p class="date">
+                            {{ $issue->created_at }}
+                        </p>
+                        <a href="{{ $issue->link }}" class="state-name" target="_blank">
+                            {{ $issue->name }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
         </div>
-        <ul>
-            @foreach($issues as $issue)
-                <li>
-                    <a href="{{ $issue->link }}" class="state-name">
-                        {{ $issue->name }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
     </div>
 @endsection

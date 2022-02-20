@@ -3,8 +3,8 @@
 
 
 @section('content')
-    <div class="row">
-        <div class="last-states col-8 states">
+    <div class="row states">
+        <div class="last-states col-6">
             <div class="last-states-title">
                 <p></p>
             </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Heading;
-use App\Models\Issue;
+use App\Models\State;
 use Illuminate\Http\Request;
 
 class HeadingController extends Controller
@@ -15,7 +15,7 @@ class HeadingController extends Controller
      */
     public function index()
     {
-        $headings = Heading::all();
+        $headings = Heading::orderBy('id', 'desc')->get();
 
         return view('headings.index', ['headings' => $headings]);
     }
@@ -23,22 +23,25 @@ class HeadingController extends Controller
     /**
      * Show the form for creating a new resource
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-
+        return view('headings.create');
     }
 
     /**
      * Store a newly created resource in storage
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
+        $data = $request->except('_token');
+        Heading::create($data);
 
+        return redirect()->route('headings.index');
     }
 
     /**
@@ -49,10 +52,11 @@ class HeadingController extends Controller
      */
     public function show($id)
     {
-        $issues = Issue::where('heading_id', $id)->get();
+        $states = State::where('heading_id', $id)->get();
         $heading = Heading::find($id);
+
         return view('headings.show', [
-            'issues' => $issues,
+            'states' => $states,
             'heading' => $heading
         ]);
     }

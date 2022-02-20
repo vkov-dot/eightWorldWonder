@@ -15,6 +15,9 @@ img {
     display: flex;
     margin-bottom: 10px;
 }
+.issues-list {
+    margin-top: 20px;
+}
 .last-states ul {
     line-height: 1.25;
     background-color: white;
@@ -58,6 +61,7 @@ ul {
     align-items: center;
     -webkit-transition: all .2s ease-out;
 }
+
 #add-to-archive a:hover {
     background-color: #f39c66;
     -webkit-transition: all .2s ease-out;
@@ -74,7 +78,7 @@ ul {
     background-color: white;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .menu-list ul {
     list-style: none;
@@ -93,8 +97,8 @@ ul {
     display: block;
     padding: 10px 1.5rem;
 }
-.menu-list li:hover {
-    background-color: #f3ece5;
+.menu-list li:hover, #navbar a:hover  {
+    background-color: #f5ebe0;
     color: #ec8443;
     -webkit-transition: all .2s ease-out;
 }
@@ -122,4 +126,7 @@ a {
 }
 #navbar a {
     color: black;
+}
+.row {
+    margin: 0 auto;
 }

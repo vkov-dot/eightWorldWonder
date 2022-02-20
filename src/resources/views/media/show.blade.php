@@ -5,22 +5,13 @@
 @section('content')
     <div class="col-4 last-states">
         <div class="last-states-title">
-            <p>Скарбничка спогадів</p>
+            <a href="{{ route('media.index') }}">{{ $mediaFolder->name }}</a>
         </div>
         <ul>
-            @foreach($photos as $photo)
+            @foreach($media as $media)
                 <li>
-                    <a href="{{ route('media.show', ['media' => $photo->id ]) }}" class="state-name">
-                        {{ $photo->name }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-        <ul>
-            @foreach($videos as $video)
-                <li>
-                    <a href="{{ route('media.show', ['media' => $video->id ]) }}" class="state-name">
-                        {{ $video->name }}
+                    <a href="{{ route('media.show', ['media' => $media->id ]) }}" class="state-name">
+                        {{ $media->name }}
                     </a>
                 </li>
             @endforeach

@@ -39,20 +39,17 @@
                             <ul class="navbar-nav">
                                 @guest
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('login')) ? 'active-url' : '' }}" href="{{ route('login') }}">Войти</a>
+                                        <a class="nav-link {{ (request()->is('login')) ? 'active-url' : '' }}" href="{{ route('login') }}">Увійти</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('register')) ? 'active-url' : '' }}" href="{{ route('register') }}">Регистрация</a>
+                                        <a class="nav-link {{ (request()->is('register')) ? 'active-url' : '' }}" href="{{ route('register') }}">Реєстрація</a>
                                     </li>
+                                    <div id="add-to-archive">
+                                        <a href="{{ route('addInfo') }}">Опублікувати</a>
+                                    </div>
                                 @else
                                     <li class="nav-item">
-                                        <a class="nav-link {{ (request()->is('home')) ? 'active-url' : '' }}" href="{{ route('home') }}">Главная</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ (request()->route()->getName() === 'tasks.index') ? 'active-url' : '' }}" href="{{ route('tasks.index') }}">Мои задачи</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ (request()->route()->getName() === 'tasks.create') ? 'active-url' : '' }}" href="{{ route('tasks.create') }}">Создать задачу</a>
+                                        <a class="nav-link {{ (request()->is('home')) ? 'active-url' : '' }}" href="{{ route('home') }}">Головна</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('logout') }}"
@@ -60,7 +57,6 @@
                                                      document.getElementById('logout-form').submit();">
                                             Выход
                                         </a>
-
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                             @csrf
                                         </form>
@@ -74,9 +70,7 @@
                         <div class="box-1"></div>
                         <div class="box-2"></div>
                     </div>
-                    <div id="add-to-archive">
-                        <a href="{{ route('addInfo') }}">Опублікувати</a>
-                    </div>
+
                 </nav>
             </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Heading;
 use App\Models\Issue;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class IssueController extends Controller
@@ -15,7 +16,8 @@ class IssueController extends Controller
      */
     public function index()
     {
-        $issues = Issue::all();
+        $issues = Issue::orderBy('id', 'desc')->get();
+
         return view('issues.index', ['issues' => $issues]);
     }
 
@@ -26,9 +28,9 @@ class IssueController extends Controller
      */
     public function create()
     {
-        $heading = Heading::all();
+        $headings = Heading::all();
 
-        return view('issues.create', ['heading' => $heading]);
+        return view('issues.create', ['headings' => $headings]);
     }
 
     /**
@@ -39,7 +41,8 @@ class IssueController extends Controller
      */
     public function store(Request $request)
     {
-        Issue::create($request);
+        $data = $request->except('_token');
+        Issue::create($data);
 
         return redirect()->route('issues.index');
     }

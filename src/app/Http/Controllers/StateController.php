@@ -17,7 +17,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = State::all();
+        $states = State::orderBy('id', 'desc')->get();
 
         return view('states.index', ['states' =>$states] );
     }
