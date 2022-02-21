@@ -1,26 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <ul class="col-8 add-list">
-            <li>
+    <div class="row div-add-list">
+        <ul class="col-6 add-list row">
+            <li class="col-6">
                 <a href="{{ route('issues.create') }}">
-                    Новий випуск
+                    ВИПУСК
                 </a>
             </li>
-            <li>
+            <li class="col-6">
                 <a href="{{ route('states.create') }}">
-                    Нова стаття
+                    СТАТТЯ
                 </a>
             </li>
-            <li>
+            <li class="col-6">
                 <a href="{{ route('media.create') }}">
-                    Нове фото/відео
+                    ФОТО/ВІДЕО
                 </a>
             </li>
-            <li>
+            <li class="col-6">
                 <a href="{{ route('headings.create') }}">
-                    Нова рубрика
+                    РУБРИКА
                 </a>
             </li>
         </ul>

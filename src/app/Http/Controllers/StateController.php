@@ -18,8 +18,11 @@ class StateController extends Controller
     public function index()
     {
         $states = State::orderBy('id', 'desc')->get();
+        foreach ($states as $state) {
+            $state->date = Carbon::parse($state->created_at)->format('d.m.Y');
+        }
 
-        return view('states.index', ['states' =>$states] );
+        return view('states.index', ['states' =>$states]);
     }
 
     /**

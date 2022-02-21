@@ -3,16 +3,13 @@
 
 
 @section('content')
-    <div class="row">
-        <div class="col-6 last-states">
-            <div class="last-states-title">
-                <p>Скарбничка спогадів</p>
-            </div>
+    <div class="row list">
+        <div class="col-6 last-states issues-list">
             <ul>
                 @foreach($mediaFolders as $folder)
                     <li>
                         <p class="date">
-                            {{ $folder->created_at }}
+                            {{ $folder->date }}
                         </p>
                         <a href="{{ route('media.show', ['media' => $folder->id ]) }}" class="state-name">
                             {{ $folder->name }}

@@ -3,8 +3,8 @@
 
 
 @section('content')
-    <div class="row">
-        <div class="col-6 last-states">
+    <div class="row list">
+        <div class="col-6 last-states issues-list">
             <ul>
                 @foreach($headings as $heading)
                     <li>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MediaFolder;
 use App\Models\Photo;
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MediaFolderController extends Controller
@@ -17,18 +18,20 @@ class MediaFolderController extends Controller
     public function index()
     {
         $mediaFolders = MediaFolder::orderBy('id', 'desc')->get();
-
+        foreach ($mediaFolders as $media) {
+            $media->date = Carbon::parse($media->created_at)->format('d.m.Y');
+        }
         return view('media.index', ['mediaFolders' => $mediaFolders]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('media.create');
     }
 
     /**
@@ -52,12 +55,15 @@ class MediaFolderController extends Controller
     {
         $photos = Photo::where('media_folder_id', $id)->get();
         $videos = Video::where('media_folder_id', $id)->get();
-        $media = $photos->merge($videos);
-        $media->sortByDesc('id');
+        $medias = $photos->merge($videos);
+        $medias->sortByDesc('id');
+        foreach ($medias as $media) {
+            $media->date = Carbon::parse($media->created_at)->format('d.m.Y');
+        }
         $mediaFolder = MediaFolder::find($id);
 
         return view('media.show', [
-            'media' => $media,
+            'medias' => $medias,
             'mediaFolder' => $mediaFolder
         ]);
     }

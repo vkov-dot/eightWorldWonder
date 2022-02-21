@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Heading;
 use App\Models\Issue;
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class IssueController extends Controller
@@ -17,7 +18,9 @@ class IssueController extends Controller
     public function index()
     {
         $issues = Issue::orderBy('id', 'desc')->get();
-
+        foreach ($issues as $issue) {
+            $issue->date = Carbon::parse($issue->created_at)->format('d.m.Y');
+        }
         return view('issues.index', ['issues' => $issues]);
     }
 

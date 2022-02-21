@@ -3,16 +3,13 @@
 
 
 @section('content')
-    <div class="row states">
-        <div class="last-states col-6">
-            <div class="last-states-title">
-                <p></p>
-            </div>
+    <div class="row list">
+        <div class="col-6 last-states issues-list">
             <ul>
                 @foreach($states as $state)
                     <li>
                         <p class="date">
-                            {{ $state->created_at }}
+                            {{ $state->date }}
                         </p>
                         <a href="{{ route('states.show', ['state' => $state->id]) }}" class="state-name">
                             {{ $state->title }}

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,8 +14,10 @@ class State extends Model
 
     protected $fillable = ['title', 'logo', 'body'];
 
+
     public function states()
     {
         return $this->belongsTo(Heading::class);
     }
+
 }

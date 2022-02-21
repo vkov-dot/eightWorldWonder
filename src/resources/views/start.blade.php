@@ -11,7 +11,7 @@
                 @foreach($lastStates as $state)
                     <li>
                         <p class="date">
-                            {{ $state->created_at }}
+                            {{ $state->date }}
                         </p>
                         <a href="{{ route('states.show', ['state' => $state->id ]) }}" class="state-name">
                             {{ $state->title }}
