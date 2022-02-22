@@ -82,6 +82,7 @@ Route::group([
 ], function () {
     Route::get('/', [StateController::class, 'index'])->name('index');
     Route::get('/create', [StateController::class, 'create'])->name('create');
+    Route::post('/search', [StateController::class, 'search'])->name('search');
     Route::post('/', [StateController::class, 'store'])->name('store');
     Route::get('/{state}/', [StateController::class, 'show'])->name('show');
     Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit');

@@ -18,9 +18,7 @@ class IssueController extends Controller
     public function index()
     {
         $issues = Issue::orderBy('id', 'desc')->get();
-        foreach ($issues as $issue) {
-            $issue->date = Carbon::parse($issue->created_at)->format('d.m.Y');
-        }
+
         return view('issues.index', ['issues' => $issues]);
     }
 
@@ -31,9 +29,7 @@ class IssueController extends Controller
      */
     public function create()
     {
-        $headings = Heading::all();
-
-        return view('issues.create', ['headings' => $headings]);
+        return view('issues.create');
     }
 
     /**

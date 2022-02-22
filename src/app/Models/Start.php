@@ -8,9 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Start extends Model
 {
-    protected function serializeDate()
-    {
-        return $this->format('Y/m/d');
-    }
     use HasFactory;
 }

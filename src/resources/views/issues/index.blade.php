@@ -7,7 +7,7 @@
                 @foreach($issues as $issue)
                     <li>
                         <p class="date">
-                            {{ $issue->date }}
+                            {{ \Carbon\Carbon::parse($issue->created_at)->format('d.m.Y') }}
                         </p>
                         <a href="{{ $issue->link }}" class="state-name" target="_blank">
                             {{ $issue->name }}

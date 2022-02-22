@@ -8,6 +8,11 @@
             <ul>
                 @foreach($headings as $heading)
                     <li>
+                        <div class="heading-image">
+                            <a href="{{ route('headings.show', ['heading' => $heading->id ]) }}">
+                                <img src="{{ asset("storage/$heading->image") }}" alt="аватар">
+                            </a>
+                        </div>
                         <a href="{{ route('headings.show', ['heading' => $heading->id ]) }}" class="state-name">
                             {{ $heading->name }}
                         </a>

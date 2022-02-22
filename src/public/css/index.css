@@ -29,7 +29,7 @@ img {
 .last-states ul>li {
     display: inline-flex;
     padding: 4px 0;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.7);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
     width: 100%;
 }
 
@@ -42,14 +42,14 @@ ul {
 }
 
 .date{
-    border-right: 1px solid rgba(128, 128, 128, 0.7);
+    border-right: 1px solid rgba(128, 128, 128, 0.4);
     padding: 8px 12px;
     margin: auto 0;
 }
 
 .state-name {
     margin: auto 0;
-    padding: 8px 12px;
+    padding: 8px 18px;
     font-size: 18px;
 }
 
@@ -62,10 +62,11 @@ ul {
     width: 150px;
     height: 40px;
     font-size: 20px;
-    background-color: #ec8443;
-    color: white;
+    background-color: white;
+    color: #ec8443;
     margin: auto 0;
-    border: 0;
+    border-radius: 26px;
+    border: 2px solid #ec8443;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,9 +74,9 @@ ul {
 }
 
 #add-to-archive a:hover {
-    background-color: #f39c66;
-    -webkit-transition: all .2s ease-out;
+    background-color: #ec8443;
     color: white;
+    -webkit-transition: all .2s ease-out;
 }
 
 .last-states-title {
@@ -205,10 +206,10 @@ a {
 }
 
 .create-heading-content {
-    width: 400px;
+    width: 500px;
     border: 1px solid #ccc3bc;
     margin: 18px auto 0 auto;
-    padding: 35px 30px;
+    padding: 35px 45px;
     border-radius: 5px;
 }
 
@@ -227,4 +228,9 @@ a {
 }
 #file-input {
     border: 0;
+}
+
+.heading-image {
+    width: 50px;
+    height: auto;
 }

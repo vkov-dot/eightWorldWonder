@@ -17,14 +17,6 @@
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
 
-                <div class="form-group">
-                    <label for="category">Рубрика</label>
-                    <select class="form-control" id="heading" name="heading_id">
-                        @foreach($headings as $heading)
-                            <option value="{{ $heading->id }}">{{ $heading->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
                 <div class="submit-button">
                     <button type="submit">
                         Создать

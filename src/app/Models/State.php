@@ -12,12 +12,10 @@ class State extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'logo', 'body'];
+    protected $fillable = ['title', 'logo', 'body', 'heading_id'];
 
-
-    public function states()
+    public function headings()
     {
         return $this->belongsTo(Heading::class);
     }
-
 }

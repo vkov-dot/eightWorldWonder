@@ -39,6 +39,7 @@ class HeadingController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_token');
+        $data['image'] = $request->file('image')->store('images');
         Heading::create($data);
 
         return redirect()->route('headings.index');

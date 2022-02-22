@@ -3,7 +3,8 @@
 @section('content')
     <div class="row create-heading">
         <div class="create-heading-content">
-            <form method="POST" action="{{ route('headings.store') }}" class="create-heading-form">
+            <form method="POST" action="{{ route('headings.store') }}"
+                  class="create-heading-form" enctype="multipart/form-data">
                 @csrf
                 <div>
                     <input type="text" class="add-heading-input @error('name') is-invalid @enderror"
@@ -14,8 +15,10 @@
                     </div>
                     @enderror
 
-                    <input type="file" class="add-heading-input @error('name') is-invalid @enderror"
-                           placeholder="Аватар рубрики" name="heading_image" id="file-input">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Аватар рубрики</label>
+                        <input class="form-control" type="file" id="formFile" name="image">
+                    </div>
                     @error('name')
                     <div class="alert alert-danger">
                         {{ $message }}

@@ -16,6 +16,7 @@ class CreateHeadingsTable extends Migration
         Schema::create('headings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image')->nullable()->after('id');
             $table->timestamps();
         });
     }

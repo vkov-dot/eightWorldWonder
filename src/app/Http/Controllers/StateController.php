@@ -32,9 +32,9 @@ class StateController extends Controller
      */
     public function create()
     {
-        $heading = Heading::all();
+        $headings = Heading::all();
 
-        return view('states.create', ['heading' => $heading]);
+        return view('states.create', ['headings' => $headings]);
     }
 
     /**
@@ -45,9 +45,19 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        State::create($request);
+        $data = $request->except('_token');
+//        dd($request->all());
+        $data['logo'] = $request->file('logo')->store('images');
+        $state = State::create($data);
 
         return redirect()->route('states.index');
+    }
+
+    public function search(Request $request)
+    {
+        $result = State::where('author', 'LIKE', "%$request->param%")->get();
+        dd($result);
+        return view('states.index', ['states', $result]);
     }
 
     /**

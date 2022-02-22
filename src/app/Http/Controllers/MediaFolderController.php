@@ -18,9 +18,7 @@ class MediaFolderController extends Controller
     public function index()
     {
         $mediaFolders = MediaFolder::orderBy('id', 'desc')->get();
-        foreach ($mediaFolders as $media) {
-            $media->date = Carbon::parse($media->created_at)->format('d.m.Y');
-        }
+
         return view('media.index', ['mediaFolders' => $mediaFolders]);
     }
 
@@ -31,18 +29,23 @@ class MediaFolderController extends Controller
      */
     public function create()
     {
-        return view('media.create');
+        $mediaFolders = MediaFolder::all();
+
+        return view('media.create', ['mediaFolders' => $mediaFolders]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token');
+        MediaFolder::create($data);
+
+        return redirect()->route('media.index');
     }
 
     /**

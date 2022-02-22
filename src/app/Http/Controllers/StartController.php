@@ -17,9 +17,7 @@ class StartController extends Controller
     public function index()
     {
         $lastStates = State::orderBy('id', 'desc')->take(10)->get();
-        foreach ($lastStates as $state) {
-            $state->date = Carbon::parse($state->created_at)->format('d.m.Y');
-        }
+
         return view('start', ['lastStates' =>$lastStates] );
     }
 

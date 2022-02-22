@@ -9,7 +9,7 @@
                 @foreach($mediaFolders as $folder)
                     <li>
                         <p class="date">
-                            {{ $folder->date }}
+                            {{  \Carbon\Carbon::parse($folder->created_at)->format('d.m.Y') }}
                         </p>
                         <a href="{{ route('media.show', ['media' => $folder->id ]) }}" class="state-name">
                             {{ $folder->name }}

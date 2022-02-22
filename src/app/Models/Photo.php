@@ -10,13 +10,4 @@ class Photo extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'link', 'heading_id'];
-
-    public function getPhotoForIndex()
-    {
-
-    }
-    public function heading()
-    {
-        return $this->belongsTo(Heading::class);
-    }
 }
