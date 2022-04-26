@@ -44,6 +44,7 @@ Route::group([
     Route::get('/', [IssueController::class, 'index'])->name('index');
     Route::get('/create', [IssueController::class, 'create'])->name('create');
     Route::post('/', [IssueController::class, 'store'])->name('store');
+    Route::post('/search', [IssueController::class, 'search'])->name('search');
     Route::get('/{issue}/', [IssueController::class, 'show'])->name('show');
     Route::get('/{issue}/edit', [IssueController::class, 'edit'])->name('edit');
     Route::put('/{issue}', [IssueController::class, 'update'])->name('edit');
@@ -82,8 +83,8 @@ Route::group([
 ], function () {
     Route::get('/', [StateController::class, 'index'])->name('index');
     Route::get('/create', [StateController::class, 'create'])->name('create');
-    Route::post('/search', [StateController::class, 'search'])->name('search');
     Route::post('/', [StateController::class, 'store'])->name('store');
+    Route::post('/search', [StateController::class, 'search'])->name('search');
     Route::get('/{state}/', [StateController::class, 'show'])->name('show');
     Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit');
     Route::put('/{state}', [StateController::class, 'update'])->name('update');
@@ -97,3 +98,4 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+//Route::post('ckeditor/image_upload', 'CKEditorController@upload')->name('upload');

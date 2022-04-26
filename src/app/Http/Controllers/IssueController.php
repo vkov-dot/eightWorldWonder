@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Heading;
 use App\Models\Issue;
-use App\Models\Video;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class IssueController extends Controller
@@ -44,6 +42,12 @@ class IssueController extends Controller
         Issue::create($data);
 
         return redirect()->route('issues.index');
+    }
+
+    public function search(Request $request)
+    {
+        $issues = Issue::where('name', 'LIKE', "%$request->param%")->get();
+        return view('issues.index', ['issues' => $issues]);
     }
 
     /**

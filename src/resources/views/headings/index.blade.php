@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
 
-
 @section('content')
     <div class="row list">
-        <div class="col-6 last-states issues-list">
-            <ul>
+        <div class="col-12 last-states heading-list">
+            <ul class="row heading-list-head col-12">
                 @foreach($headings as $heading)
-                    <li>
+                    <li class=" col-xl-3 col-lg-4 col-sm-6 col-12 heading-list-elem">
                         <div class="heading-image">
                             <a href="{{ route('headings.show', ['heading' => $heading->id ]) }}">
                                 <img src="{{ asset("storage/$heading->image") }}" alt="аватар">

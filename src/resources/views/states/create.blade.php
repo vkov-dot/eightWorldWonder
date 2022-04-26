@@ -3,23 +3,25 @@
 @section('content')
     <div class="row create-heading">
         <div class="create-heading-content">
-            <form method="POST" action="{{ route('states.store') }}"
-                  class="create-heading-form" enctype="multipart/form-data">
+            <form id="form1" method="post" action="{{ route('states.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div>
-                    <input type="text" class="add-heading-input @error('name') is-invalid @enderror" placeholder="Название статьи" name="title">
-                    @error('name')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
                     <div class="form-group">
-                        <label for="category">Рубрика</label>
-                        <select class="form-control" id="heading" name="heading_id">
-                            @foreach($headings as $heading)
-                                <option value="{{ $heading->id }}">{{ $heading->name }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" class="state-name-input @error('name') is-invalid @enderror"
+                               placeholder="Название статьи" name="title">
+                        @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        <div class="states-heading-input">
+                            <label for="category">Рубрика</label>
+                            <select class="form-control" id="heading" name="heading_id">
+                                @foreach($headings as $heading)
+                                    <option value="{{ $heading->id }}">{{ $heading->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
+
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Титульная картинка</label>
                         <input class="form-control" type="file" id="formFile" name="logo">
@@ -28,26 +30,40 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
 
-                    <div class="mb-3">
-                        <textarea class="form-control" id="formFile" name="body" placeholder="Текст статьи"></textarea>
-                    </div>
-                    @error('name')
+                    <script src="//cdn.ckeditor.com/4.18.0/full/ckeditor.js"></script>
+                    <textarea name="body"></textarea>
+                    <script>
+                        CKEDITOR.replace('body');
+                    </script>
+                    @error('body')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
+
+                    <div class="state-author-div">
+                        <input type="text" class="state-author-input @error('name') is-invalid @enderror"
+                               placeholder="Автор" name="author">
+                        @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
+
                 <div class="submit-button">
-                    <button type="submit">Создать</button>
+                    <button type="submit">Створити</button>
                 </div>
             </form>
 
             <div class="to-page">
                 <div>
-                    <a href="{{ route('addInfo') }}">Назад</a>
-                    <a href="{{ route('states.store') }}">К статьям</a>
+                    <div>
+                        <a href="{{ route('addInfo') }}">Назад</a>
+                    </div>
+                    <div>
+                        <a href="{{ route('states.store') }}">До статей</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 
 @endsection

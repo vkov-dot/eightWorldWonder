@@ -12,7 +12,7 @@ class State extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'logo', 'body', 'heading_id'];
+    protected $fillable = ['title', 'logo', 'body', 'heading_id', 'author'];
 
     public function headings()
     {

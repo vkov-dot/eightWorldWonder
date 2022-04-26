@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row list">
-        <div class="col-6 last-states issues-list">
+        <div class="col-12 last-states issues-list">
             <ul>
                 @foreach($mediaFolders as $folder)
                     <li>

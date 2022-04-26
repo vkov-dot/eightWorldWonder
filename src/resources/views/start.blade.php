@@ -26,18 +26,30 @@
                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
                 </div>
                 <div class="carousel-inner">
-                    @foreach($lastStates as $state)
-                        <div class="carousel-item active">
-                            <img src="{{ asset($state->logo) }}" class="d-block w-100" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <p>{{ $state->title }}</p>
-                            </div>
+                    <div class="carousel-item active">
+                        <img src="{{ asset("storage/".$lastStates[0]->logo) }}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <p>
+                                <a href="{{ route('states.show', ['state' => $state->id ]) }}">
+                                    {{ $lastStates[0]->title }}
+                                </a>
+                            </p>
                         </div>
-                    @endforeach
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ asset("storage/".$lastStates[1]->logo) }}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <p>{{ $lastStates[1]->title }}</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ asset("storage/".$lastStates[2]->logo) }}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <p>{{ $lastStates[2]->title }}</p>
+                        </div>
+                    </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

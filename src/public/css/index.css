@@ -7,7 +7,6 @@ body {
 
 img {
     width: 100%;
-    height: 100%;
 }
 
 .logo {
@@ -21,16 +20,21 @@ img {
     margin: 20px auto 20px auto;
 }
 
-.last-states ul {
+.last-states ul li {
     line-height: 1.25;
     background-color: white;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
 }
 
 .last-states ul>li {
-    display: inline-flex;
     padding: 4px 0;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
-    width: 100%;
+    display: flex;
+    -webkit-transition: all .2s ease-out;
+}
+
+.last-states ul>li:hover {
+    box-shadow: 0 0 10px rgba(197, 179, 167, 0.5);
+    -webkit-transition: all .2s ease-out;
 }
 
 ul {
@@ -41,7 +45,7 @@ ul {
     margin-top: 40px;
 }
 
-.date{
+.date {
     border-right: 1px solid rgba(128, 128, 128, 0.4);
     padding: 8px 12px;
     margin: auto 0;
@@ -59,16 +63,12 @@ ul {
 }
 
 #add-to-archive a{
-    width: 150px;
     height: 40px;
     font-size: 20px;
-    background-color: white;
-    color: #ec8443;
-    margin: auto 0;
+    background-color: #ec8443;
+    color: white;
     border-radius: 26px;
-    border: 2px solid #ec8443;
     display: flex;
-    justify-content: center;
     align-items: center;
     -webkit-transition: all .2s ease-out;
 }
@@ -83,6 +83,7 @@ ul {
     font-size: 24px;
     margin-bottom: 10px;
     text-align: center;
+    padding: 20px 30px;
 }
 
 .menu-list {
@@ -124,6 +125,7 @@ a:hover {
     color: #ec8443;
     transition: all .3s ease-out;
 }
+
 a {
     color: black;
     text-decoration: none;
@@ -141,9 +143,10 @@ a {
 }
 
 .issues-list {
-    display: flex;
-    justify-content: center;
+    min-width: 600px;
+    max-width: 75%;
 }
+
 .add-list li{
     list-style: none;
 }
@@ -157,36 +160,47 @@ a {
 #navbar li>a {
     color: black;
 }
+
 .div-add-list {
     display: flex;
     justify-content: center;
     margin-top: 40px;
 }
+
 .add-list {
     display: inline-flex;
     justify-content: center;
 }
+
 .add-list li{
     width: 250px;
     margin-bottom: 10px;
 }
+
 .add-list li>a {
     padding: 15px 0;
     display: block;
     width: 100%;
     height: 100%;
     background-color: #ec8443;
-    font-size: 24px;
-    color: white;
+    border-radius: 6px;
+    font-size: 26px;
+    color: #f7efe8;
     text-align: center;
     -webkit-transition: all .3s ease-out;
 }
+
 .div-issues-form {
     justify-content: center;
 }
 
 .active-url {
     color: red;
+}
+
+.heading-list ul{
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .create-heading-form input {
@@ -198,19 +212,29 @@ a {
     border: 1px solid #ccc3bc;
 }
 
-.to-page>div {
-    display: flex;
-    justify-content: space-around;
+.to-page {
     margin-top: 20px;
     font-size: 18px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+}
+.to-page>div {
+    padding: 0 6px;
+    display: inline-flex;
+
 }
 
+.to-page a {
+    margin: 0 20px;
+}
 .create-heading-content {
-    width: 500px;
+    /*width: 500px;*/
     border: 1px solid #ccc3bc;
     margin: 18px auto 0 auto;
     padding: 35px 45px;
     border-radius: 5px;
+    box-shadow: 0 0 7px rgb(0 0 0 / 20%);
 }
 
 .submit-button {
@@ -219,18 +243,154 @@ a {
     margin-top: 10px;
     margin-right: 10px;
 }
+
 .submit-button button {
     border: 0;
+    border-radius: 14px;
     background-color: #ec8443;
     color: white;
-    font-size: 20px;
-    padding: 4px 15px;
+    font-size: 22px;
+    padding: 6px 20px;
 }
+
 #file-input {
     border: 0;
 }
 
 .heading-image {
-    width: 50px;
     height: auto;
+    padding: 18px;
+}
+
+.add-heading-input {
+    margin-top: 15px;
+}
+
+.heading-list-elem {
+    margin: 10px;
+    width: auto;
+    flex-direction: column;
+    border-radius: 4px;
+}
+
+.heading-list-head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-issue-input {
+    max-width: 340px;
+    padding: 6px 12px;
+    font-size: 20px;
+    margin: 0;
+    width: inherit;
+    border-radius: 8px;
+    border: 1px solid #ccc3bc;
+}
+
+.search-submit {
+    padding: 5px 20px;
+    background-color: #ec8443;
+    color: white;
+    border: 0;
+    border-radius: 15px;
+    font-size: 20px;
+    margin: 0 0 0 10px;
+}
+
+.search-div {
+    display: inline-flex;
+    justify-content: center;
+}
+
+.search-issue-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.issues-ul ul{
+    margin: 5px 0;
+}
+
+.issues-ul {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.states-search-label {
+    display: inline-flex;
+    margin-right: 12px;
+}
+.states-search-label p{
+    margin: auto 6px;
+    font-size: 18px;
+}
+
+.form-control {
+    width: auto;
+}
+
+.states-search-div {
+    padding: 5px 0;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.states-list {
+    background-color: white;
+    padding: 10px 0;
+    border-radius: 8px;
+}
+
+.states-list li:hover {
+    z-index: 20;
+    box-shadow: 0 0 10px gray;
+}
+
+.form-group {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.state-name-input {
+    height: 36px;
+    align-self: center;
+    width: 65%;
+    border-radius: 8px;
+    border: 1px solid white;
+    padding: 0 16px;
+}
+
+.states-heading-input {
+    display: flex;
+    font-size: 18px;
+    align-items: baseline;
+}
+
+.state-author-input {
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid white;
+    padding: 0 16px;
+}
+
+.state-author-div {
+    display: flex;
+    justify-content: end;
+    margin-top: 12px;
+}
+
+.state-show-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.state-show-main-div {
+    display: flex;
+    justify-content: center;
 }

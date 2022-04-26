@@ -4,23 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Heading;
 use App\Models\State;
-use Carbon\Carbon;
+use App\Services\StateService;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 
 class StateController extends Controller
 {
+    private $service;
+
+    public function __construct(StateService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function index()
     {
         $states = State::orderBy('id', 'desc')->get();
-        foreach ($states as $state) {
-            $state->date = Carbon::parse($state->created_at)->format('d.m.Y');
-        }
 
         return view('states.index', ['states' =>$states]);
     }
@@ -43,21 +46,20 @@ class StateController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $data = $request->except('_token');
-//        dd($request->all());
         $data['logo'] = $request->file('logo')->store('images');
-        $state = State::create($data);
+        State::create($data);
 
         return redirect()->route('states.index');
     }
 
     public function search(Request $request)
     {
-        $result = State::where('author', 'LIKE', "%$request->param%")->get();
-        dd($result);
-        return view('states.index', ['states', $result]);
+        $states = State::where($request->message, 'LIKE', "%$request->param%")->get();
+
+        return view('states.index', ['states' => $states]);
     }
 
     /**
