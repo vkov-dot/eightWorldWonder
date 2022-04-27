@@ -96,6 +96,6 @@ Route::get('/addInfo', [AddInfoController::class, 'index'] )->name('addInfo');
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [StartController::class, 'index'])->name('home');
 
 //Route::post('ckeditor/image_upload', 'CKEditorController@upload')->name('upload');

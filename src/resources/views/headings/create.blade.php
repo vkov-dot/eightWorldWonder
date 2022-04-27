@@ -8,7 +8,7 @@
                 @csrf
                 <div>
                     <input type="text" class="add-heading-input @error('name') is-invalid @enderror"
-                           placeholder="Название рубрики" name="name">
+                           placeholder="Назва рубрики" name="name">
                     @error('name')
                     <div class="alert alert-danger">
                         {{ $message }}

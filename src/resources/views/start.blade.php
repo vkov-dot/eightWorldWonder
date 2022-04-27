@@ -5,9 +5,9 @@
     <div class="row">
         <div class="col-4 last-states">
             <div class="last-states-title">
-                <p>Последние статьи</p>
+                <p>Останні статті</p>
             </div>
-            <ul>
+            <ul class="states-list">
                 @foreach($lastStates as $state)
                     <li>
                         <p class="date">
@@ -16,6 +16,7 @@
                         <a href="{{ route('states.show', ['state' => $state->id ]) }}" class="state-name">
                             {{ $state->title }}
                         </a>
+                        <p>{{ $state->author }}</p>
                     </li>
                 @endforeach
             </ul>
@@ -32,7 +33,7 @@
                         <img src="{{ asset("storage/".$lastStates[0]->logo) }}" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
                             <p>
-                                <a href="{{ route('states.show', ['state' => $state->id ]) }}">
+                                <a href="{{ route('states.show', ['state' => $lastStates[0]->id ]) }}" class="slider-link">
                                     {{ $lastStates[0]->title }}
                                 </a>
                             </p>
@@ -41,13 +42,21 @@
                     <div class="carousel-item">
                         <img src="{{ asset("storage/".$lastStates[1]->logo) }}" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
-                            <p>{{ $lastStates[1]->title }}</p>
+                            <p>
+                                <a href="{{ route('states.show', ['state' => $lastStates[1]->id ]) }}" class="slider-link">
+                                    {{ $lastStates[1]->title }}
+                                </a>
+                            </p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img src="{{ asset("storage/".$lastStates[2]->logo) }}" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
-                            <p>{{ $lastStates[2]->title }}</p>
+                            <p>
+                                <a href="{{ route('states.show', ['state' => $lastStates[2]->id ]) }}" class="slider-link">
+                                    {{ $lastStates[2]->title }}
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>

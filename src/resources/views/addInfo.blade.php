@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row div-add-list">
-        <ul class="col-6 add-list row">
+        <ul class="add-list row">
             <li class="col-6">
                 <a href="{{ route('issues.create') }}">
                     ВИПУСК

@@ -55,6 +55,7 @@ class StateController extends Controller
         return redirect()->route('states.index');
     }
 
+
     public function search(Request $request)
     {
         $states = State::where($request->message, 'LIKE', "%$request->param%")->get();
@@ -109,11 +110,14 @@ class StateController extends Controller
      * Remove the specified resource from storage
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        State::find($id)->destroy();
+        $state = State::find($id);
+        $state->delete();
+
+        return redirect()->route('states.index');
     }
 }
 

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
     <div class="row create-heading">
         <div class="create-heading-content">
@@ -65,5 +66,4 @@
             </div>
         </div>
     </div>
-
 @endsection
