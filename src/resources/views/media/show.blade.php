@@ -13,7 +13,7 @@
                 @foreach($medias as $media)
                     <li>
                         <p class="date">
-                            {{ $media->date }}
+                            {{ \Carbon\Carbon::parse($media->created_at)->format('d.m.Y') }}
                         </p>
                         <a href="{{ route('media.show', ['media' => $media->id ]) }}" class="state-name">
                             {{ $media->name }}

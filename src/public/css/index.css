@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: 'Nunito', sans-serif;
-    background-color: #f8f8f8;
+    background-color: #f0f0f0;
     justify-content: center;
 }
 
@@ -14,6 +14,7 @@ main {
 
 header {
     padding: 0;
+    margin-top: 10px;
 }
 
 .logo img {
@@ -38,7 +39,6 @@ ul {
 }
 
 .date {
-    border-right: 1px solid rgba(128, 128, 128, 0.4);
     padding: 8px 12px;
     margin: auto 0;
     color: grey;
@@ -46,7 +46,8 @@ ul {
 
 .state-name {
     margin: auto 0;
-    padding: 8px 18px;
+    padding: 10px 14px;
+    border-left: 1px solid rgba(128, 128, 128, 0.4);
     font-size: 18px;
 }
 
@@ -99,9 +100,16 @@ ul {
     color: white;
 }
 
-.menu-list li:hover, #navbar a:hover, .add-list li > a:hover {
+.menu-list li:hover,
+#navbar a:hover {
     background-color: #f5ebe0;
     color: #ec8443;
+    -webkit-transition: all .3s ease-out;
+}
+
+.add-list li > a:hover {
+    background-color: #f2f4ff;
+    color: #66c275;
     -webkit-transition: all .3s ease-out;
 }
 
@@ -156,7 +164,7 @@ a {
     display: block;
     width: 100%;
     height: 100%;
-    background-color: #ec8443;
+    background-color: #66c275;
     border-radius: 6px;
     font-size: 26px;
     color: #f7efe8;
@@ -184,6 +192,7 @@ a {
     margin-bottom: 10px;
     border-radius: 22px;
     border: 1px solid #ccc3bc;
+    background-color: rgba(255, 189, 103, 0.07);
     -webkit-transition: all .2s ease-out;
 }
 
@@ -292,6 +301,7 @@ a {
     border: 0;
     border-radius: 20px;
     font-size: 20px;
+    -webkit-transition: all .2s ease-out;
 }
 
 .search-submit:hover {
@@ -344,16 +354,23 @@ a {
     background-color: white;
     padding: 10px 0;
     border-radius: 8px;
+    box-shadow: 0 1px 4px rgb(168 168 168 / 50%);
 }
 
 .states-list li:hover,
 .issues-ul li:hover,
 .last-states ul li:hover {
-    background-color: rgba(255, 143, 76, 0.07);
+    background-color: rgba(0, 31, 255, 0.05);
 }
 
-.states-list p, .state-author {
+.state-author {
     margin: auto 0;
+    color: gray;
+}
+
+.author {
+    white-space: nowrap;
+    margin: auto 8px auto 0;
     color: gray;
 }
 
@@ -371,6 +388,8 @@ a {
     border-radius: 8px;
     padding: 0 16px;
     border: 1px solid #ccc3bc;
+    background-color: rgba(255, 204, 140, 0.07);
+    -webkit-transition: all .2s ease-out;
 }
 
 .states-heading-input {
@@ -384,6 +403,8 @@ a {
     border-radius: 8px;
     padding: 0 16px;
     border: 1px solid #ccc3bc;
+    background-color: rgba(255, 204, 140, 0.07);
+    -webkit-transition: all .2s ease-out;
 }
 
 .state-author-div {
@@ -412,6 +433,7 @@ a {
 .state-show-name {
     font-weight: bold;
     font-size: 26px;
+    text-align: center;
 }
 
 .div-search {
@@ -436,7 +458,7 @@ a {
     padding: 8px 16px;
     background-color: #ea7232;
     color: white;
-    border-radius: 24px;
+    border-radius: 6px;
     margin: 15px 20px;
     font-size: 20px;
     -webkit-transition: all .2s ease-out;
@@ -444,7 +466,7 @@ a {
 
 .destroy-state button:hover {
     background-color: #f65c00;
-    border-radius: 10px;
+    border-radius: 16px;
 }
 
 .nav-link {
@@ -456,9 +478,62 @@ a {
 .state-name-input:focus {
     border-radius: 10px;
     -webkit-transition: all .2s ease-out;
-    background-color: rgba(255, 189, 103, 0.07);
+    background-color: white;
 }
 
 input {
     outline: none;
+}
+
+.destroy-issue button,
+.destroy-media button {
+    background-color: rgba(255, 255, 255, 0);
+    color: rgba(255, 255, 255, 0);
+    border: 0;
+    height: 100%;
+    -webkit-transition: all .1s ease-out;
+}
+
+.destroy-issue button:hover,
+.destroy-media button:hover {
+    color: red;
+    background-color: rgba(255, 255, 255, 0);
+    -webkit-transition: all .1s ease-out;
+}
+
+.heading-name {
+    margin: auto 0;
+    padding: 8px 18px;
+    font-size: 18px;
+}
+
+.redact-state-link {
+    display: flex;
+    width: fit-content;
+    margin-left: auto;
+}
+
+.redact-state-link a {
+    width: 100%;
+    margin-left: auto;
+    background-color: blue;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 20px;
+    -webkit-transition: all .3s ease-out;
+}
+
+.redact-state-link:hover a {
+    color: white;
+    border-radius: 12px;
+    background-color: #59a985;
+    -webkit-transition: all .3s ease-out;
+}
+
+@media screen and (max-width: 992px) {
+    .start-section {
+        display: flex;
+        flex-direction: column-reverse;
+    }
 }

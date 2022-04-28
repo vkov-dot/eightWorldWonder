@@ -60,10 +60,9 @@ class MediaFolderController extends Controller
         $videos = Video::where('media_folder_id', $id)->get();
         $medias = $photos->merge($videos);
         $medias->sortByDesc('id');
-        foreach ($medias as $media) {
-            $media->date = Carbon::parse($media->created_at)->format('d.m.Y');
-        }
         $mediaFolder = MediaFolder::find($id);
+
+        //dd($medias);
 
         return view('media.show', [
             'medias' => $medias,

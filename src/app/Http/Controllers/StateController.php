@@ -6,6 +6,7 @@ use App\Models\Heading;
 use App\Models\State;
 use App\Services\StateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StateController extends Controller
 {
@@ -71,9 +72,10 @@ class StateController extends Controller
      */
     public function show($id)
     {
+        $lastStates = State::orderBy('id', 'desc')->take(10)->get();
         $state = State::find($id);
 
-        return view('states.show', ['state' => $state]);
+        return view('states.show', ['state' => $state, 'lastStates' =>$lastStates]);
     }
 
     /**
@@ -101,6 +103,10 @@ class StateController extends Controller
     {
         $data = $request->except('_token', '_method');
         $state = State::find($id);
+        if($request->logo) {
+            Storage::disk('public')->delete($state->logo);
+            $data['logo'] = $request->file('logo')->store('images');
+        }
         $state->update($data);
 
         return redirect()->route('states.show', ['state' => $id]);
@@ -115,6 +121,7 @@ class StateController extends Controller
     public function destroy($id)
     {
         $state = State::find($id);
+        Storage::disk('public')->delete($state->logo);
         $state->delete();
 
         return redirect()->route('states.index');

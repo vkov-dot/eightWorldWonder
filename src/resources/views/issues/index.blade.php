@@ -22,6 +22,11 @@
                                 <a href="{{ $issue->link }}" class="state-name" target="_blank">
                                     {{ $issue->name }}
                                 </a>
+                                <form action="{{ route('issues.destroy', ['issue' => $issue->id]) }}" class="destroy-issue" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">Видалити</button>
+                                </form>
                             </li>
                         @endforeach
                     </ul>

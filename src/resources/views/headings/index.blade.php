@@ -12,7 +12,7 @@
                                 <img src="{{ asset("storage/".$heading->image) }}" alt="аватар">
                             </a>
                         </div>
-                        <a href="{{ route('headings.show', ['heading' => $heading->id ]) }}" class="state-name">
+                        <a href="{{ route('headings.show', ['heading' => $heading->id ]) }}" class="heading-name">
                             {{ $heading->name }}
                         </a>
                     </li>
