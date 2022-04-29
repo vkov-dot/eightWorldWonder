@@ -15,7 +15,7 @@
                             {{ \Carbon\Carbon::parse($states->created_at)->format('d.m.Y') }}
                         </p>
                         <a href="{{ route('states.show', ['state' => $states->id ]) }}" class="state-name">
-                            {{ $states->title }}
+                            {{ $states->name }}
                         </a>
                     </li>
                 @endforeach
@@ -25,7 +25,7 @@
         <div class="last-states col-7 states state-show-div">
             <div>
                 <p class="state-show-name">
-                    {{ $state->title }}
+                    {{ $state->name }}
                 </p>
                 <img src="{{ asset("storage/".$state->logo) }}" class="d-block w-100" alt="...">
                 <p>

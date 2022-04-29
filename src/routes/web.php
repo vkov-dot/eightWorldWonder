@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AddInfoController;
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MediaFolderController;
 use App\Http\Controllers\PhotoController;
@@ -52,6 +54,20 @@ Route::group([
 });
 
 Route::group([
+    'as' => 'categories.',
+    'prefix' => 'categories'
+], function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::get('/create', [CategoryController::class, 'create'])->name('create');
+    Route::post('/', [CategoryController::class, 'store'])->name('store');
+    Route::post('/search', [CategoryController::class, 'search'])->name('search');
+    Route::get('/{category}/', [CategoryController::class, 'show'])->name('show');
+    Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+    Route::put('/{category}', [CategoryController::class, 'update'])->name('edit');
+    Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+});
+
+Route::group([
     'as' => 'media.',
     'prefix' => 'media'
 ], function () {
@@ -98,4 +114,18 @@ Auth::routes();
 
 Route::get('/home', [StartController::class, 'index'])->name('home');
 
-//Route::post('ckeditor/image_upload', 'CKEditorController@upload')->name('upload');
+Route::group([
+    'as' => 'archives.',
+    'prefix' => 'archives'
+], function () {
+    Route::get('/', [ArchiveController::class, 'index'])->name('index');
+    Route::get('/create', [ArchiveController::class, 'create'])->name('create');
+    Route::post('/', [ArchiveController::class, 'store'])->name('store');
+    Route::post('/search', [ArchiveController::class, 'search'])->name('search');
+    Route::get('/{table}', [ArchiveController::class, 'show'])->name('show');
+    Route::get('/{table}/edit', [ArchiveController::class, 'edit'])->name('edit');
+    Route::put('/{table}', [ArchiveController::class, 'update'])->name('update');
+    Route::delete('/{table}/{id}', [ArchiveController::class, 'destroy'])->name('destroy');
+    Route::put('/{table}/{id}', [ArchiveController::class, 'recover'])->name('recover');
+});
+

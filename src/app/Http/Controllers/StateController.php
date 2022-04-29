@@ -121,8 +121,12 @@ class StateController extends Controller
     public function destroy($id)
     {
         $state = State::find($id);
-        Storage::disk('public')->delete($state->logo);
-        $state->delete();
+        $state['archived'] = 1;
+        $state->update();
+
+        //$state = State::find($id);
+        //Storage::disk('public')->delete($state->logo);
+        //$state->delete();
 
         return redirect()->route('states.index');
     }

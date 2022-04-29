@@ -107,6 +107,10 @@ ul {
     -webkit-transition: all .3s ease-out;
 }
 
+#active-url, #dropdownMenuLink {
+    background-color: #f5ebe0;
+    color: #ec8443;
+}
 .add-list li > a:hover {
     background-color: #f2f4ff;
     color: #66c275;
@@ -174,10 +178,6 @@ a {
 
 .div-issues-form {
     justify-content: center;
-}
-
-.active-url {
-    color: red;
 }
 
 .heading-list ul {

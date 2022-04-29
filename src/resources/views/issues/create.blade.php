@@ -11,6 +11,15 @@
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
 
+                <div class="states-heading-input">
+                    <label for="category">Категорія</label>
+                    <select class="form-control" id="category" name="category_id">
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <input type="text" class="add-heading-input @error('name') is-invalid @enderror"
                        placeholder="Ссылка на выпуск" name="link">
                 @error('link')

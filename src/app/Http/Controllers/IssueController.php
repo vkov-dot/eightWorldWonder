@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Heading;
 use App\Models\Issue;
 use Illuminate\Http\Request;
@@ -27,7 +28,8 @@ class IssueController extends Controller
      */
     public function create()
     {
-        return view('issues.create');
+        $categories = Category::all();
+        return view('issues.create', ['categories' => $categories]);
     }
 
     /**
@@ -47,6 +49,7 @@ class IssueController extends Controller
     public function search(Request $request)
     {
         $issues = Issue::where('name', 'LIKE', "%$request->param%")->get();
+
         return view('issues.index', ['issues' => $issues]);
     }
 
@@ -74,7 +77,10 @@ class IssueController extends Controller
         $issue = Issue::find($id);
         $headings = Heading::all();
 
-        return view('issues.edit', ['issue' => $issue, 'headings' => $headings]);
+        return view('issues.edit', [
+            'issue' => $issue,
+            'headings' => $headings
+        ]);
     }
 
     /**
@@ -102,7 +108,8 @@ class IssueController extends Controller
     public function destroy($id)
     {
         $issue = Issue::find($id);
-        $issue->delete();
+        $issue['archived'] = 1;
+        $issue->update();
 
         return redirect()->route('issues.index');
     }

@@ -2,30 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Issue;
-use App\Models\State;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 
-class StartController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $lastStates = State::orderBy('id', 'desc')->take(10)->get();
-        $lastIssues = Issue::orderBy('id', 'desc')->take(10)->get();
-        $categories = Category::all();
-
-        return view('start', [
-            'lastStates' =>$lastStates,
-            'lastIssues' => $lastIssues,
-            'categories' => $categories
-        ]);
+        //
     }
 
     /**
@@ -53,11 +42,13 @@ class StartController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $issues = Issue::where('category_id', $id)->where('archived', 0)->get();
+
+        return view('issues.index', ['issues' => $issues]);
     }
 
     /**

@@ -10,7 +10,7 @@
                 <div>
                     <div class="form-group">
                         <input type="text" class="state-name-input @error('name') is-invalid @enderror"
-                               placeholder="Название статьи" name="title" value="{{ $state->title }}">
+                               placeholder="Название статьи" name="name" value="{{ $state->name }}">
                         @error('name')
                         <div class="alert alert-danger">
                             {{ $message }}

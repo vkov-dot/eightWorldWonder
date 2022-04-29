@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Heading extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = ['image', 'name'];
 
-    public function states(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function issues(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(State::class);
+        return $this->hasMany(Issue::class);
     }
-
 }

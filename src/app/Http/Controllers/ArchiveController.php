@@ -2,30 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Issue;
-use App\Models\State;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class StartController extends Controller
+class ArchiveController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        $lastStates = State::orderBy('id', 'desc')->take(10)->get();
-        $lastIssues = Issue::orderBy('id', 'desc')->take(10)->get();
-        $categories = Category::all();
 
-        return view('start', [
-            'lastStates' =>$lastStates,
-            'lastIssues' => $lastIssues,
-            'categories' => $categories
-        ]);
     }
 
     /**
@@ -53,11 +43,16 @@ class StartController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($request)
     {
-        //
+        $table = DB::table($request)->where('archived', 1)->get();
+
+        return view('archives.show', [
+            'table' => $table,
+            'name' => $request
+        ]);
     }
 
     /**
@@ -87,10 +82,26 @@ class StartController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($tableName, $id)
     {
-        //
+        $note = DB::table($tableName)->find($id);
+        if($tableName === 'states') {
+            Storage::disk('public')->delete($note->logo);
+        }
+
+        DB::table($tableName)->find($id)->delete();
+
+        return redirect()->route('start.index');
+    }
+
+    public function recover($tableName, $id)
+    {
+        $note = DB::table($tableName)->find($id);
+        $note['archived'] = 0;
+        $note->update();
+
+        return redirect()->route('start.index');
     }
 }

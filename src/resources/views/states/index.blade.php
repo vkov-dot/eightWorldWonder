@@ -34,7 +34,7 @@
                         {{ \Carbon\Carbon::parse($state->created_at)->format('d.m.Y') }}
                     </p>
                     <a href="{{ route('states.show', ['state' => $state->id]) }}" class="state-name">
-                        {{ $state->title }}
+                        {{ $state->name }}
                     </a>
                     <p class="state-author">{{ $state->author }}</p>
                 </li>

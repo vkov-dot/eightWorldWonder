@@ -9,6 +9,10 @@ class Issue extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'link', 'heading_id'];
+    protected $fillable = ['name', 'link', 'heading_id', 'arhived', 'category_id'];
 
+    public function categories()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

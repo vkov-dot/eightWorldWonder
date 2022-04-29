@@ -9,7 +9,7 @@
                 <div>
                     <div class="form-group">
                         <input type="text" class="state-name-input @error('name') is-invalid @enderror"
-                               placeholder="Название статьи" name="title">
+                               placeholder="Название статьи" name="name">
                         @error('name')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
