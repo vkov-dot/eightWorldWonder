@@ -16,7 +16,7 @@ class IssueController extends Controller
      */
     public function index()
     {
-        $issues = Issue::orderBy('id', 'desc')->get();
+        $issues = Issue::where('archived', 0)->orderBy('id', 'desc')->paginate(20);
 
         return view('issues.index', ['issues' => $issues]);
     }
@@ -48,7 +48,7 @@ class IssueController extends Controller
 
     public function search(Request $request)
     {
-        $issues = Issue::where('name', 'LIKE', "%$request->param%")->get();
+        $issues = Issue::where('name', 'LIKE', "%$request->param%")->where('archived', 1)->get();
 
         return view('issues.index', ['issues' => $issues]);
     }
@@ -61,9 +61,7 @@ class IssueController extends Controller
      */
     public function show($id)
     {
-        $issue = Issue::find($id);
-
-        return view('issues.show', ['issue' => $issue]);
+        //
     }
 
     /**
@@ -108,9 +106,23 @@ class IssueController extends Controller
     public function destroy($id)
     {
         $issue = Issue::find($id);
-        $issue['archived'] = 1;
+        if($issue['archived']) {
+            $issue->delete();
+        }
+        else {
+            $issue['archived'] = 1;
+        }
         $issue->update();
 
         return redirect()->route('issues.index');
+    }
+
+    public function recover($id)
+    {
+        $issue = Issue::find($id);
+        $issue->archived = 0;
+        $issue->update();
+
+        return redirect()->route('archives.show', ['table' => 'issues']);
     }
 }

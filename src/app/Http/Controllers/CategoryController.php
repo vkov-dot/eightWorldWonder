@@ -46,7 +46,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $issues = Issue::where('category_id', $id)->where('archived', 0)->get();
+        $issues = Issue::where('category_id', $id)->where('archived', 0)->paginate(20);
 
         return view('issues.index', ['issues' => $issues]);
     }

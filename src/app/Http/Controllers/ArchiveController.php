@@ -93,15 +93,6 @@ class ArchiveController extends Controller
 
         DB::table($tableName)->find($id)->delete();
 
-        return redirect()->route('start.index');
-    }
-
-    public function recover($tableName, $id)
-    {
-        $note = DB::table($tableName)->find($id);
-        $note['archived'] = 0;
-        $note->update();
-
-        return redirect()->route('start.index');
+        return redirect()->route('archives.show', ['table' => $tableName]);
     }
 }

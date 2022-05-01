@@ -1,13 +1,14 @@
 body {
     margin: 0;
     font-family: 'Nunito', sans-serif;
-    background-color: #f0f0f0;
+    background-color: #fdf2ec;
     justify-content: center;
 }
 
 .logo {
     margin-bottom: 2px;
 }
+
 main {
     margin: 0 auto;
 }
@@ -67,9 +68,17 @@ ul {
 }
 
 .last-states-title {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 22px;
+    margin-bottom: 0;
     text-align: center;
+}
+
+.last-states {
+    margin-top: 24px;
+}
+
+.last-states-title p {
+    margin-bottom: 5px;
 }
 
 .menu-list {
@@ -79,7 +88,7 @@ ul {
     justify-content: space-around;
 }
 
-.menu-list ul {
+.menu-list-ul {
     list-style: none;
     display: flex;
     flex-direction: row;
@@ -93,15 +102,18 @@ ul {
     -webkit-transition: all .2s ease-out;
 }
 
-.menu-list a {
+.menu-list-link {
     width: 100%;
     display: block;
     padding: 10px 1.5rem;
     color: white;
+    font-size: 20px;
+    white-space: nowrap;
 }
 
 .menu-list li:hover,
-#navbar a:hover {
+#navbar a:hover,
+.btn-secondary:hover {
     background-color: #f5ebe0;
     color: #ec8443;
     -webkit-transition: all .3s ease-out;
@@ -144,7 +156,6 @@ a {
 #navbar {
     padding-bottom: 0;
     padding-top: 0;
-    margin: auto 20px auto 0;
 }
 
 .div-add-list {
@@ -166,8 +177,6 @@ a {
 .add-list li > a {
     padding: 15px 0;
     display: block;
-    width: 100%;
-    height: 100%;
     background-color: #66c275;
     border-radius: 6px;
     font-size: 26px;
@@ -342,6 +351,7 @@ a {
 
 .form-control {
     width: auto;
+    font-size: 18px;
 }
 
 .states-search-div {
@@ -354,13 +364,13 @@ a {
     background-color: white;
     padding: 10px 0;
     border-radius: 8px;
-    box-shadow: 0 1px 4px rgb(168 168 168 / 50%);
+    box-shadow: 0 1px 4px rgb(168 168 168 / 90%);
 }
 
 .states-list li:hover,
 .issues-ul li:hover,
 .last-states ul li:hover {
-    background-color: rgba(0, 31, 255, 0.05);
+    background-color: rgb(242, 247, 255);
 }
 
 .state-author {
@@ -375,9 +385,6 @@ a {
 }
 
 .form-group {
-    display: inline-flex;
-    width: 100%;
-    justify-content: space-between;
     margin-bottom: 12px;
 }
 
@@ -389,6 +396,7 @@ a {
     padding: 0 16px;
     border: 1px solid #ccc3bc;
     background-color: rgba(255, 204, 140, 0.07);
+    margin-bottom: 20px;
     -webkit-transition: all .2s ease-out;
 }
 
@@ -457,9 +465,9 @@ a {
     border: 0;
     padding: 8px 16px;
     background-color: #ea7232;
+    margin-left: 10px;
     color: white;
     border-radius: 6px;
-    margin: 15px 20px;
     font-size: 20px;
     -webkit-transition: all .2s ease-out;
 }
@@ -498,6 +506,7 @@ input {
 .destroy-media button:hover {
     color: red;
     background-color: rgba(255, 255, 255, 0);
+    font-size: 18px;
     -webkit-transition: all .1s ease-out;
 }
 
@@ -516,7 +525,7 @@ input {
 .redact-state-link a {
     width: 100%;
     margin-left: auto;
-    background-color: blue;
+    background-color: #002bff;
     color: white;
     padding: 10px 16px;
     border-radius: 6px;
@@ -531,6 +540,102 @@ input {
     -webkit-transition: all .3s ease-out;
 }
 
+.btn-secondary {
+    background-color: #ec8443;
+    border: 0;
+    font-size: 20px;
+    border-radius: 0;
+}
+
+.dropdown-menu[data-bs-popper] {
+    margin-top: 0;
+    border-radius: 0;
+    border: 0;
+    padding: 0;
+    left: auto;
+}
+
+.dropdown-menu[data-bs-popper] li {
+    color: #ec8443;
+}
+
+.dropdown-item {
+    color: #ec8443;
+    text-align: start;
+    padding: 8px 22px;
+}
+
+.navbar-collapse {
+    flex-grow: 0;
+}
+
+.destroy-note-submit {
+    background-color: #e13030;
+    color: white;
+    font-size: 18px;
+    border: 0;
+    padding: 6px 16px;
+    border-radius: 6px;
+    margin: auto 0;
+}
+
+.recover-note-form,
+.destroy-note-form {
+    display: flex;
+    margin: auto 5px;
+}
+
+.recover-note-submit {
+    border: 0;
+    background: darkseagreen;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    margin: auto 0;
+    font-size: 18px;
+}
+
+.destroy-recover-div {
+    display: inline-flex;
+    margin-left: auto;
+}
+
+.notes-list-div {
+    margin-bottom: 25px;
+}
+
+.notes-list-div ul {
+    border-top: 1px solid rgba(128, 128, 128, 0.4);
+    margin-bottom: 0;
+}
+
+.state-show-redact-destroy {
+    display: flex;
+}
+
+.pagination svg {
+    width: 24px;
+}
+
+.pagination {
+    justify-content: center;
+    padding-left: 1rem;
+}
+
+.pagination p,
+.pagination > nav > div:first-child {
+    display: none;
+}
+
+.pagination-first-parent {
+    width: auto;
+}
+
+.create-state-name-heading {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+}
 @media screen and (max-width: 992px) {
     .start-section {
         display: flex;

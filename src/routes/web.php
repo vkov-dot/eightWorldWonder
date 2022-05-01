@@ -50,7 +50,8 @@ Route::group([
     Route::get('/{issue}/', [IssueController::class, 'show'])->name('show');
     Route::get('/{issue}/edit', [IssueController::class, 'edit'])->name('edit');
     Route::put('/{issue}', [IssueController::class, 'update'])->name('edit');
-    Route::delete('/{issue}', [IssueController::class, 'destroy'])->name('destroy');
+    Route::delete('/{id}', [IssueController::class, 'destroy'])->name('destroy');
+    Route::put('/recover/{id}', [IssueController::class, 'recover'])->name('recover');
 });
 
 Route::group([
@@ -104,7 +105,8 @@ Route::group([
     Route::get('/{state}/', [StateController::class, 'show'])->name('show');
     Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit');
     Route::put('/{state}', [StateController::class, 'update'])->name('update');
-    Route::delete('/{state}', [StateController::class, 'destroy'])->name('destroy');
+    Route::delete('/{id}', [StateController::class, 'destroy'])->name('destroy');
+    Route::put('/recover/{id}', [StateController::class, 'recover'])->name('recover');
 });
 
 

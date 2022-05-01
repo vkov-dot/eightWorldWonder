@@ -7,7 +7,7 @@
             <form id="form1" method="post" action="{{ route('states.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div>
-                    <div class="form-group">
+                    <div class="form-group create-state-name-heading">
                         <input type="text" class="state-name-input @error('name') is-invalid @enderror"
                                placeholder="Название статьи" name="name">
                         @error('name')

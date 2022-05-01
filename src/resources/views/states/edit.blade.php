@@ -8,7 +8,7 @@
                 @csrf
                 @method('PUT')
                 <div>
-                    <div class="form-group">
+                    <div class="form-group create-state-name-heading">
                         <input type="text" class="state-name-input @error('name') is-invalid @enderror"
                                placeholder="Название статьи" name="name" value="{{ $state->name }}">
                         @error('name')

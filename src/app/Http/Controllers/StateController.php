@@ -24,7 +24,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = State::orderBy('id', 'desc')->get();
+        $states = State::where('archived', 0)->orderBy('id', 'desc')->paginate(20);
 
         return view('states.index', ['states' =>$states]);
     }
@@ -72,7 +72,7 @@ class StateController extends Controller
      */
     public function show($id)
     {
-        $lastStates = State::orderBy('id', 'desc')->take(10)->get();
+        $lastStates = State::orderBy('id', 'desc')->where('archived', 0)->take(10)->get();
         $state = State::find($id);
 
         return view('states.show', ['state' => $state, 'lastStates' =>$lastStates]);
@@ -121,14 +121,26 @@ class StateController extends Controller
     public function destroy($id)
     {
         $state = State::find($id);
-        $state['archived'] = 1;
-        $state->update();
-
-        //$state = State::find($id);
-        //Storage::disk('public')->delete($state->logo);
-        //$state->delete();
+        if($state->archived) {
+            $state = State::find($id);
+            Storage::disk('public')->delete($state->logo);
+            $state->delete();
+        }
+        else {
+            $state->archived = 1;
+            $state->update();
+        }
 
         return redirect()->route('states.index');
+    }
+
+    public function recover($id): \Illuminate\Http\RedirectResponse
+    {
+        $state = State::find($id);
+        $state->archived = 0;
+        $state->update();
+
+        return redirect()->route('archives.show', ['table' => 'states']);
     }
 }
 

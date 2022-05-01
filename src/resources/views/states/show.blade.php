@@ -34,18 +34,20 @@
                 <p class="state-show-author">
                     {{ $state->author }}
                 </p>
-                <div class="redact-state-link">
-                    <a href="{{ route("states.edit", ['state' => $state->id]) }}">
-                        Редактировать
-                    </a>
+                <div class="state-show-redact-destroy">
+                    <div class="redact-state-link">
+                        <a href="{{ route("states.edit", ['state' => $state->id]) }}">
+                            Редактировать
+                        </a>
+                    </div>
+                    <form action="{{ route('states.destroy', ['id' => $state->id]) }}" class="destroy-state" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">
+                            Удалить
+                        </button>
+                    </form>
                 </div>
-                <form action="{{ route('states.destroy', ['state' => $state->id]) }}" class="destroy-state" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">
-                        Удалить
-                    </button>
-                </form>
             </div>
         </div>
     </div>
