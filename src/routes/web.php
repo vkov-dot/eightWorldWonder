@@ -82,6 +82,32 @@ Route::group([
 });
 
 Route::group([
+    'as' => 'photos.',
+    'prefix' => 'photos'
+], function () {
+    Route::get('/', [PhotoController::class, 'index'])->name('index');
+    Route::get('/create', [PhotoController::class, 'create'])->name('create');
+    Route::post('/', [PhotoController::class, 'store'])->name('store');
+    Route::get('/{media}/', [PhotoController::class, 'show'])->name('show');
+    Route::get('/{media}/edit', [PhotoController::class, 'edit'])->name('edit');
+    Route::put('/{media}', [PhotoController::class, 'update'])->name('edit');
+    Route::delete('/{media}', [PhotoController::class, 'destroy'])->name('destroy');
+});
+
+Route::group([
+    'as' => 'videos.',
+    'prefix' => 'videos'
+], function () {
+    Route::get('/', [VideoController::class, 'index'])->name('index');
+    Route::get('/create', [VideoController::class, 'create'])->name('create');
+    Route::post('/', [VideoController::class, 'store'])->name('store');
+    Route::get('/{media}/', [VideoController::class, 'show'])->name('show');
+    Route::get('/{media}/edit', [VideoController::class, 'edit'])->name('edit');
+    Route::put('/{media}', [VideoController::class, 'update'])->name('edit');
+    Route::delete('/{media}', [VideoController::class, 'destroy'])->name('destroy');
+});
+
+Route::group([
     'as' => 'headings.',
     'prefix' => 'headings',
 ], function () {
@@ -109,13 +135,6 @@ Route::group([
     Route::put('/recover/{id}', [StateController::class, 'recover'])->name('recover');
 });
 
-
-Route::get('/addInfo', [AddInfoController::class, 'index'] )->name('addInfo');
-
-Auth::routes();
-
-Route::get('/home', [StartController::class, 'index'])->name('home');
-
 Route::group([
     'as' => 'archives.',
     'prefix' => 'archives'
@@ -130,4 +149,11 @@ Route::group([
     Route::delete('/{table}/{id}', [ArchiveController::class, 'destroy'])->name('destroy');
     Route::put('/{table}/{id}', [ArchiveController::class, 'recover'])->name('recover');
 });
+
+Route::get('/addInfo', [AddInfoController::class, 'index'] )->name('addInfo');
+
+Auth::routes();
+
+Route::get('/home', [StartController::class, 'index'])->name('home');
+
 

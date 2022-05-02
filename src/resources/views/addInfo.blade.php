@@ -15,12 +15,22 @@
             </li>
             <li class="col-xl-6 col-lg-12">
                 <a href="{{ route('media.create') }}">
-                    ФОТО/ВІДЕО
+                    ПАПКА
                 </a>
             </li>
             <li class="col-xl-6 col-lg-12">
                 <a href="{{ route('headings.create') }}">
                     РУБРИКА
+                </a>
+            </li>
+            <li class="col-xl-6 col-lg-12">
+                <a href="{{ route('photos.create') }}">
+                    ФОТО
+                </a>
+            </li>
+            <li class="col-xl-6 col-lg-12">
+                <a href="{{ route('videos.create') }}">
+                    ВІДЕО
                 </a>
             </li>
         </ul>

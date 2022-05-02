@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MediaFolderRequest;
 use App\Models\MediaFolder;
 use App\Models\Photo;
 use App\Models\Video;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
-class MediaFolderController extends Controller
+class   MediaFolderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -40,9 +39,10 @@ class MediaFolderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(MediaFolderRequest $request)
     {
         $data = $request->except('_token');
+
         MediaFolder::create($data);
 
         return redirect()->route('media.index');
@@ -60,9 +60,8 @@ class MediaFolderController extends Controller
         $videos = Video::where('media_folder_id', $id)->get();
         $medias = $photos->merge($videos);
         $medias->sortByDesc('id');
-        $mediaFolder = MediaFolder::find($id);
 
-        //dd($medias);
+        $mediaFolder = MediaFolder::find($id);
 
         return view('media.show', [
             'medias' => $medias,
@@ -88,7 +87,7 @@ class MediaFolderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MediaFolderRequest $request, $id)
     {
         //
     }

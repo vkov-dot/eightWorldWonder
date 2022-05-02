@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PhotoRequest;
+use App\Models\Category;
+use App\Models\Heading;
+use App\Models\MediaFolder;
 use App\Models\Photo;
-use Illuminate\Http\Request;
 
 class PhotoController extends Controller
 {
@@ -22,22 +25,32 @@ class PhotoController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $mediaFolders = MediaFolder::all();
+        $headings = Heading::all();
+
+        return view('photos.create', [
+            'mediaFolders' => $mediaFolders,
+            'headings' => $headings
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PhotoRequest $request)
     {
-        //
+        $data = $request->except('_token');
+
+        Photo::create($data);
+
+        return redirect()->route('photos.create');
     }
 
     /**
@@ -69,7 +82,7 @@ class PhotoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PhotoRequest $request, $id)
     {
         //
     }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StateRequest extends FormRequest
+class MediaFolderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class StateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'body' => 'required',
-            'logo' => 'required',
-            'author' => 'required'
+            'name' => 'required'
         ];
     }
 
@@ -39,10 +36,7 @@ class StateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Введіть назву статті',
-            'logo.required' => 'Оберіть Головне зображенні статті',
-            'body.required' => 'Заповніть поле для тексту статті',
-            'author.required' => 'Введіть ім\'я автора'
+            'name.required' => 'Введіть назву папки для фото та відео'
         ];
     }
 }

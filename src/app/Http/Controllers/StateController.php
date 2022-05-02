@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StateRequest;
 use App\Models\Heading;
 use App\Models\State;
 use App\Services\StateService;
@@ -47,7 +48,7 @@ class StateController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(StateRequest $request): \Illuminate\Http\RedirectResponse
     {
         $data = $request->except('_token');
         $data['logo'] = $request->file('logo')->store('images');
@@ -99,7 +100,7 @@ class StateController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(StateRequest $request, $id)
     {
         $data = $request->except('_token', '_method');
         $state = State::find($id);

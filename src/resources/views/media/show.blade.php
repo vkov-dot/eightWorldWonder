@@ -15,7 +15,7 @@
                         <p class="date">
                             {{ \Carbon\Carbon::parse($media->created_at)->format('d.m.Y') }}
                         </p>
-                        <a href="{{ route('media.show', ['media' => $media->id ]) }}" class="state-name">
+                        <a href="{{ $media->link }}" class="state-name">
                             {{ $media->name }}
                         </a>
                     </li>

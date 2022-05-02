@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StateRequest extends FormRequest
+class VideoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,7 @@ class StateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'body' => 'required',
-            'logo' => 'required',
-            'author' => 'required'
+            'link' => 'required'
         ];
     }
 
@@ -39,10 +37,8 @@ class StateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Введіть назву статті',
-            'logo.required' => 'Оберіть Головне зображенні статті',
-            'body.required' => 'Заповніть поле для тексту статті',
-            'author.required' => 'Введіть ім\'я автора'
+            'name.required' => 'Введіть назву відео',
+            'link.required' => 'Вкажіть посилання на відео'
         ];
     }
 }

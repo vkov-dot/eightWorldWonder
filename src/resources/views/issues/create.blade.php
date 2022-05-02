@@ -38,8 +38,8 @@
                     <a href="{{ route('addInfo') }}">
                         Назад
                     </a>
-                    <a href="{{ route('issues.store') }}">
-                        К статьям
+                    <a href="{{ route('start.index') }}">
+                        На головну
                     </a>
                 </div>
             </div>

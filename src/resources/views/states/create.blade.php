@@ -8,11 +8,14 @@
                 @csrf
                 <div>
                     <div class="form-group create-state-name-heading">
-                        <input type="text" class="state-name-input @error('name') is-invalid @enderror"
-                               placeholder="Название статьи" name="name">
-                        @error('name')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <div class="state-name-div">
+                            <input type="text" class="state-name-input @error('name') is-invalid @enderror"
+                                   placeholder="Название статьи" name="name">
+                            @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="states-heading-input">
                             <label for="category">Рубрика</label>
                             <select class="form-control" id="heading" name="heading_id">
@@ -22,14 +25,15 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label">Титульная картинка</label>
-                        <input class="form-control" type="file" id="formFile" name="logo">
+                    <div class="state-logo-input">
+                        <div>
+                            <label for="formFile" class="form-label">Титульная картинка</label>
+                            <input class="form-control" type="file" id="formFile" name="logo">
+                        </div>
+                        @error('logo')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('name')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
 
                     <script src="//cdn.ckeditor.com/4.18.0/full/ckeditor.js"></script>
                     <textarea name="body"></textarea>

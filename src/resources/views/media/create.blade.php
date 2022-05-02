@@ -6,32 +6,8 @@
             <form method="POST" action="{{ route('media.store') }}" class="create-heading-form">
                 @csrf
                 <div>
-                    <div class="form-group">
-                        <label for="category">Рубрика</label>
-                        <select class="form-control" id="heading" name="heading_id">
-                            @foreach($mediaFolders as $folder)
-                                <option value="{{ $folder->id }}">{{ $folder->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     <input type="text" class="add-heading-input @error('name') is-invalid @enderror"
-                           placeholder="Добавить папку" name="name">
-                    @error('name')
-                    <div class="alert alert-danger">
-                        {{ $message }}
-                    </div>
-                    @enderror
-
-                    <input type="text" class="add-heading-input @error('name') is-invalid @enderror"
-                           placeholder="Ссылка на фото" name="name">
-                    @error('name')
-                    <div class="alert alert-danger">
-                        {{ $message }}
-                    </div>
-                    @enderror
-
-                    <input type="text" class="add-heading-input @error('name') is-invalid @enderror"
-                           placeholder="Ссылка на видео" name="name">
+                           placeholder="Додати папку" name="name">
                     @error('name')
                     <div class="alert alert-danger">
                         {{ $message }}
@@ -50,8 +26,8 @@
                     <a href="{{ route('addInfo') }}">
                         Назад
                     </a>
-                    <a href="{{ route('states.store') }}">
-                        К статьям
+                    <a href="{{ route('start.index') }}">
+                        На головну
                     </a>
                 </div>
             </div>

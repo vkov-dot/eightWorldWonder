@@ -9,13 +9,16 @@
                 @method('PUT')
                 <div>
                     <div class="form-group create-state-name-heading">
-                        <input type="text" class="state-name-input @error('name') is-invalid @enderror"
-                               placeholder="Название статьи" name="name" value="{{ $state->name }}">
-                        @error('name')
-                        <div class="alert alert-danger">
-                            {{ $message }}
+                        <div class="create-state-name-heading">
+                            <input type="text" class="state-name-input @error('name') is-invalid @enderror"
+                                   placeholder="Название статьи" name="name" value="{{ $state->name }}">
+                            @error('name')
+                            <div class="alert alert-danger">
+                                {{ $message->name }}
+                            </div>
+                            @enderror
                         </div>
-                        @enderror
+
                         <div class="states-heading-input">
                             <label for="category">
                                 Рубрика
@@ -30,13 +33,13 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3 state-logo-input">
                         <label for="formFile" class="form-label">
                             Титульная картинка
                         </label>
                         <input class="form-control" type="file" id="formFile" name="logo">
                     </div>
-                    @error('name')
+                    @error('logo')
                     <div class="alert alert-danger">
                         {{ $message }}
                     </div>
@@ -58,7 +61,7 @@
                     <div class="state-author-div">
                         <input type="text" class="state-author-input @error('name') is-invalid @enderror"
                                placeholder="Автор" name="author" value="{{ $state->author }}">
-                        @error('name')
+                        @error('author')
                         <div class="alert alert-danger">
                             {{ $message }}
                         </div>

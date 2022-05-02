@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IssueRequest;
 use App\Models\Category;
 use App\Models\Heading;
 use App\Models\Issue;
@@ -38,7 +39,7 @@ class IssueController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(IssueRequest $request)
     {
         $data = $request->except('_token');
         Issue::create($data);
@@ -46,7 +47,7 @@ class IssueController extends Controller
         return redirect()->route('issues.index');
     }
 
-    public function search(Request $request)
+    public function search(IssueRequest $request)
     {
         $issues = Issue::where('name', 'LIKE', "%$request->param%")->where('archived', 1)->get();
 
@@ -88,7 +89,7 @@ class IssueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(IssueRequest $request, $id)
     {
         $data = $request->except('_token', '_method');
         $issue = Issue::find($id);

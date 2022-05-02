@@ -15,5 +15,4 @@ class Heading extends Model
     {
         return $this->hasMany(State::class);
     }
-
 }

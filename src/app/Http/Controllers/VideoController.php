@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VideoRequest;
+use App\Models\Heading;
+use App\Models\MediaFolder;
 use App\Models\Video;
-use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
@@ -20,22 +22,32 @@ class VideoController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $mediaFolders = MediaFolder::all();
+        $headings = Heading::all();
+
+        return view('videos.create', [
+            'mediaFolders' => $mediaFolders,
+            'headings' => $headings
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(VideoRequest $request)
     {
-        //
+        $data = $request->except('_token');
+
+        Video::create($data);
+
+        return redirect()->route('videos.create');
     }
 
     /**
@@ -67,7 +79,7 @@ class VideoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VideoRequest $request, $id)
     {
         //
     }

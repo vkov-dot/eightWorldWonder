@@ -37,8 +37,8 @@
                     <a href="{{ route('addInfo') }}">
                         Назад
                     </a>
-                    <a href="{{ route('states.store') }}">
-                        К статьям
+                    <a href="{{ route('start.index') }}">
+                        На головну
                     </a>
                 </div>
             </div>
