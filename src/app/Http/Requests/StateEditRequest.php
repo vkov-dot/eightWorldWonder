@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class HeadingRequest extends FormRequest
+class StateEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class HeadingRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'body' => 'required',
+            'author' => 'required'
         ];
     }
 
@@ -36,7 +38,9 @@ class HeadingRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Введіть назву рубрики'
+            'name.required' => 'Введіть назву статті',
+            'body.required' => 'Заповніть поле для тексту статті',
+            'author.required' => 'Введіть ім\'я автора'
         ];
     }
 }

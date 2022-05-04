@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row state-show-main-div">
-        <div class="col-4 last-states">
+        <div class="col-xl-5 col-lg-12 last-states">
             <div class="last-states-title">
                 <p>Останні статті</p>
             </div>
@@ -22,7 +22,7 @@
             </ul>
         </div>
 
-        <div class="last-states col-7 states state-show-div">
+        <div class="last-states col-xl-7 col-lg-12 states state-show-div">
             <div>
                 <p class="state-show-name">
                     {{ $state->name }}

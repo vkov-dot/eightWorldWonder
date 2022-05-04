@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\StateRepository;
-use http\Env\Request;
+use App\Http\Requests\StateRequest;
 
 class StateService
 {
@@ -14,14 +14,14 @@ class StateService
         $this->repository = $repository;
     }
 
-    public function store(Request $request)
+    public function index()
     {
-        $imagePath = $this->saveStateImage($request->file('logo'));
-        $this->repository->store($request, $imagePath);
+        return $this->repository->index();
     }
 
-    public function saveStateImage($image)
+    public function store(StateRequest $request)
     {
-        return $image->store("images");
+        $imagePath = FileHelper::saveImage($request->file('logo'));
+        $this->repository->store($request, $imagePath);
     }
 }

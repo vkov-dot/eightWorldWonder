@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HeadingRequest;
 use App\Models\Heading;
 use App\Models\State;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class HeadingController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(HeadingRequest $request)
     {
         $data = $request->except('_token');
         $data['image'] = $request->file('image')->store('images');
@@ -80,7 +81,7 @@ class HeadingController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(HeadingRequest $request, $id)
     {
 
     }

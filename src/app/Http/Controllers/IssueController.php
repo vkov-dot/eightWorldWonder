@@ -17,7 +17,7 @@ class IssueController extends Controller
      */
     public function index()
     {
-        $issues = Issue::where('archived', 0)->orderBy('id', 'desc')->paginate(20);
+        $issues = Issue::select('id', 'name', 'link')->where('archived', 0)->orderBy('id', 'desc')->paginate(20);
 
         return view('issues.index', ['issues' => $issues]);
     }

@@ -196,7 +196,7 @@ a {
 
 .create-heading-form input {
     width: 100%;
-    padding: 6px 22px;
+    padding: 6px 12px;
     font-size: 20px;
     margin-bottom: 10px;
     border-radius: 10px;
@@ -253,11 +253,13 @@ a {
 
 .heading-image {
     height: auto;
-    padding: 18px;
+    padding: 14px;
 }
 
 .heading-image img {
     width: 100%;
+    max-width: 240px;
+    max-height: 200px;
 }
 
 .add-heading-input {
@@ -286,7 +288,6 @@ a {
 }
 
 .search-issue-input {
-    max-width: 340px;
     padding: 6px 26px;
     font-size: 20px;
     margin: 0;
@@ -323,6 +324,10 @@ a {
     margin-bottom: 10px;
     display: inline-flex;
     justify-content: center;
+}
+
+.search-div label {
+    width: 98%;
 }
 
 .search-issue-form {
@@ -448,6 +453,7 @@ a {
 
 .slider-link {
     font-size: 22px;
+    color: white;
 }
 
 .state-show-name {
@@ -456,8 +462,13 @@ a {
     text-align: center;
 }
 
-.div-search {
+.div-search div {
     display: inline-flex;
+    width: auto;
+}
+
+.div-search input {
+    width: 100%;
 }
 
 .destroy-state {
@@ -594,7 +605,7 @@ input {
 .recover-note-form,
 .destroy-note-form {
     display: flex;
-    margin: auto 5px;
+    margin: auto 5px 5px 5px;
 }
 
 .recover-note-submit {
@@ -610,6 +621,7 @@ input {
 .destroy-recover-div {
     display: inline-flex;
     margin-left: auto;
+    flex-wrap: wrap;
 }
 
 .notes-list-div {
@@ -648,8 +660,97 @@ input {
     justify-content: space-between;
     width: 100%;
 }
+
+.main-menu-first-child {
+    display: flex;
+}
+
+.burger-menu {
+    list-style: none;
+    display: none;
+}
+
+.carousel-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    backdrop-filter: blur(2px);
+}
+
+.carousel-caption p {
+    margin-bottom: 1.5rem;
+}
+
 @media screen and (max-width: 992px) {
     .start-section {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .main-menu-first-child,
+    .main-menu-first-child li {
+        flex-direction: column;
+    }
+
+    .menu-list-ul {
+        display: none;
+    }
+
+    .collapse {
+        display: flex;
+    }
+
+    .burger-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dropdown-menu[data-bs-popper] {
+        margin-top: -130px;
+        text-align: center;
+    }
+
+    .dropdown-menu[archive-menu] {
+        margin-top: -330px;
+    }
+
+    .dropdown-archive {
+        margin-top: -30px;
+    }
+
+    .navbar-nav {
+        flex-direction: row;
+    }
+
+    .menu-list {
+        flex-direction: column-reverse;
+    }
+
+    .menu-list-link {
+        text-align: center;
+    }
+
+    .display-none {
+        display: none;
+    }
+
+    .search-issue-select {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .search-issue-select-first-d {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .state-show-main-div {
         display: flex;
         flex-direction: column-reverse;
     }

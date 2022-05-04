@@ -19,11 +19,6 @@
                         <label for="formFile" class="form-label">Аватар рубрики</label>
                         <input class="form-control" type="file" id="formFile" name="image">
                     </div>
-                    @error('name')
-                    <div class="alert alert-danger">
-                        {{ $message }}
-                    </div>
-                    @enderror
                 </div>
                 <div class="submit-button">
                     <button type="submit">

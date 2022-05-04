@@ -17,8 +17,16 @@ class StartController extends Controller
      */
     public function index()
     {
-        $lastStates = State::orderBy('id', 'desc')->where('archived', 0)->take(5)->get();
-        $lastIssues = Issue::orderBy('id', 'desc')->where('archived', 0)->take(5)->get();
+        $lastStates = State::select('id', 'name', 'author', 'logo')
+            ->orderBy('id', 'desc')
+            ->where('archived', 0)
+            ->take(5)
+            ->get();
+        $lastIssues = Issue::select('id', 'name', 'link')
+            ->orderBy('id', 'desc')
+            ->where('archived', 0)
+            ->take(5)
+            ->get();
         $categories = Category::all();
 
         return view('start', [

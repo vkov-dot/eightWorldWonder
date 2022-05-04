@@ -25,9 +25,10 @@
                                         <p class="date">
                                             {{ \Carbon\Carbon::parse($note->created_at)->format('d.m.Y') }}
                                         </p>
-                                        <p class="state-name">
+                                        <a href="{{ $name === 'issues' ? $note->link : route('states.show', ['state' => $note->id]) }}"
+                                           class="state-name">
                                             {{ $note->name }}
-                                        </p>
+                                        </a>
                                         <div class="destroy-recover-div">
                                             <form action="{{ route($name.'.destroy', ['id' => $note->id]) }}"
                                                   method="post" class="destroy-note-form">

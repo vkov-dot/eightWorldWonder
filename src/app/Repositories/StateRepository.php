@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\StateRequest;
 use App\Models\State;
-use http\Env\Request;
 
 class StateRepository
 {
@@ -12,11 +12,11 @@ class StateRepository
         return State::query();
     }
 
-    public function store(Request $request, $logoPath)
+    public function store(StateRequest $request, $logoPath)
     {
         $data = $request->except('_token');
         $data['logo'] = $logoPath;
 
-        $state = $this->query()->create($data);
+        $this->query()->create($data);
     }
 }

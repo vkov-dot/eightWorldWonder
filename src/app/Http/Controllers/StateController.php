@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StateEditRequest;
 use App\Http\Requests\StateRequest;
 use App\Models\Heading;
 use App\Models\State;
@@ -25,7 +26,10 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = State::where('archived', 0)->orderBy('id', 'desc')->paginate(20);
+        $states = State::select('id', 'name', 'author')
+            ->where('archived', 0)
+            ->orderBy('id', 'desc')
+            ->paginate(20);
 
         return view('states.index', ['states' =>$states]);
     }
@@ -50,6 +54,7 @@ class StateController extends Controller
      */
     public function store(StateRequest $request): \Illuminate\Http\RedirectResponse
     {
+        $this->service->store($request);
         $data = $request->except('_token');
         $data['logo'] = $request->file('logo')->store('images');
         State::create($data);
@@ -73,7 +78,10 @@ class StateController extends Controller
      */
     public function show($id)
     {
-        $lastStates = State::orderBy('id', 'desc')->where('archived', 0)->take(10)->get();
+        $lastStates = State::orderBy('id', 'desc')
+            ->where('archived', 0)
+            ->take(10)
+            ->get();
         $state = State::find($id);
 
         return view('states.show', ['state' => $state, 'lastStates' =>$lastStates]);
@@ -100,7 +108,7 @@ class StateController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(StateRequest $request, $id)
+    public function update(StateEditRequest $request, $id)
     {
         $data = $request->except('_token', '_method');
         $state = State::find($id);

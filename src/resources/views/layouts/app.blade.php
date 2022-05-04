@@ -18,6 +18,90 @@
     </div>
     <nav class="navbar navbar-expand-lg menu-list" id="navbar">
         <div>
+            <div class="burger-menu">
+                <div class="collapse" id="navbarToggleExternalContent">
+                    <div class="p-4">
+                        <div id="add-to-archive dropdown dropdown-inline">
+                            <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
+                               id="{{ (request()->route()->getName() === 'archives.show') ? 'dropdownMenuLink' : '' }}">
+                                Архів
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" archive-menu="none">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('archives.show', ['table' => 'states']) }}">
+                                        Статті
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('archives.show', ['table' => 'issues']) }}">
+                                        Газета
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <li>
+                            <a class="menu-list-link" href="{{ route('start.index') }}"
+                               id="{{ (request()->route()->getName() === 'start.index') ? 'active-url' : '' }}">
+                                Головна
+                            </a>
+                        </li>
+                        <li>
+                            <a class="menu-list-link" href="{{ route('media.index') }}"
+                               id="{{ (request()->route()->getName() === 'media.index') ? 'active-url' : '' }}">
+                                Фото/Відео
+                            </a>
+                        </li>
+                        <li>
+                            <a class="menu-list-link" href="{{ route('states.index') }}"
+                               id="{{ (request()->route()->getName() === 'states.index') ? 'active-url' : '' }}">
+                                Статті
+                            </a>
+                        </li>
+                        <div id="add-to-archive dropdown dropdown-inline">
+                            <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
+                               id="{{ (request()->route()->getName() === 'categories.show') ? 'dropdownMenuLink' : '' }}">
+                                Газета
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('issues.index') }}">
+                                        Усе
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('categories.show', ['category' => 1]) }}">
+                                        Випуски
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('categories.show', ['category' => 2]) }}">
+                                        Біблія
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('categories.show', ['category' => 3]) }}">
+                                        День народження
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <li>
+                            <a class="menu-list-link" href="{{ route('headings.index') }}"
+                               id="{{ (request()->route()->getName() === 'headings.index') ? 'active-url' : '' }}">
+                                Рубрики
+                            </a>
+                        </li>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
             <ul class="menu-list-ul">
                 <li>
                     <a class="menu-list-link" href="{{ route('start.index') }}"
@@ -74,28 +158,28 @@
             </ul>
         </div>
         <div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content"
-                    aria-controls="navbar-content" aria-expanded="false" aria-label="toggle-navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbar-content">
+            <div class="" id="navbar-content">
                 <ul class="navbar-nav">
                     @guest
                         <li class="nav-item">
                             <a class="menu-list-link {{ (request()->is('login')) ? 'active-url' : '' }}"
-                               href="{{ route('login') }}">Увійти</a>
+                               href="{{ route('login') }}">
+                                Увійти
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="menu-list-link {{ (request()->is('register')) ? 'active-url' : '' }}"
-                               href="{{ route('register') }}">Реєстрація</a>
+                               href="{{ route('register') }}">
+                                Реєстрація
+                            </a>
                         </li>
                     @else
-                        <div id="add-to-archive dropdown">
+                        <div id="add-to-archive dropdown" class="display-none">
                             <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
-                               id="{{ (request()->route()->getName() === 'archives.show') ? 'dropdownMenuLink' : '' }}">
+                               id="dropdown-archive {{ (request()->route()->getName() === 'archives.show') ? 'dropdownMenuLink' : '' }}">
                                 Архів
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('archives.show', ['table' => 'states']) }}">
                                         Статті
@@ -109,7 +193,9 @@
                             </ul>
                         </div>
                         <div id="add-to-archive">
-                            <a class="menu-list-link" href="{{ route('addInfo') }}">Опублікувати</a>
+                            <a class="menu-list-link" href="{{ route('addInfo') }}">
+                                Опублікувати
+                            </a>
                         </div>
                         <li class="nav-item">
                             <a class="menu-list-link" href="{{ route('logout') }}"

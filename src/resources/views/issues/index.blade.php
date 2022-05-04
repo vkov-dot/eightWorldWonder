@@ -7,47 +7,47 @@
                 <form method="post" enctype="multipart/form-data" action="{{ route('issues.search') }}" class="col-12">
                     @csrf
                     <div class="col-12 search-div">
-                        <input type="text"
-                               class="add-heading-input @error('name') is-invalid @enderror search-issue-input"
-                               name="param" placeholder="Назва випуску">
+                        <input type="text" name="param" placeholder="Назва випуску"
+                               class="add-heading-input @error('name') is-invalid @enderror search-issue-input">
                         <button type="submit" class="search-submit">Пошук</button>
                     </div>
                 </form>
                 @if($issues->count())
-                <div>
-                    <div class="notes-list-div states-list">
-                        <ul>
-                            @foreach($issues as $issue)
-                                <li>
-                                    <p class="date">
-                                        {{ \Carbon\Carbon::parse($issue->created_at)->format('d.m.Y') }}
-                                    </p>
-                                    <a href="{{ $issue->link }}" class="state-name" target="_blank">
-                                        {{ $issue->name }}
-                                    </a>
-                                    <form action="{{ route('issues.destroy', ['id' => $issue->id]) }}"
-                                          class="destroy-issue" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit">Видалити</button>
-                                    </form>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @if($issues->total() > $issues->count())
-                        <div class="row justify-content-center">
-                            <div class="pagination-first-parent">
-                                <div class="card">
-                                    <div class="card-body pagination">
-                                        {{ $issues->onEachSide(2)->links() }}
+                    <div>
+                        <div class="notes-list-div states-list">
+                            <ul>
+                                @foreach($issues as $issue)
+                                    <li>
+                                        <p class="date">
+                                            {{ \Carbon\Carbon::parse($issue->created_at)->format('d.m.Y') }}
+                                        </p>
+                                        <a href="{{ $issue->link }}" class="state-name" target="_blank">
+                                            {{ $issue->name }}
+                                        </a>
+                                        <form action="{{ route('issues.destroy', ['id' => $issue->id]) }}"
+                                              class="destroy-issue" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">Видалити</button>
+                                        </form>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @if($issues->total() > $issues->count())
+                            <div class="row justify-content-center">
+                                <div class="pagination-first-parent">
+                                    <div class="card">
+                                        <div class="card-body pagination">
+                                            {{ $issues->onEachSide(2)->links() }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endif
-                </div>
+                        @endif
+                    </div>
                 @endif
-                </div>
+            </div>
         </div>
+
 @endsection

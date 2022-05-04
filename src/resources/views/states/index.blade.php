@@ -6,7 +6,7 @@
               class="search-issue-form">
             @csrf
             <div class="form-group col-12 search-issue-select states-search-div">
-                <div>
+                <div class="search-issue-select-first-d">
                     <label for="category" class="states-search-label">
                         <p>Шукати за</p>
                         <select class="form-control" id="search" name="message">
@@ -18,8 +18,8 @@
 
                 <div class="div-search">
                     <div>
-                        <input type="text" class="add-heading-input @error('name') is-invalid @enderror search-issue-input"
-                               name="param" placeholder="Шукати">
+                        <input class="add-heading-input @error('name') is-invalid @enderror search-issue-input"
+                               name="param" placeholder="Шукати" type="text" >
                     </div>
                     <div>
                         <button type="submit" class="search-submit">Пошук</button>
