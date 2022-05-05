@@ -16,7 +16,10 @@ class StateService
 
     public function index()
     {
-        return $this->repository->index();
+        return $this->repository->select('id', 'name', 'author')
+            ->where('archived', 0)
+            ->orderBy('id', 'desc')
+            ->paginate(20);
     }
 
     public function store(StateRequest $request)

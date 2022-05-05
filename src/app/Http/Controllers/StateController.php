@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StateEditRequest;
 use App\Http\Requests\StateRequest;
 use App\Models\Heading;
-use App\Models\State;
-use App\Services\StateService;
+use App\Repositories\HeadingRepository;
+use App\Repositories\StateRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class StateController extends Controller
 {
-    private $service;
+    private $repository;
 
-    public function __construct(StateService $service)
+    public function __construct(StateRepository $repository)
     {
-        $this->service = $service;
+        $this->repository = $repository;
     }
 
     /**
@@ -26,10 +25,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = State::select('id', 'name', 'author')
-            ->where('archived', 0)
-            ->orderBy('id', 'desc')
-            ->paginate(20);
+        $states = $this->repository->getIndex();
 
         return view('states.index', ['states' =>$states]);
     }
@@ -54,10 +50,7 @@ class StateController extends Controller
      */
     public function store(StateRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $this->service->store($request);
-        $data = $request->except('_token');
-        $data['logo'] = $request->file('logo')->store('images');
-        State::create($data);
+        $this->repository->store($request);
 
         return redirect()->route('states.index');
     }
@@ -65,7 +58,7 @@ class StateController extends Controller
 
     public function search(Request $request)
     {
-        $states = State::where($request->message, 'LIKE', "%$request->param%")->get();
+        $states = $this->repository->getSearch($request);
 
         return view('states.index', ['states' => $states]);
     }
@@ -78,11 +71,8 @@ class StateController extends Controller
      */
     public function show($id)
     {
-        $lastStates = State::orderBy('id', 'desc')
-            ->where('archived', 0)
-            ->take(10)
-            ->get();
-        $state = State::find($id);
+        $lastStates = $this->repository->getIndexLatest();
+        $state = $this->repository->find($id);
 
         return view('states.show', ['state' => $state, 'lastStates' =>$lastStates]);
     }
@@ -95,7 +85,7 @@ class StateController extends Controller
      */
     public function edit($id)
     {
-        $state = State::find($id);
+        $state = $this->repository->find($id);
         $headings = Heading::all();
 
         return view('states.edit', ['state' => $state, 'headings' => $headings]);
@@ -110,13 +100,7 @@ class StateController extends Controller
      */
     public function update(StateEditRequest $request, $id)
     {
-        $data = $request->except('_token', '_method');
-        $state = State::find($id);
-        if($request->logo) {
-            Storage::disk('public')->delete($state->logo);
-            $data['logo'] = $request->file('logo')->store('images');
-        }
-        $state->update($data);
+        $this->repository->update($request, $id);
 
         return redirect()->route('states.show', ['state' => $id]);
     }
@@ -129,25 +113,20 @@ class StateController extends Controller
      */
     public function destroy($id)
     {
-        $state = State::find($id);
-        if($state->archived) {
-            $state = State::find($id);
-            Storage::disk('public')->delete($state->logo);
-            $state->delete();
-        }
-        else {
-            $state->archived = 1;
-            $state->update();
-        }
+        $this->repository->destroy($id);
 
         return redirect()->route('states.index');
     }
 
+    /**
+     * recover the state resource from archive
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function recover($id): \Illuminate\Http\RedirectResponse
     {
-        $state = State::find($id);
-        $state->archived = 0;
-        $state->update();
+        $this->repository->recover($id);
 
         return redirect()->route('archives.show', ['table' => 'states']);
     }
