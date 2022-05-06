@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IssueRequest;
-use App\Models\Category;
-use App\Models\Heading;
-use App\Models\Issue;
 use Illuminate\Http\Request;
+use App\Repositories\CategoryRepository;
+use App\Repositories\IssueRepository;
 
 class IssueController extends Controller
 {
+    private $repository;
+
+    public function __construct(IssueRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +23,7 @@ class IssueController extends Controller
      */
     public function index()
     {
-        $issues = Issue::select('id', 'name', 'link')->where('archived', 0)->orderBy('id', 'desc')->paginate(20);
+        $issues = $this->repository->getIndex();
 
         return view('issues.index', ['issues' => $issues]);
     }
@@ -27,9 +33,10 @@ class IssueController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function create()
+    public function create(CategoryRepository $categoryRepository)
     {
-        $categories = Category::all();
+        $categories = $categoryRepository->getAll();
+
         return view('issues.create', ['categories' => $categories]);
     }
 
@@ -41,15 +48,14 @@ class IssueController extends Controller
      */
     public function store(IssueRequest $request)
     {
-        $data = $request->except('_token');
-        Issue::create($data);
+        $this->repository->store($request);
 
         return redirect()->route('issues.index');
     }
 
-    public function search(IssueRequest $request)
+    public function search(Request $request)
     {
-        $issues = Issue::where('name', 'LIKE', "%$request->param%")->where('archived', 1)->get();
+        $issues = $this->repository->search($request);
 
         return view('issues.index', ['issues' => $issues]);
     }
@@ -73,12 +79,10 @@ class IssueController extends Controller
      */
     public function edit($id)
     {
-        $issue = Issue::find($id);
-        $headings = Heading::all();
+        $issue = $this->repository->find($id);
 
         return view('issues.edit', [
             'issue' => $issue,
-            'headings' => $headings
         ]);
     }
 
@@ -91,9 +95,7 @@ class IssueController extends Controller
      */
     public function update(IssueRequest $request, $id)
     {
-        $data = $request->except('_token', '_method');
-        $issue = Issue::find($id);
-        $issue->update($data);
+        $this->repository->update($request, $id);
 
         return redirect()->route('issues.show', ['issue' => $id]);
     }
@@ -106,23 +108,20 @@ class IssueController extends Controller
      */
     public function destroy($id)
     {
-        $issue = Issue::find($id);
-        if($issue['archived']) {
-            $issue->delete();
-        }
-        else {
-            $issue['archived'] = 1;
-        }
-        $issue->update();
+        $this->repository->destroy($id);
 
         return redirect()->route('issues.index');
     }
 
+    /**
+     * recover the issue resource from archive
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function recover($id)
     {
-        $issue = Issue::find($id);
-        $issue->archived = 0;
-        $issue->update();
+        $this->repository->recover($id);
 
         return redirect()->route('archives.show', ['table' => 'issues']);
     }

@@ -41,9 +41,9 @@ class StateRepository
     public function getIndexLatest()
     {
         return $this->query()
-            ->select('id', 'name', 'author', 'logo')
-            ->orderBy('id', 'desc')
+            ->select('id', 'name', 'author')
             ->where('archived', 0)
+            ->orderBy('id', 'desc')
             ->take(5)
             ->get();
     }
@@ -51,8 +51,10 @@ class StateRepository
     public function getSearch(Request $request)
     {
         return $this->query()
+            ->select('id', 'name', 'author')
             ->where($request->message, 'LIKE', "%$request->param%")
-            ->get();
+            ->where('archived', 0)
+            ->paginate(10);
     }
 
     public function saveImage($request)
@@ -98,5 +100,12 @@ class StateRepository
         $state = $this->find($id);
         $state->archived = 0;
         $state->update();
+    }
+
+    public function getForHeading(int $id)
+    {
+        return $this->query()
+            ->where('heading_id', $id)
+            ->paginate(10);
     }
 }

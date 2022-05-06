@@ -13,6 +13,31 @@ class HeadingRepository
 
     public function getAll()
     {
-        return $this->query()->orderBy('id', 'desc');
+        return $this->query()
+            ->orderBy('id', 'desc')
+            ->get();
+    }
+
+    public function find(int $id)
+    {
+        return $this->query()->find($id);
+    }
+
+    private function saveImage($request)
+    {
+        return $request->file('image')->store('images');
+    }
+
+    public function store(\App\Http\Requests\HeadingRequest $request)
+    {
+        $data = $request->except('_token');
+        $data['image'] = $this->saveImage($request);
+
+        return $this->query()->create($data);
+    }
+
+    public function destroy($id)
+    {
+        return $this->find($id)->destroy();
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StateEditRequest;
 use App\Http\Requests\StateRequest;
-use App\Models\Heading;
 use App\Repositories\HeadingRepository;
 use App\Repositories\StateRepository;
 use Illuminate\Http\Request;
@@ -35,9 +34,9 @@ class StateController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function create()
+    public function create(HeadingRepository $headingRepository)
     {
-        $headings = Heading::all();
+        $headings = $headingRepository->getAll();
 
         return view('states.create', ['headings' => $headings]);
     }
@@ -83,10 +82,10 @@ class StateController extends Controller
      * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, HeadingRepository $headingRepository)
     {
         $state = $this->repository->find($id);
-        $headings = Heading::all();
+        $headings = $headingRepository->getAll();
 
         return view('states.edit', ['state' => $state, 'headings' => $headings]);
     }

@@ -685,6 +685,14 @@ input {
     margin-bottom: 1.5rem;
 }
 
+.heading-show-list {
+    margin: 0 auto;
+}
+
+.heading-name-link {
+    margin-bottom: 10px;
+}
+
 @media screen and (max-width: 992px) {
 
     .start-section,
