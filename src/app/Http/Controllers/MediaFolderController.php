@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MediaFolderRequest;
-use App\Models\MediaFolder;
-use App\Models\Photo;
-use App\Models\Video;
+use App\Repositories\MediaFolderPerository;
 
 class   MediaFolderController extends Controller
 {
+    private $repository;
+
+    public function __construct(MediaFolderPerository $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +20,7 @@ class   MediaFolderController extends Controller
      */
     public function index()
     {
-        $mediaFolders = MediaFolder::orderBy('id', 'desc')->get();
+        $mediaFolders = $this->repository->getIndex();
 
         return view('media.index', ['mediaFolders' => $mediaFolders]);
     }
@@ -28,7 +32,7 @@ class   MediaFolderController extends Controller
      */
     public function create()
     {
-        $mediaFolders = MediaFolder::all();
+        $mediaFolders = $this->repository->getIndex();
 
         return view('media.create', ['mediaFolders' => $mediaFolders]);
     }
@@ -41,9 +45,7 @@ class   MediaFolderController extends Controller
      */
     public function store(MediaFolderRequest $request)
     {
-        $data = $request->except('_token');
-
-        MediaFolder::create($data);
+        $this->repository->store($request);
 
         return redirect()->route('media.index');
     }
@@ -56,12 +58,8 @@ class   MediaFolderController extends Controller
      */
     public function show($id)
     {
-        $photos = Photo::where('media_folder_id', $id)->get();
-        $videos = Video::where('media_folder_id', $id)->get();
-        $medias = $photos->merge($videos);
-        $medias->sortByDesc('id');
-
-        $mediaFolder = MediaFolder::find($id);
+        $medias = $this->repository->findNotes($id);
+        $mediaFolder = $this->repository->findFolder($id);
 
         return view('media.show', [
             'medias' => $medias,

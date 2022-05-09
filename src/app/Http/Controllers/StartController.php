@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Issue;
-use App\Models\State;
+use App\Repositories\IssueRepository;
+use App\Repositories\StateRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 
@@ -15,24 +14,14 @@ class StartController extends Controller
      *
      * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(StateRepository $stateRepository, IssueRepository $issueRepository)
     {
-        $lastStates = State::select('id', 'name', 'author', 'logo')
-            ->orderBy('id', 'desc')
-            ->where('archived', 0)
-            ->take(5)
-            ->get();
-        $lastIssues = Issue::select('id', 'name', 'link')
-            ->orderBy('id', 'desc')
-            ->where('archived', 0)
-            ->take(5)
-            ->get();
-        $categories = Category::all();
+        $lastStates = $stateRepository->getForStartPage();
+        $lastIssues = $issueRepository->getForStartPage();
 
         return view('start', [
             'lastStates' =>$lastStates,
             'lastIssues' => $lastIssues,
-            'categories' => $categories
         ]);
     }
 

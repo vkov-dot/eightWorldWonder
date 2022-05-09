@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PhotoRequest;
-use App\Models\Category;
-use App\Models\Heading;
-use App\Models\MediaFolder;
-use App\Models\Photo;
+use App\Repositories\HeadingRepository;
+use App\Repositories\MediaFolderPerository;
+use App\Repositories\PhotoRepository;
 
 class PhotoController extends Controller
 {
+    private $repository;
+
+    public function __construct(PhotoRepository $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = Photo::all();
+        $photos = $this->repository->getIndex();
 
         return view('photos.index', ['photos' =>$photos] );
     }
@@ -27,10 +32,10 @@ class PhotoController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function create()
+    public function create(MediaFolderPerository $folderPerository, HeadingRepository $headingRepository)
     {
-        $mediaFolders = MediaFolder::all();
-        $headings = Heading::all();
+        $mediaFolders = $folderPerository->getIndex();
+        $headings = $headingRepository->getIndex();
 
         return view('photos.create', [
             'mediaFolders' => $mediaFolders,
@@ -46,9 +51,7 @@ class PhotoController extends Controller
      */
     public function store(PhotoRequest $request)
     {
-        $data = $request->except('_token');
-
-        Photo::create($data);
+        $this->repository->store($request);
 
         return redirect()->route('photos.create');
     }
@@ -95,6 +98,6 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        Photo::find($id)->destroy();
+        $this->repository->destroy($id);
     }
 }

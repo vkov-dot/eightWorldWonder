@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
-use App\Models\Heading;
-use App\Models\MediaFolder;
-use App\Models\Video;
+use App\Repositories\HeadingRepository;
+use App\Repositories\MediaFolderPerository;
+use App\Repositories\VideoRepository;
 
 class VideoController extends Controller
 {
+    private $repository;
+
+    public function __construct(VideoRepository $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,10 +30,10 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function create()
+    public function create(MediaFolderPerository $folderPerository, HeadingRepository $headingRepository)
     {
-        $mediaFolders = MediaFolder::all();
-        $headings = Heading::all();
+        $mediaFolders = $folderPerository->getIndex();
+        $headings = $headingRepository->getIndex();
 
         return view('videos.create', [
             'mediaFolders' => $mediaFolders,
@@ -43,9 +49,7 @@ class VideoController extends Controller
      */
     public function store(VideoRequest $request)
     {
-        $data = $request->except('_token');
-
-        Video::create($data);
+        $this->repository->create($request);
 
         return redirect()->route('videos.create');
     }
@@ -92,6 +96,6 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        Video::find($id)->destroy();
+        $this->repository->destroy($id);
     }
 }

@@ -70,4 +70,14 @@ class IssueRepository
 
         return $issue->update();
     }
+
+    public function getForStartPage()
+    {
+        return $this->query()
+            ->select('id', 'name', 'link')
+            ->orderBy('id', 'desc')
+            ->where('archived', 0)
+            ->take(5)
+            ->get();
+    }
 }

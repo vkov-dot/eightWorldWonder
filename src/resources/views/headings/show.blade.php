@@ -3,7 +3,7 @@
 
 
 @section('content')
-    <div class="last-states issues-list col-lg-9 col-md-12 heading-show-list">
+    <div class="last-states issues-list col-lg-9 col-md-12   heading-show-list">
         @if($states->count())
             <div>
                 <div class="notes-list-div states-list">

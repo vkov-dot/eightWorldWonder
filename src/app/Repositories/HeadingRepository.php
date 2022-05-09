@@ -1,4 +1,4 @@
-<?php
+<?php   
 
 namespace App\Repositories;
 
@@ -11,7 +11,7 @@ class HeadingRepository
         return Heading::query();
     }
 
-    public function getAll()
+    public function getIndex()
     {
         return $this->query()
             ->orderBy('id', 'desc')

@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\StateEditRequest;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -87,12 +86,10 @@ class StateRepository
         $state = $this->find($id);
         if($state->archived) {
             $this->deletelogo($state->logo);
-            $state->delete();
+            return $state->delete();
         }
-        else {
-            $state->archived = 1;
-            $state->update();
-        }
+        $state->archived = 1;
+        return $state->update();
     }
 
     public function recover($id)
@@ -107,5 +104,15 @@ class StateRepository
         return $this->query()
             ->where('heading_id', $id)
             ->paginate(10);
+    }
+
+    public function getForStartPage()
+    {
+        return $this->query()
+            ->select('id', 'name', 'author', 'logo')
+            ->orderBy('id', 'desc')
+            ->where('archived', 0)
+            ->take(5)
+            ->get();
     }
 }

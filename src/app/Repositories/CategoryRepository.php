@@ -15,4 +15,12 @@ class CategoryRepository
     {
         return $this->query()->orderBy('id', 'desc')->get();
     }
+
+    public function show(int $id)
+    {
+        return $this->query()
+            ->where('category_id', $id)
+            ->where('archived', 0)
+            ->paginate(20);
+    }
 }

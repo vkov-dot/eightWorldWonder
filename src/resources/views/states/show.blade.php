@@ -40,13 +40,15 @@
                             Редактировать
                         </a>
                     </div>
+                    @if(\Illuminate\Support\Facades\Auth::user()->admin)
                     <form action="{{ route('states.destroy', ['id' => $state->id]) }}" class="destroy-state" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit">
-                            Удалить
+                            До архіва
                         </button>
                     </form>
+                    @endif
                 </div>
             </div>
         </div>

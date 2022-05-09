@@ -36,7 +36,7 @@ class StateController extends Controller
      */
     public function create(HeadingRepository $headingRepository)
     {
-        $headings = $headingRepository->getAll();
+        $headings = $headingRepository->getIndex();
 
         return view('states.create', ['headings' => $headings]);
     }
@@ -73,7 +73,10 @@ class StateController extends Controller
         $lastStates = $this->repository->getIndexLatest();
         $state = $this->repository->find($id);
 
-        return view('states.show', ['state' => $state, 'lastStates' =>$lastStates]);
+        return view('states.show', [
+            'state' => $state,
+            'lastStates' =>$lastStates
+        ]);
     }
 
     /**
@@ -85,7 +88,7 @@ class StateController extends Controller
     public function edit($id, HeadingRepository $headingRepository)
     {
         $state = $this->repository->find($id);
-        $headings = $headingRepository->getAll();
+        $headings = $headingRepository->getIndex();
 
         return view('states.edit', ['state' => $state, 'headings' => $headings]);
     }

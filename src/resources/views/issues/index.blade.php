@@ -24,12 +24,14 @@
                                         <a href="{{ $issue->link }}" class="state-name" target="_blank">
                                             {{ $issue->name }}
                                         </a>
+                                         @if(\Illuminate\Support\Facades\Auth::user()->admin)
                                         <form action="{{ route('issues.destroy', ['id' => $issue->id]) }}"
                                               class="destroy-issue" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit">Видалити</button>
+                                            <button type="submit">До архіва</button>
                                         </form>
+                                        @endif
                                     </li>
                                 @endforeach
                             </ul>

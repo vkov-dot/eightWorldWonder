@@ -21,24 +21,7 @@
             <div class="burger-menu">
                 <div class="collapse" id="navbarToggleExternalContent">
                     <div class="p-4">
-                        <div id="add-to-archive dropdown dropdown-inline">
-                            <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
-                               id="{{ (request()->route()->getName() === 'archives.show') ? 'dropdownMenuLink' : '' }}">
-                                Архів
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" archive-menu="none">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('archives.show', ['table' => 'states']) }}">
-                                        Статті
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('archives.show', ['table' => 'issues']) }}">
-                                        Газета
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        @guest
                         <li>
                             <a class="menu-list-link" href="{{ route('start.index') }}"
                                id="{{ (request()->route()->getName() === 'start.index') ? 'active-url' : '' }}">
@@ -85,7 +68,26 @@
                                 </li>
                             </ul>
                         </div>
-
+                            @elseif( asset(\Illuminate\Support\Facades\Auth::user()->admin))
+                                <div id="add-to-archive dropdown dropdown-inline">
+                                    <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
+                                       id="{{ (request()->route()->getName() === 'archives.show') ? 'dropdownMenuLink' : '' }}">
+                                        Архів
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" archive-menu="none">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('archives.show', ['table' => 'states']) }}">
+                                                Статті
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('archives.show', ['table' => 'issues']) }}">
+                                                Газета
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @endif
                         <li>
                             <a class="menu-list-link" href="{{ route('headings.index') }}"
                                id="{{ (request()->route()->getName() === 'headings.index') ? 'active-url' : '' }}">
@@ -174,6 +176,7 @@
                             </a>
                         </li>
                     @else
+                        @if(\Illuminate\Support\Facades\Auth::user()->admin)
                         <div id="add-to-archive dropdown" class="display-none">
                             <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
                                id="dropdown-archive {{ (request()->route()->getName() === 'archives.show') ? 'dropdownMenuLink' : '' }}">
@@ -197,6 +200,7 @@
                                 Опублікувати
                             </a>
                         </div>
+                        @endif
                         <li class="nav-item">
                             <a class="menu-list-link" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

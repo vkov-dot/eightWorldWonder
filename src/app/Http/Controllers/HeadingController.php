@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\HeadingRequest;
-use App\Models\Heading;
-use App\Models\State;
 use App\Repositories\HeadingRepository;
 use App\Repositories\StateRepository;
 
@@ -23,7 +21,7 @@ class HeadingController extends Controller
      */
     public function index()
     {
-        $headings = $this->repository->getAll();
+        $headings = $this->repository->getIndex();
 
         return view('headings.index', ['headings' => $headings]);
     }

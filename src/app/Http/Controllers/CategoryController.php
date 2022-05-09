@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Issue;
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    private $repository;
+
+    public function __construct(CategoryRepository $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +53,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $issues = Issue::where('category_id', $id)->where('archived', 0)->paginate(20);
+        $issues = $this->repository->show($id);
 
         return view('issues.index', ['issues' => $issues]);
     }

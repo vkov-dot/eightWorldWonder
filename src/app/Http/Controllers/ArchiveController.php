@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ArchiveRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ArchiveController extends Controller
 {
+    private $repository;
+
+    public function __construct(ArchiveRepository $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -45,13 +52,13 @@ class ArchiveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show($request)
+    public function show($tableName)
     {
-        $table = DB::table($request)->where('archived', 1)->get();
+        $table = $this->repository->show($tableName);
 
         return view('archives.show', [
             'table' => $table,
-            'name' => $request
+            'name' => $tableName
         ]);
     }
 
@@ -86,12 +93,7 @@ class ArchiveController extends Controller
      */
     public function destroy($tableName, $id)
     {
-        $note = DB::table($tableName)->find($id);
-        if($tableName === 'states') {
-            Storage::disk('public')->delete($note->logo);
-        }
-
-        DB::table($tableName)->find($id)->delete();
+        $this->repository->destroy($tableName, $id);
 
         return redirect()->route('archives.show', ['table' => $tableName]);
     }
