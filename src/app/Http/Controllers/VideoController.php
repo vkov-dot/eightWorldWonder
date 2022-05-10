@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
+use App\Models\Video;
 use App\Repositories\HeadingRepository;
 use App\Repositories\MediaFolderPerository;
 use App\Repositories\VideoRepository;
@@ -96,6 +97,6 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->destroy($id);
+        Video::query()->find($id)->destroy();
     }
 }

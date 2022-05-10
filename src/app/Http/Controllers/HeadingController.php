@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\HeadingRequest;
+use App\Models\Heading;
 use App\Repositories\HeadingRepository;
 use App\Repositories\StateRepository;
 
@@ -97,7 +98,7 @@ class HeadingController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repository->destroy($id);
+        Heading::query()->destroy($id);
     }
 }
 

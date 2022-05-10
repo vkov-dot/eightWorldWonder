@@ -12,13 +12,4 @@ class ArchiveRepository
             ->where('archived', 1)
             ->get();
     }
-
-    public function destroy($tableName, $id, StateRepository $stateRepository, IssueRepository $issueRepository)
-    {
-        if($tableName = 'states') {
-            return $stateRepository->destroy($id);
-        }
-
-        return $issueRepository->destroy($id);
-    }
 }

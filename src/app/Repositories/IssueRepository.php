@@ -50,19 +50,6 @@ class IssueRepository
         return $issue->update($data);
     }
 
-    public function destroy(int $id)
-    {
-        $issue = $this->find($id);
-        if($issue['archived']) {
-            $issue->delete();
-        }
-        else {
-            $issue['archived'] = 1;
-        }
-
-        return $issue->update();
-    }
-
     public function recover($id)
     {
         $issue = $this->find($id);

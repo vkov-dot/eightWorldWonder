@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use App\Models\Issue;
 
 class CategoryRepository
 {
@@ -18,7 +19,7 @@ class CategoryRepository
 
     public function show(int $id)
     {
-        return $this->query()
+        return Issue::query()
             ->where('category_id', $id)
             ->where('archived', 0)
             ->paginate(20);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PhotoRequest;
+use App\Models\Photo;
 use App\Repositories\HeadingRepository;
 use App\Repositories\MediaFolderPerository;
 use App\Repositories\PhotoRepository;
@@ -98,6 +99,6 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->destroy($id);
+        $issue = Photo::query()->destroy($id);
     }
 }

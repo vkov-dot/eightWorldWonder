@@ -81,17 +81,6 @@ class StateRepository
         return $data->update();
     }
 
-    public function destroy($id)
-    {
-        $state = $this->find($id);
-        if($state->archived) {
-            $this->deletelogo($state->logo);
-            return $state->delete();
-        }
-        $state->archived = 1;
-        return $state->update();
-    }
-
     public function recover($id)
     {
         $state = $this->find($id);

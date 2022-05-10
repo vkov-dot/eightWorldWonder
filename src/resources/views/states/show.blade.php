@@ -34,13 +34,13 @@
                 <p class="state-show-author">
                     {{ $state->author }}
                 </p>
+                @if(Auth::user() && Auth::user()->admin)
                 <div class="state-show-redact-destroy">
                     <div class="redact-state-link">
                         <a href="{{ route("states.edit", ['state' => $state->id]) }}">
                             Редактировать
                         </a>
                     </div>
-                    @if(\Illuminate\Support\Facades\Auth::user()->admin)
                     <form action="{{ route('states.destroy', ['id' => $state->id]) }}" class="destroy-state" method="post">
                         @csrf
                         @method('DELETE')
@@ -48,8 +48,8 @@
                             До архіва
                         </button>
                     </form>
-                    @endif
                 </div>
+                @endif
             </div>
         </div>
     </div>

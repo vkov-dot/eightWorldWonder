@@ -16,10 +16,10 @@ class MediaFolderPerository
         return $this->query()->find($id);
     }
 
-    public function findNotes($id, PhotoRepository $photoRepository, VideoRepository $videoRepository)
+    public function findNotes($id)
     {
-        $photos = $photoRepository->getPhotosByFolder($id);
-        $videos = $videoRepository->getVideosByFolder($id);
+        $photos = (new PhotoRepository)->getPhotosByFolder($id);
+        $videos = (new VideoRepository)->getVideosByFolder($id);
         $medias = $photos->merge($videos);
         $medias->sortByDesc('id');
 

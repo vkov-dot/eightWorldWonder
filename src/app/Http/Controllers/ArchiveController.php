@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ArchiveRepository;
+use App\Repositories\StateRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class ArchiveController extends Controller
 {
@@ -56,7 +55,7 @@ class ArchiveController extends Controller
     {
         $table = $this->repository->show($tableName);
 
-        return view('archives.show', [
+        return view('archived.show', [
             'table' => $table,
             'name' => $tableName
         ]);
@@ -91,10 +90,15 @@ class ArchiveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($tableName, $id)
+    public function destroy($tableName, $id, StateController $stateController, IssueController $issueController)
     {
-        $this->repository->destroy($tableName, $id);
+        if($tableName = 'states') {
+            $stateController->destroy($id);
+        }
+        else {
+            $issueController->destroy($id);
+        }
 
-        return redirect()->route('archives.show', ['table' => $tableName]);
+        return redirect()->route('archived.show', ['table' => $tableName]);
     }
 }

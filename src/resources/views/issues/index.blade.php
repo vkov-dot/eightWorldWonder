@@ -24,7 +24,7 @@
                                         <a href="{{ $issue->link }}" class="state-name" target="_blank">
                                             {{ $issue->name }}
                                         </a>
-                                         @if(\Illuminate\Support\Facades\Auth::user()->admin)
+                                         @if(Auth::user() && Auth::user()->admin)
                                         <form action="{{ route('issues.destroy', ['id' => $issue->id]) }}"
                                               class="destroy-issue" method="post">
                                             @csrf

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IssueRequest;
+use App\Models\Issue;
 use Illuminate\Http\Request;
 use App\Repositories\CategoryRepository;
 use App\Repositories\IssueRepository;
@@ -108,7 +109,14 @@ class IssueController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->destroy($id);
+        $issue = Issue::query()->find($id);
+        if($issue['archived']) {
+            $issue->delete();
+        }
+        else {
+            $issue['archived'] = 1;
+            $issue->update();
+        }
 
         return redirect()->route('issues.index');
     }
@@ -123,6 +131,6 @@ class IssueController extends Controller
     {
         $this->repository->recover($id);
 
-        return redirect()->route('archives.show', ['table' => 'issues']);
+        return redirect()->route('archived.show', ['table' => 'issues']);
     }
 }

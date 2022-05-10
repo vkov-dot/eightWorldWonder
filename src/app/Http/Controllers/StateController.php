@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StateEditRequest;
 use App\Http\Requests\StateRequest;
+use App\Models\State;
 use App\Repositories\HeadingRepository;
 use App\Repositories\StateRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StateController extends Controller
 {
@@ -115,7 +117,15 @@ class StateController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->destroy($id);
+        $state = State::find($id);
+        if($state->archived) {
+            Storage::disk('public')->delete($state->logo);
+            $state->delete();
+        }
+        else {
+            $state->archived = 1;
+            $state->update();
+        }
 
         return redirect()->route('states.index');
     }
@@ -130,7 +140,7 @@ class StateController extends Controller
     {
         $this->repository->recover($id);
 
-        return redirect()->route('archives.show', ['table' => 'states']);
+        return redirect()->route('archived.show', ['table' => 'states']);
     }
 }
 

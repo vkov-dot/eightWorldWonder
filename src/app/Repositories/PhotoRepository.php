@@ -36,9 +36,4 @@ class PhotoRepository
 
         return $this->query()->create($data);
     }
-
-    public function destroy(int $id)
-    {
-        $this->find($id)->destroy();
-    }
 }

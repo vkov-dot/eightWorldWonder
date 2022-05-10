@@ -137,8 +137,8 @@ Route::group([
 });
 
 Route::group([
-    'as' => 'archives.',
-    'prefix' => 'archives'
+    'as' => 'archived.',
+    'prefix' => 'archived'
 ], function () {
     Route::get('/', [ArchiveController::class, 'index'])->name('index')->middleware('admin');
     Route::get('/create', [ArchiveController::class, 'create'])->name('create')->middleware('admin');

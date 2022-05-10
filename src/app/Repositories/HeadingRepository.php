@@ -1,4 +1,4 @@
-<?php   
+<?php
 
 namespace App\Repositories;
 
@@ -34,10 +34,5 @@ class HeadingRepository
         $data['image'] = $this->saveImage($request);
 
         return $this->query()->create($data);
-    }
-
-    public function destroy($id)
-    {
-        return $this->find($id)->destroy();
     }
 }
