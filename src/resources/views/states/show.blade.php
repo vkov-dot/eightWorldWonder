@@ -27,7 +27,7 @@
                 <p class="state-show-name">
                     {{ $state->name }}
                 </p>
-                <img src="{{ asset("storage/".$state->logo) }}" class="d-block w-100" alt="...">
+                <img src="{{ asset("storage/".$state->logo) }}" class="d-block w-100" alt="Нажаль даного зображення немає :(">
                 <p>
                     {!! $state->body !!}
                 </p>

@@ -2,8 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\IssueRequest;
+use App\Mail\IssuePublished;
 use App\Models\Issue;
 use http\Env\Request;
+use Illuminate\Support\Facades\Mail;
 
 class IssueRepository
 {
@@ -20,15 +23,16 @@ class IssueRepository
     public function getIndex()
     {
         return $this->query()
-            ->select('id', 'name', 'link')
+            ->select('id', 'name', 'link', 'created_at')
             ->where('archived', 0)
             ->orderBy('id', 'desc')
             ->paginate(10);
     }
 
-    public function store($request)
+    public function store(IssueRequest $request)
     {
         $data = $request->except('_token');
+        Mail::to($request->user())->send(new IssuePublished($request));
 
         return $this->query()->create($data);
     }
@@ -36,7 +40,7 @@ class IssueRepository
     public function search($request)
     {
         return $this->query()
-            ->select('id', 'name', 'link')
+            ->select('id', 'name', 'link', 'created_at')
             ->where('name', 'LIKE', "%$request->param%")
             ->where('archived', 0)
             ->paginate(10);
@@ -61,7 +65,7 @@ class IssueRepository
     public function getForStartPage()
     {
         return $this->query()
-            ->select('id', 'name', 'link')
+            ->select('id', 'name', 'link', 'created_at')
             ->orderBy('id', 'desc')
             ->where('archived', 0)
             ->take(5)

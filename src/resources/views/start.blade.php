@@ -8,7 +8,9 @@
                 <div>
                     <div class="notes-list-div states-list">
                         <div class="last-states-title">
-                            <p>Останні статті</p>
+                            <p>
+                                Останні статті
+                            </p>
                         </div>
                         <ul>
                             @foreach($lastStates as $state)
@@ -19,7 +21,9 @@
                                     <a href="{{ route('states.show', ['state' => $state->id ]) }}" class="state-name">
                                         {{ $state->name }}
                                     </a>
-                                    <p class="author">{{ $state->author }}</p>
+                                    <p class="author">
+                                        {{ $state->author }}
+                                    </p>
                                 </li>
                             @endforeach
                         </ul>
@@ -30,7 +34,9 @@
                 <div>
                     <div class="notes-list-div states-list">
                         <div class="last-states-title">
-                            <p>Останні випуски</p>
+                            <p>
+                                Останні випуски
+                            </p>
                         </div>
                         <ul>
                             @foreach($lastIssues as $issue)
@@ -88,10 +94,6 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
-
         </div>
     </div>
 @endsection
-
-
-

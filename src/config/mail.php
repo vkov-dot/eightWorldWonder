@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'mailgun'),
 
     /*
     |--------------------------------------------------------------------------
@@ -46,11 +46,14 @@ return [
         ],
 
         'ses' => [
-            'transport' => 'ses',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
         ],
 
         'mailgun' => [
-            'transport' => 'mailgun',
+            'domain' => env('MAILGUN_DOMAIN'),
+            'secret' => env('MAILGUN_SECRET'),
         ],
 
         'postmark' => [
@@ -76,6 +79,9 @@ return [
             'mailers' => [
                 'smtp',
                 'log',
+                'postmark',
+                'mailgun',
+                'sendmail',
             ],
         ],
     ],
@@ -92,7 +98,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'vkov8212@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IssueRequest;
+use App\Mail\IssuePublished;
 use App\Models\Issue;
 use Illuminate\Http\Request;
 use App\Repositories\CategoryRepository;

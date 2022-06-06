@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row list">
-        <div class="col-10 last-states issues-list">
+        <div class="col-lg-10 col-sm-12 last-states issues-list">
             <div class="col-12">
                 <form method="post" enctype="multipart/form-data" action="{{ route('issues.search') }}" class="col-12">
                     @csrf

@@ -4,6 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div id="draggable" class="ui-widget-content">
             <div class="card">
                 <div class="card-header">{{ __('Реєстрація') }}</div>
 
@@ -72,6 +73,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 @endsection

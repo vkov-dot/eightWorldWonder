@@ -31,7 +31,7 @@ class StateRepository
     public function getIndex()
     {
         return $this->query()
-            ->select('id', 'name', 'author')
+            ->select('id', 'name', 'author', 'created_at')
             ->where('archived', 0)
             ->orderBy('id', 'desc')
             ->paginate(20);
@@ -40,7 +40,7 @@ class StateRepository
     public function getIndexLatest()
     {
         return $this->query()
-            ->select('id', 'name', 'author')
+            ->select('id', 'name', 'author', 'created_at')
             ->where('archived', 0)
             ->orderBy('id', 'desc')
             ->take(5)
@@ -50,7 +50,7 @@ class StateRepository
     public function getSearch(Request $request)
     {
         return $this->query()
-            ->select('id', 'name', 'author')
+            ->select('id', 'name', 'author', 'created_at')
             ->where($request->message, 'LIKE', "%$request->param%")
             ->where('archived', 0)
             ->paginate(10);
@@ -71,14 +71,14 @@ class StateRepository
 
     public function update(Request $request, int $id)
     {
-        $request->except('_token', '_method');
-        $data = $this->find($id);
+        $data = $request->except('_token', '_method');
+        $state = $this->find($id);
         if($request->logo) {
             $this->deleteLogo($request->logo);
             $data['logo'] = $this->saveImage($request);
         }
 
-        return $data->update();
+        return $state->update($data);
     }
 
     public function recover($id)
@@ -98,10 +98,17 @@ class StateRepository
     public function getForStartPage()
     {
         return $this->query()
-            ->select('id', 'name', 'author', 'logo')
+            ->select('id', 'name', 'author', 'logo', 'created_at')
             ->orderBy('id', 'desc')
             ->where('archived', 0)
             ->take(5)
             ->get();
+    }
+
+    public function findEdit(int $id)
+    {
+        dd($this->query()
+            ->find($id)
+            ->except('logo'));
     }
 }

@@ -6,7 +6,7 @@ body {
 }
 
 .logo {
-    margin-bottom: 2px;
+    margin-bottom: 5px;
 }
 
 main {
@@ -17,6 +17,7 @@ header {
     padding: 0;
     margin-top: 10px;
 }
+
 
 .logo img {
     width: 100%;
@@ -686,7 +687,7 @@ input {
 }
 
 .heading-show-list {
-    margin: 0 auto;
+    margin: 20px auto 0 auto;
 }
 
 .heading-name-link {
@@ -754,4 +755,3 @@ input {
         flex-direction: column-reverse;
     }
 }
-

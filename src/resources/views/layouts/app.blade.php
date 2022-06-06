@@ -14,14 +14,33 @@
 
 <header>
     <div class="logo">
-        <img src="{{ asset("img/logo.png") }}">
+        <img src="{{ asset("img/logo.jpg") }}">
     </div>
     <nav class="navbar navbar-expand-lg menu-list" id="navbar">
         <div>
             <div class="burger-menu">
                 <div class="collapse" id="navbarToggleExternalContent">
                     <div class="p-4">
-                        @guest
+                        @if(Auth::user() && Auth::user()->admin)
+                            <div id="add-to-archive dropdown dropdown-inline">
+                                <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
+                                   id="{{ (request()->route()->getName() === 'archived.show') ? 'dropdownMenuLink' : '' }}">
+                                    Архів
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" archive-menu="none">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('archived.show', ['table' => 'states']) }}">
+                                            Статті
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('archived.show', ['table' => 'issues']) }}">
+                                            Газета
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
                         <li>
                             <a class="menu-list-link" href="{{ route('start.index') }}"
                                id="{{ (request()->route()->getName() === 'start.index') ? 'active-url' : '' }}">
@@ -68,26 +87,6 @@
                                 </li>
                             </ul>
                         </div>
-                            @elseif( asset(\Illuminate\Support\Facades\Auth::user()->admin))
-                                <div id="add-to-archive dropdown dropdown-inline">
-                                    <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
-                                       id="{{ (request()->route()->getName() === 'archived.show') ? 'dropdownMenuLink' : '' }}">
-                                        Архів
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" archive-menu="none">
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('archived.show', ['table' => 'states']) }}">
-                                                Статті
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('archived.show', ['table' => 'issues']) }}">
-                                                Газета
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            @endif
                         <li>
                             <a class="menu-list-link" href="{{ route('headings.index') }}"
                                id="{{ (request()->route()->getName() === 'headings.index') ? 'active-url' : '' }}">
@@ -176,7 +175,7 @@
                             </a>
                         </li>
                     @else
-                        @if(Auth::user() || Auth::user()->admin)
+                        @if(Auth::user() && Auth::user()->admin)
                         <div id="add-to-archive dropdown" class="display-none">
                             <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false"
                                id="dropdown-archive {{ (request()->route()->getName() === 'archived.show') ? 'dropdownMenuLink' : '' }}">
@@ -218,7 +217,7 @@
 </header>
 
 <main
-    class="relative col-11 flex items-top justify-center min-h-slogo.tifcreen dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+    class="relative col-11 flex items-top justify-center min-h-slogo.tifcreen dark:bg-gray-900 sm:items-center sm:pt-0">
     <div class="row">
         <section>
             @yield('content')
