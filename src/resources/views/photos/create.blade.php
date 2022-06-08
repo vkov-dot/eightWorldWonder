@@ -14,14 +14,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="heading_id">Рубрика</label>
-                        <select class="form-control" name="heading_id">
-                            @foreach($headings as $heading)
-                                <option value="{{ $heading->id }}">{{ $heading->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div>
                         <input type="text" class="add-heading-input @error('name') is-invalid @enderror"
                                placeholder="Назва фото" name="name">

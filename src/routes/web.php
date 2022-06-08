@@ -3,12 +3,13 @@
 use App\Http\Controllers\AddInfoController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MediaFolderController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\IssueController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Auth;
@@ -134,6 +135,21 @@ Route::group([
     Route::put('/{state}', [StateController::class, 'update'])->name('update')->middleware('admin');
     Route::delete('/{id}', [StateController::class, 'destroy'])->name('destroy')->middleware('admin');
     Route::put('/recover/{id}', [StateController::class, 'recover'])->name('recover')->middleware('admin');
+
+    Route::group([
+        'as' => 'comments.',
+        'prefix' => '{state}/comments'
+    ], function () {
+        Route::get('/', [CommentController::class, 'index'])->name('index');
+        Route::get('/create', [CommentController::class, 'create'])->name('create');
+        Route::post('/store', [CommentController::class, 'store'])->name('store');
+        Route::post('/search', [CommentController::class, 'search'])->name('search');
+        Route::get('/{comment}/', [CommentController::class, 'show'])->name('show');
+        Route::get('/{comment}/edit', [CommentController::class, 'edit'])->name('edit');
+        Route::put('/{comment}', [CommentController::class, 'update'])->name('update');
+        Route::delete('/{id}', [CommentController::class, 'destroy'])->name('destroy');
+        Route::put('/recover/{id}', [CommentController::class, 'recover'])->name('recover');
+    });
 });
 
 Route::group([
@@ -151,10 +167,23 @@ Route::group([
     Route::put('/{table}/{id}', [ArchiveController::class, 'recover'])->name('recover')->middleware('admin');
 });
 
+Route::group([
+    'as' => 'users.',
+    'prefix' => 'users'
+], function () {
+    Route::get('/', [UserController::class, 'index'])->name('index')->middleware('admin');
+    Route::get('/create', [UserController::class, 'create'])->name('create')->middleware('admin');
+    Route::post('/', [UserController::class, 'store'])->name('store')->middleware('admin');
+    Route::post('/search', [UserController::class, 'search'])->name('search')->middleware('admin');
+    Route::get('/{user}/', [UserController::class, 'show'])->name('show')->middleware('admin');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit')->middleware('admin');
+    Route::put('/{user}', [UserController::class, 'update'])->name('update')->middleware('admin');
+    Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy')->middleware('admin');
+    Route::put('/recover/{id}', [UserController::class, 'recover'])->name('recover')->middleware('admin');
+});
+
 Route::get('/addInfo', [AddInfoController::class, 'index'] )->name('addInfo')->middleware('admin');
 
 Auth::routes();
 
 Route::get('/home', [StartController::class, 'index'])->name('home');
-
-

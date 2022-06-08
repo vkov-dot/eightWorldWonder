@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Repositories\IssueRepository;
 use App\Repositories\StateRepository;
+use App\Services\StartService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 
 class StartController extends Controller
 {
+    private $service;
+
+    public function __construct(StartService $service)
+    {
+        $this->service = $service;
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,12 +24,11 @@ class StartController extends Controller
      */
     public function index(StateRepository $stateRepository, IssueRepository $issueRepository)
     {
-        $lastStates = $stateRepository->getForStartPage();
-        $lastIssues = $issueRepository->getForStartPage();
+        $lastNotes = $this->service->index($stateRepository, $issueRepository);
 
         return view('start', [
-            'lastStates' =>$lastStates,
-            'lastIssues' => $lastIssues,
+            'lastStates' => $lastNotes['states'],
+            'lastIssues' => $lastNotes['issues'],
         ]);
     }
 

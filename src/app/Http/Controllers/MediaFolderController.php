@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MediaFolderRequest;
-use App\Repositories\MediaFolderPerository;
+use App\Services\MediaFolderService;
 
 class   MediaFolderController extends Controller
 {
-    private $repository;
+    private $service;
 
-    public function __construct(MediaFolderPerository $repository)
+    public function __construct(MediaFolderService $service)
     {
-        $this->repository = $repository;
+        $this->service= $service;
     }
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class   MediaFolderController extends Controller
      */
     public function index()
     {
-        $mediaFolders = $this->repository->getIndex();
+        $mediaFolders = $this->service->index();
 
         return view('media.index', ['mediaFolders' => $mediaFolders]);
     }
@@ -32,7 +32,7 @@ class   MediaFolderController extends Controller
      */
     public function create()
     {
-        $mediaFolders = $this->repository->getIndex();
+        $mediaFolders = $this->service->getIndex();
 
         return view('media.create', ['mediaFolders' => $mediaFolders]);
     }
@@ -45,7 +45,7 @@ class   MediaFolderController extends Controller
      */
     public function store(MediaFolderRequest $request)
     {
-        $this->repository->store($request);
+        $this->service->store($request);
 
         return redirect()->route('media.index');
     }
@@ -58,13 +58,9 @@ class   MediaFolderController extends Controller
      */
     public function show($id)
     {
-        $medias = $this->repository->findNotes($id);
-        $mediaFolder = $this->repository->findFolder($id);
+        $medias = $this->service->show($id);
 
-        return view('media.show', [
-            'medias' => $medias,
-            'mediaFolder' => $mediaFolder
-        ]);
+        return view('media.show', ['medias' => $medias]);
     }
 
     /**

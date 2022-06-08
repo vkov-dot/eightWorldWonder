@@ -3,18 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    private $service;
+
+    public function __construct(UserService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        //
+        $users = $this->service->index();
+
+        return view('users.index', ['users' => $users]);
     }
 
     /**
@@ -38,15 +49,24 @@ class UserController extends Controller
         //
     }
 
+    public function search(Request $request)
+    {
+        $users = $this->service->search($request);
+
+        return view('users.index', ['users' => $users]);
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $user = $this->service->show($id);
+
+        return view('users.show', ['user' => $user]);
     }
 
     /**

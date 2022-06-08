@@ -18,4 +18,9 @@ class State extends Model
     {
         return $this->belongsTo(Heading::class);
     }
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Comment::class);
+    }
 }

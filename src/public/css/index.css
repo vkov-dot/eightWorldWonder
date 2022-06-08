@@ -444,12 +444,15 @@ a {
     justify-content: center;
     margin-top: 20px;
     background-color: white;
-    padding: 20px 40px;
+    padding: 20px 40px 40px 40px;
+    flex-direction: column;
+    box-shadow: 0 1px 6px 0 lightgrey;
 }
 
 .state-show-main-div {
     display: flex;
-    justify-content: center;
+    justify-content: end;
+    margin-bottom: 45px;
 }
 
 .slider-link {
@@ -497,8 +500,7 @@ a {
 }
 
 .destroy-state button:hover {
-    background-color: #f65c00;
-    border-radius: 16px;
+    background-color: rgba(234, 114, 50, 0.8);
 }
 
 .nav-link {
@@ -559,8 +561,7 @@ input {
 
 .redact-state-link:hover a {
     color: white;
-    border-radius: 12px;
-    background-color: #59a985;
+    background-color: #408f7c;
     -webkit-transition: all .3s ease-out;
 }
 
@@ -636,6 +637,7 @@ input {
 
 .state-show-redact-destroy {
     display: flex;
+    margin-bottom: 20px;
 }
 
 .pagination svg {
@@ -694,6 +696,74 @@ input {
     margin-bottom: 10px;
 }
 
+.comment-send-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-submit {
+    display: flex;
+    justify-content: end;
+    margin: 20px 0;
+}
+.comment-submit input[type=submit] {
+    background-color: #ec8443;
+    color: white;
+    font-size: 20px;
+}
+
+.comment-submit input[type=submit]:hover {
+    background-color: rgba(234, 114, 50, 0.8);
+}
+
+.comment-message {
+    padding: 14px 20px;
+    font-size: 18px;
+    border: 0;
+    box-shadow: 0 1px 10px 0 #c2c2c2;
+    border-radius: 8px;
+    outline: 2px solid white;
+    -webkit-transition: all .2s ease-out;
+    min-height: 110px;
+}
+
+.comment-message:focus {
+    outline: 2px solid #f1b58f;
+    -webkit-transition: all .2s ease-out;
+}
+
+.border-bottom-grey {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+}
+
+.comment-list {
+    margin-bottom: 20px;
+}
+
+.comment-element {
+    display: flex;
+}
+
+.comment-list > div > div {
+    box-shadow: 0 1px 6px 0 lightgrey;
+    padding: 12px 24px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+}
+
+.comment-date {
+    color: grey;
+    margin-left: 15px;
+}
+
+.comments-count {
+    margin: 10px 0;
+}
+
+.comments-count p {
+    font-size: 20px;
+}
+
 @media screen and (max-width: 992px) {
 
     .start-section,
@@ -726,9 +796,15 @@ input {
         margin-top: -130px;
         text-align: center;
     }
-
+    .dropdown-menu {
+        min-width: 191px;
+    }
     .dropdown-menu[archive-menu] {
         margin-top: -330px;
+    }
+
+    .dropdown-menu[data-bs-auth] {
+        margin-top: -380px;
     }
 
     .navbar-nav {

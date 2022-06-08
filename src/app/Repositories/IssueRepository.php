@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class IssueRepository
 {
-    private function query()
+    private function query(): \Illuminate\Database\Eloquent\Builder
     {
         return Issue::query();
     }
@@ -20,38 +20,36 @@ class IssueRepository
         return $this->query()->find($id);
     }
 
-    public function getIndex()
+    public function index(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return $this->query()
-            ->select('id', 'name', 'link', 'created_at')
             ->where('archived', 0)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->latest()
+            ->paginate(10, ['id', 'name', 'link', 'created_at']);
     }
 
     public function store(IssueRequest $request)
     {
         $data = $request->except('_token');
-        Mail::to($request->user())->send(new IssuePublished($request));
+        //Mail::to($request->user())->send(new IssuePublished($request));
 
-        return $this->query()->create($data);
+        $this->query()->create($data);
     }
 
-    public function search($request)
+    public function search($request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return $this->query()
-            ->select('id', 'name', 'link', 'created_at')
             ->where('name', 'LIKE', "%$request->param%")
             ->where('archived', 0)
-            ->paginate(10);
+            ->paginate(10, ['id', 'name', 'link', 'created_at']);
     }
 
     public function update(Request $request, int $id)
     {
-        $data = $request->except('_token', '_method');
+        $data = $request->except('_token');
         $issue = $this->find($id);
 
-        return $issue->update($data);
+        $issue->update($data);
     }
 
     public function recover($id)
@@ -59,16 +57,15 @@ class IssueRepository
         $issue = $this->find($id);
         $issue->archived = 0;
 
-        return $issue->update();
+        $issue->update();
     }
 
-    public function getForStartPage()
+    public function getLatest()
     {
         return $this->query()
-            ->select('id', 'name', 'link', 'created_at')
-            ->orderBy('id', 'desc')
+            ->latest()
             ->where('archived', 0)
             ->take(5)
-            ->get();
+            ->get(['id', 'name', 'link', 'created_at']);
     }
 }

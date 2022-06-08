@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\ArchiveRepository;
-use App\Repositories\StateRepository;
-use App\Services\ArchiveService;
+use App\Http\Requests\CommentRequest;
+use App\Models\Comment;
+use App\Repositories\CommentRepository;
+use App\Services\CommentService;
 use Illuminate\Http\Request;
 
-class ArchiveController extends Controller
+class CommentController extends Controller
 {
     private $service;
 
-    public function __construct(ArchiveService $service)
+    public function __construct(CommentService $service)
     {
         $this->service = $service;
     }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -39,27 +40,24 @@ class ArchiveController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request, int $id)
     {
-        //
+        $this->service->store($request, $id);
+
+        return redirect()->route('states.show', ['state' => $id]);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
-    public function show($tableName)
+    public function show($id)
     {
-        $table = $this->service->show($tableName);
-
-        return view('archived.show', [
-            'table' => $table,
-            'name' => $tableName
-        ]);
+        //
     }
 
     /**
@@ -89,17 +87,17 @@ class ArchiveController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
-    public function destroy($tableName, $id, StateController $stateController, IssueController $issueController)
+    public function destroy($id)
     {
-        if($tableName = 'states') {
-            $stateController->destroy($id);
-        }
-        else {
-            $issueController->destroy($id);
-        }
+        //
+    }
 
-        return redirect()->route('archived.show', ['table' => $tableName]);
+    public function destroyByStateId(int $id)
+    {
+        Comment::query()
+            ->where('state_id', $id)
+            ->delete();
     }
 }

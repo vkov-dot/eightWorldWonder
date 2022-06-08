@@ -11,10 +11,10 @@ class HeadingRepository
         return Heading::query();
     }
 
-    public function getIndex()
+    public function index()
     {
         return $this->query()
-            ->orderBy('id', 'desc')
+            ->latest()
             ->get();
     }
 
@@ -33,6 +33,6 @@ class HeadingRepository
         $data = $request->except('_token');
         $data['image'] = $this->saveImage($request);
 
-        return $this->query()->create($data);
+        $this->query()->create($data);
     }
 }

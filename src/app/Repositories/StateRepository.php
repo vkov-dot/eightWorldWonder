@@ -13,11 +13,6 @@ class StateRepository
         return State::query();
     }
 
-    private function deleteLogo($logo)
-    {
-        return Storage::disk('public')->delete($logo);
-    }
-
     public function find($id)
     {
         return $this->query()->find($id);
@@ -25,35 +20,23 @@ class StateRepository
 
     public function create($data)
     {
-        return $this->query()->create($data);
+        $this->query()->create($data);
     }
 
-    public function getIndex()
+    public function index()
     {
         return $this->query()
-            ->select('id', 'name', 'author', 'created_at')
             ->where('archived', 0)
-            ->orderBy('id', 'desc')
-            ->paginate(20);
+            ->latest()
+            ->paginate(20, ['id', 'name', 'author', 'created_at']);
     }
 
-    public function getIndexLatest()
+    public function search(Request $request)
     {
         return $this->query()
-            ->select('id', 'name', 'author', 'created_at')
-            ->where('archived', 0)
-            ->orderBy('id', 'desc')
-            ->take(5)
-            ->get();
-    }
-
-    public function getSearch(Request $request)
-    {
-        return $this->query()
-            ->select('id', 'name', 'author', 'created_at')
             ->where($request->message, 'LIKE', "%$request->param%")
             ->where('archived', 0)
-            ->paginate(10);
+            ->paginate(10, ['id', 'name', 'author', 'created_at']);
     }
 
     public function saveImage($request)
@@ -66,19 +49,20 @@ class StateRepository
         $data = $request->except('_token');
         $data['logo'] = $request->file('logo')->store('images');
 
-        return $this->query()->create($data);
+        $this->query()->create($data);
     }
 
     public function update(Request $request, int $id)
     {
-        $data = $request->except('_token', '_method');
+        $data = $request->except('_token');
         $state = $this->find($id);
+
         if($request->logo) {
-            $this->deleteLogo($request->logo);
             $data['logo'] = $this->saveImage($request);
+            Storage::disk('public')->delete($state->logo);
         }
 
-        return $state->update($data);
+        $state->update($data);
     }
 
     public function recover($id)
@@ -95,14 +79,13 @@ class StateRepository
             ->paginate(10);
     }
 
-    public function getForStartPage()
+    public function getLatest()
     {
         return $this->query()
-            ->select('id', 'name', 'author', 'logo', 'created_at')
-            ->orderBy('id', 'desc')
             ->where('archived', 0)
             ->take(5)
-            ->get();
+            ->latest()
+            ->get(['id', 'name', 'author', 'logo', 'created_at']);
     }
 
     public function findEdit(int $id)

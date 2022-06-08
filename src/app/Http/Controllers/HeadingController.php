@@ -6,15 +6,17 @@ use App\Http\Requests\HeadingRequest;
 use App\Models\Heading;
 use App\Repositories\HeadingRepository;
 use App\Repositories\StateRepository;
+use App\Services\HeadingService;
 
 class HeadingController extends Controller
 {
-    private $repository;
+    private $service;
 
-    public function __construct(HeadingRepository $repository)
+    public function __construct(HeadingService $service)
     {
-        $this->repository = $repository;
+        $this->service = $service;
     }
+
     /**
      * Display a listing of the resource
      *
@@ -22,7 +24,7 @@ class HeadingController extends Controller
      */
     public function index()
     {
-        $headings = $this->repository->getIndex();
+        $headings = $this->service->index();
 
         return view('headings.index', ['headings' => $headings]);
     }
@@ -45,7 +47,7 @@ class HeadingController extends Controller
      */
     public function store(HeadingRequest $request)
     {
-        $this->repository->store($request);
+        $this->service->store($request);
 
         return redirect()->route('headings.index');
     }
@@ -58,12 +60,11 @@ class HeadingController extends Controller
      */
     public function show($id, StateRepository $stateRepository, HeadingRepository $headingRepository)
     {
-        $states = $stateRepository->getForHeading($id);
-        $heading = $headingRepository->find($id);
+        $states = $this->service->show($id, $stateRepository, $headingRepository);
 
         return view('headings.show', [
             'states' => $states,
-            'heading' => $heading
+            'heading' => $states['heading']
         ]);
     }
 
@@ -98,7 +99,7 @@ class HeadingController extends Controller
      */
     public function destroy($id)
     {
-        Heading::query()->destroy($id);
+        Heading::query()->delete($id);
     }
 }
 

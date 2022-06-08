@@ -9,6 +9,11 @@
                 @if($medias->count())
                     <div>
                         <div class="notes-list-div states-list">
+                            <div class="last-states-title">
+                                <p class="ml-1">
+                                    {{ $medias->folder->name }}
+                                </p>
+                            </div>
                             <ul>
                                 @foreach($medias as $media)
                                     <li>

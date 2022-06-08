@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Issue;
 use App\Repositories\CategoryRepository;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private $repository;
+    private $service;
 
-    public function __construct(CategoryRepository $repository)
+    public function __construct(CategoryService $service)
     {
-        $this->repository = $repository;
+        $this->service = $service;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -53,7 +55,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $issues = $this->repository->show($id);
+        $issues = $this->service->show($id);
 
         return view('issues.index', ['issues' => $issues]);
     }

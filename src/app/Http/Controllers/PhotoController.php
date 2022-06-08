@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PhotoRequest;
 use App\Models\Photo;
-use App\Repositories\HeadingRepository;
-use App\Repositories\MediaFolderPerository;
-use App\Repositories\PhotoRepository;
+use App\Services\MediaFolderService;
+use App\Services\PhotoService;
 
 class PhotoController extends Controller
 {
-    private $repository;
+    private $service;
 
-    public function __construct(PhotoRepository $repository)
+    public function __construct(PhotoService $service)
     {
-        $this->repository = $repository;
+        $this->service = $service;
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +22,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = $this->repository->getIndex();
+        $photos = $this->service->index();
 
         return view('photos.index', ['photos' =>$photos] );
     }
@@ -33,15 +32,11 @@ class PhotoController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function create(MediaFolderPerository $folderPerository, HeadingRepository $headingRepository)
+    public function create(MediaFolderService $folderService)
     {
-        $mediaFolders = $folderPerository->getIndex();
-        $headings = $headingRepository->getIndex();
+        $mediaFolders = $folderService->getIndex();
 
-        return view('photos.create', [
-            'mediaFolders' => $mediaFolders,
-            'headings' => $headings
-        ]);
+        return view('photos.create', ['mediaFolders' => $mediaFolders]);
     }
 
     /**
@@ -52,7 +47,7 @@ class PhotoController extends Controller
      */
     public function store(PhotoRequest $request)
     {
-        $this->repository->store($request);
+        $this->service->store($request);
 
         return redirect()->route('photos.create');
     }
@@ -94,11 +89,11 @@ class PhotoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        $issue = Photo::query()->destroy($id);
+        Photo::query()->find($id)->delete();
     }
 }

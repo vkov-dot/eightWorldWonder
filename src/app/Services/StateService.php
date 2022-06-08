@@ -2,8 +2,12 @@
 
 namespace App\Services;
 
+use App\Http\Requests\StateEditRequest;
+use App\Repositories\CommentRepository;
+use App\Repositories\HeadingRepository;
 use App\Repositories\StateRepository;
 use App\Http\Requests\StateRequest;
+use http\Client\Request;
 
 class StateService
 {
@@ -16,15 +20,46 @@ class StateService
 
     public function index()
     {
-        return $this->repository->select('id', 'name', 'author')
-            ->where('archived', 0)
-            ->orderBy('id', 'desc')
-            ->paginate(20);
+        return $this->repository->index();
     }
 
     public function store(StateRequest $request)
     {
-        $imagePath = FileHelper::saveImage($request->file('logo'));
-        $this->repository->store($request, $imagePath);
+        $this->repository->store($request);
+    }
+
+    public function search($request)
+    {
+        return $this->repository->search($request);
+    }
+
+    public function getLatest()
+    {
+        return $this->repository->getLatest();
+    }
+
+    public function show(int $id, CommentRepository $commentRepository)
+    {
+        $state = $this->repository->find($id);
+        $state['comments'] = $commentRepository->getByStateId($id);
+
+        return $state;
+    }
+
+    public function edit(int $id)
+    {
+        $state = $this->repository->find($id);
+
+        return $state;
+    }
+
+    public function update(StateEditRequest $request, int $id)
+    {
+        $this->repository->update($request, $id);
+    }
+
+    public function recover($id)
+    {
+        $this->repository->recover($id);
     }
 }

@@ -24,14 +24,14 @@ class VideoRepository
             ->get();
     }
 
-    public function getIndex()
+    public function index()
     {
-        return $this->query()
-            ->orderBy('id', 'desc')
+        $this->query()
+            ->latest()
             ->get();
     }
 
-    public function create(VideoRequest $request)
+    public function store(VideoRequest $request)
     {
         $data = $request->except('_token');
 

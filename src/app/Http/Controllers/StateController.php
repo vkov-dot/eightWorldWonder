@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StateEditRequest;
 use App\Http\Requests\StateRequest;
 use App\Models\State;
+use App\Repositories\CommentRepository;
 use App\Repositories\HeadingRepository;
-use App\Repositories\StateRepository;
+use App\Services\HeadingService;
+use App\Services\StateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class StateController extends Controller
 {
-    private $repository;
+    private $service;
 
-    public function __construct(StateRepository $repository)
+    public function __construct(StateService $service)
     {
-        $this->repository = $repository;
+        $this->service = $service;
     }
 
     /**
@@ -26,7 +28,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = $this->repository->getIndex();
+        $states = $this->service->index();
 
         return view('states.index', ['states' =>$states]);
     }
@@ -36,9 +38,9 @@ class StateController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function create(HeadingRepository $headingRepository)
+    public function create(HeadingService $headingService)
     {
-        $headings = $headingRepository->getIndex();
+        $headings = $headingService->index();
 
         return view('states.create', ['headings' => $headings]);
     }
@@ -51,7 +53,7 @@ class StateController extends Controller
      */
     public function store(StateRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $this->repository->store($request);
+        $this->service->store($request);
 
         return redirect()->route('states.index');
     }
@@ -59,7 +61,7 @@ class StateController extends Controller
 
     public function search(Request $request)
     {
-        $states = $this->repository->getSearch($request);
+        $states = $this->service->search($request);
 
         return view('states.index', ['states' => $states]);
     }
@@ -70,10 +72,10 @@ class StateController extends Controller
      * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id, CommentRepository $commentRepository)
     {
-        $lastStates = $this->repository->getIndexLatest();
-        $state = $this->repository->find($id);
+        $lastStates = $this->service->getLatest();
+        $state = $this->service->show($id, $commentRepository);
 
         return view('states.show', [
             'state' => $state,
@@ -89,8 +91,8 @@ class StateController extends Controller
      */
     public function edit($id, HeadingRepository $headingRepository)
     {
-        $state = $this->repository->find($id);
-        $headings = $headingRepository->getIndex();
+        $state = $this->service->edit($id);
+        $headings = $headingRepository->index();
 
         return view('states.edit', ['state' => $state, 'headings' => $headings]);
     }
@@ -104,7 +106,7 @@ class StateController extends Controller
      */
     public function update(StateEditRequest $request, $id)
     {
-        $this->repository->update($request, $id);
+        $this->service->update($request, $id);
 
         return redirect()->route('states.show', ['state' => $id]);
     }
@@ -115,11 +117,12 @@ class StateController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($id, CommentController $commentController)
     {
         $state = State::find($id);
         if($state->archived) {
             Storage::disk('public')->delete($state->logo);
+            $commentController->destroyByStateId($id);
             $state->delete();
         }
         else {
@@ -138,7 +141,7 @@ class StateController extends Controller
      */
     public function recover($id): \Illuminate\Http\RedirectResponse
     {
-        $this->repository->recover($id);
+        $this->service->recover($id);
 
         return redirect()->route('archived.show', ['table' => 'states']);
     }

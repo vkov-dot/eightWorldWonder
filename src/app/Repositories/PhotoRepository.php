@@ -23,10 +23,10 @@ class PhotoRepository
             ->get();
     }
 
-    public function getIndex()
+    public function index(MediaFolderRepository $folderRepository)
     {
         return $this->query()
-            ->orderBy('id', 'desc')
+            ->latest()
             ->get();
     }
 
@@ -34,6 +34,6 @@ class PhotoRepository
     {
         $data = $request->except('_token');
 
-        return $this->query()->create($data);
+        $this->query()->create($data);
     }
 }

@@ -14,7 +14,9 @@ class CategoryRepository
 
     public function getAll()
     {
-        return $this->query()->orderBy('id', 'desc')->get();
+        return $this->query()
+            ->latest()
+            ->get();
     }
 
     public function show(int $id)

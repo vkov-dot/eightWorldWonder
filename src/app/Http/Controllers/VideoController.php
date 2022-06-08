@@ -6,15 +6,17 @@ use App\Http\Requests\VideoRequest;
 use App\Models\Video;
 use App\Repositories\HeadingRepository;
 use App\Repositories\MediaFolderPerository;
+use App\Repositories\MediaFolderRepository;
 use App\Repositories\VideoRepository;
+use App\Services\VideoService;
 
 class VideoController extends Controller
 {
-    private $repository;
+    private $service;
 
-    public function __construct(VideoRepository $repository)
+    public function __construct(VideoService $service)
     {
-        $this->repository = $repository;
+        $this->service = $service;
     }
     /**
      * Display a listing of the resource.
@@ -31,14 +33,12 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function create(MediaFolderPerository $folderPerository, HeadingRepository $headingRepository)
+    public function create(MediaFolderRepository $mediaFolderRepository)
     {
-        $mediaFolders = $folderPerository->getIndex();
-        $headings = $headingRepository->getIndex();
+        $mediaFolders = $this->service->index($mediaFolderRepository);
 
         return view('videos.create', [
             'mediaFolders' => $mediaFolders,
-            'headings' => $headings
         ]);
     }
 
@@ -50,7 +50,7 @@ class VideoController extends Controller
      */
     public function store(VideoRequest $request)
     {
-        $this->repository->create($request);
+        $this->service->store($request);
 
         return redirect()->route('videos.create');
     }
@@ -97,6 +97,6 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        Video::query()->find($id)->destroy();
+        Video::query()->find($id)->delete();
     }
 }

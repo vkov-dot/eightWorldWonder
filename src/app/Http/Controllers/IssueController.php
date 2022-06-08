@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\IssueRequest;
 use App\Mail\IssuePublished;
 use App\Models\Issue;
+use App\Services\CategoryService;
+use App\Services\IssueService;
 use Illuminate\Http\Request;
 use App\Repositories\CategoryRepository;
 use App\Repositories\IssueRepository;
 
 class IssueController extends Controller
 {
-    private $repository;
+    private $service;
 
-    public function __construct(IssueRepository $repository)
+    public function __construct(IssueService $service)
     {
-        $this->repository = $repository;
+        $this->service= $service;
     }
 
     /**
@@ -25,7 +27,7 @@ class IssueController extends Controller
      */
     public function index()
     {
-        $issues = $this->repository->getIndex();
+        $issues = $this->service->index();
 
         return view('issues.index', ['issues' => $issues]);
     }
@@ -37,7 +39,7 @@ class IssueController extends Controller
      */
     public function create(CategoryRepository $categoryRepository)
     {
-        $categories = $categoryRepository->getAll();
+        $categories = $this->service->getAll($categoryRepository);
 
         return view('issues.create', ['categories' => $categories]);
     }
@@ -50,14 +52,14 @@ class IssueController extends Controller
      */
     public function store(IssueRequest $request)
     {
-        $this->repository->store($request);
+        $this->service->store($request);
 
         return redirect()->route('issues.index');
     }
 
     public function search(Request $request)
     {
-        $issues = $this->repository->search($request);
+        $issues = $this->service->search($request);
 
         return view('issues.index', ['issues' => $issues]);
     }
@@ -81,11 +83,9 @@ class IssueController extends Controller
      */
     public function edit($id)
     {
-        $issue = $this->repository->find($id);
+        $issue = $this->service->find($id);
 
-        return view('issues.edit', [
-            'issue' => $issue,
-        ]);
+        return view('issues.edit', ['issue' => $issue]);
     }
 
     /**
@@ -97,7 +97,7 @@ class IssueController extends Controller
      */
     public function update(IssueRequest $request, $id)
     {
-        $this->repository->update($request, $id);
+        $this->service->update($request, $id);
 
         return redirect()->route('issues.show', ['issue' => $id]);
     }
@@ -130,7 +130,7 @@ class IssueController extends Controller
      */
     public function recover($id)
     {
-        $this->repository->recover($id);
+        $this->service->recover($id);
 
         return redirect()->route('archived.show', ['table' => 'issues']);
     }

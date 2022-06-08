@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\MediaFolderRequest;
 use App\Models\MediaFolder;
 
-class MediaFolderPerository
+class MediaFolderRepository
 {
     private function query()
     {
@@ -31,17 +32,17 @@ class MediaFolderPerository
         return $this->find($id);
     }
 
-    public function store(\App\Http\Requests\MediaFolderRequest $request)
+    public function store(MediaFolderRequest $request)
     {
         $data = $request->except('_token');
 
-        return $this->query()->create($data);
+        $this->query()->create($data);
     }
 
-    public function getIndex()
+    public function index()
     {
         return $this->query()
-            ->orderBy('id', 'desc')
+            ->latest()
             ->get();
     }
 }
