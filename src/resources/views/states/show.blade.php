@@ -64,7 +64,7 @@
             <div class="last-states states state-show-div">
                 <div class="comments-count">
                     <p>
-                        {{ $state->comments->count() }} Коментарів
+                        Коментарі: {{ $state->comments->count() }}
                     </p>
                 </div>
                 @auth()
@@ -90,14 +90,23 @@
                     <div>
                         @foreach($state->comments as $comment)
                             <div>
-                                <div class="comment-element">
-                                    <p>
-                                        {{ $comment->user->name }}
-                                    </p>
-                                    <p class="comment-date">
-                                        {{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}
-                                    </p>
-
+                                <div class="comment-element justify-content-between">
+                                    <div class="comment-element">
+                                        <p>
+                                            {{ $comment->user->name }}
+                                        </p>
+                                        <p class="comment-date">
+                                            {{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}
+                                        </p>
+                                    </div>
+                                    @if(Auth::user() && Auth::user()->admin)
+                                   <form action="{{ route('states.comments.destroy', ['state' => $state->id, 'id' => $comment->id]) }}"
+                                         enctype="multipart/form-data" class="delete-comment" method="POST">
+                                       @csrf
+                                       @method('DELETE')
+                                       <input type="submit" value="&#215;">
+                                   </form>
+                                    @endif
                                 </div>
                                 <div>
                                     <p>
@@ -110,8 +119,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
 @endsection

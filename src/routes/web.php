@@ -147,7 +147,7 @@ Route::group([
         Route::get('/{comment}/', [CommentController::class, 'show'])->name('show');
         Route::get('/{comment}/edit', [CommentController::class, 'edit'])->name('edit');
         Route::put('/{comment}', [CommentController::class, 'update'])->name('update');
-        Route::delete('/{id}', [CommentController::class, 'destroy'])->name('destroy');
+        Route::delete('/{id}', [CommentController::class, 'destroy'])->name('destroy')->middleware('admin');
         Route::put('/recover/{id}', [CommentController::class, 'recover'])->name('recover');
     });
 });
@@ -178,8 +178,8 @@ Route::group([
     Route::get('/{user}/', [UserController::class, 'show'])->name('show')->middleware('admin');
     Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit')->middleware('admin');
     Route::put('/{user}', [UserController::class, 'update'])->name('update')->middleware('admin');
-    Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy')->middleware('admin');
-    Route::put('/recover/{id}', [UserController::class, 'recover'])->name('recover')->middleware('admin');
+    Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy')->middleware('admin');
+    Route::put('{user}/recover', [UserController::class, 'recover'])->name('recover')->middleware('admin');
 });
 
 Route::get('/addInfo', [AddInfoController::class, 'index'] )->name('addInfo')->middleware('admin');

@@ -44,7 +44,7 @@
                                 <p class="date">
                                     {{ \Carbon\Carbon::parse($user->created_at)->format('d.m.Y') }}
                                 </p>
-                                <a href="{{ route('users.show', ['user' => $user->id]) }}" class="state-name">
+                                <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="state-name">
                                     {{ $user->name }}
                                 </a>
                                 <p class="state-author">

@@ -246,6 +246,12 @@ a {
     color: white;
     font-size: 22px;
     padding: 6px 20px;
+    -webkit-transition: all .2s ease-out;
+}
+
+.submit-button button:hover {
+    background-color: rgba(236, 132, 67, 0.80);
+    -webkit-transition: all .2s ease-out;
 }
 
 #file-input {
@@ -749,6 +755,7 @@ input {
     padding: 12px 24px;
     margin-bottom: 15px;
     border-radius: 6px;
+    font-size: 20px;
 }
 
 .comment-date {
@@ -762,6 +769,22 @@ input {
 
 .comments-count p {
     font-size: 20px;
+}
+
+.margin-auto-null label {
+    margin: auto 10px auto 0;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+.delete-comment {
+    font-size: 26px;
+    color: #4a5568;
+}
+
+.delete-comment input[type=submit] {
+    border: 0;
+    background: none;
 }
 
 @media screen and (max-width: 992px) {

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use http\Client\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class UserService
 {
@@ -24,8 +25,14 @@ class UserService
         return $this->repository->search($request);
     }
 
-    public function show(int $id)
+    public function edit(int $id)
     {
-        return $this->repository->find($id);
+        return $this->repository->edit($id);
+    }
+
+    public function update($request, int $id)
+    {
+        if($request->password);
+        $this->repository->update($request, $id);
     }
 }

@@ -4,10 +4,8 @@ namespace App\Services;
 
 use App\Http\Requests\StateEditRequest;
 use App\Repositories\CommentRepository;
-use App\Repositories\HeadingRepository;
 use App\Repositories\StateRepository;
 use App\Http\Requests\StateRequest;
-use http\Client\Request;
 
 class StateService
 {
@@ -48,9 +46,7 @@ class StateService
 
     public function edit(int $id)
     {
-        $state = $this->repository->find($id);
-
-        return $state;
+        return $this->repository->find($id);
     }
 
     public function update(StateEditRequest $request, int $id)

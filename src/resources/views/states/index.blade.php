@@ -8,10 +8,16 @@
             <div class="form-group col-12 search-issue-select states-search-div">
                 <div class="search-issue-select-first-d">
                     <label for="category" class="states-search-label">
-                        <p>Шукати за</p>
+                        <p>
+                            Шукати за
+                        </p>
                         <select class="form-control" id="search" name="message">
-                            <option value="author">автором</option>
-                            <option value="name">назвою</option>
+                            <option value="author">
+                                автором
+                            </option>
+                            <option value="name">
+                                назвою
+                            </option>
                         </select>
                     </label>
                 </div>
@@ -19,7 +25,7 @@
                 <div class="div-search">
                     <div>
                         <input class="add-heading-input @error('name') is-invalid @enderror search-issue-input"
-                               name="param" placeholder="Шукати" type="text">
+                               name="param" placeholder="Шукати" type="text" @if($message) value="{{ $message }}" @endif>
                     </div>
                     <div>
                         <button type="submit" class="search-submit">Пошук</button>

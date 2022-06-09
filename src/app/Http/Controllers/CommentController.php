@@ -87,11 +87,15 @@ class CommentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($stateId, $commentId)
     {
-        //
+        Comment::query()
+            ->find($commentId)
+            ->delete();
+
+        return redirect()->route('states.show', ['state' => $stateId]);
     }
 
     public function destroyByStateId(int $id)

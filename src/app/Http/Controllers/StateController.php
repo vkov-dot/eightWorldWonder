@@ -63,7 +63,10 @@ class StateController extends Controller
     {
         $states = $this->service->search($request);
 
-        return view('states.index', ['states' => $states]);
+        return view('states.index', [
+            'states' => $states,
+            'message' => $request->param
+            ]);
     }
 
     /**
