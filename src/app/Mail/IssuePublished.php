@@ -14,14 +14,14 @@ class IssuePublished extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $issue;
+    private $issue;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(IssueRequest $issue)
+    public function __construct($issue)
     {
         $this->issue = $issue;
     }
@@ -34,8 +34,6 @@ class IssuePublished extends Mailable
     public function build()
     {
         return $this->markdown('emails.issues.published')
-            ->with([
-                'issue' => $this->issue,
-            ]);
+            ->with(['issue' => $this->issue]);
     }
 }

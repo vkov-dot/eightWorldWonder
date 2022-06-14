@@ -31,9 +31,9 @@ class IssueRepository
     public function store(IssueRequest $request)
     {
         $data = $request->except('_token');
-        //Mail::to($request->user())->send(new IssuePublished($request));
+        $issue = $this->query()->create($data);
 
-        $this->query()->create($data);
+        return $issue;
     }
 
     public function search($request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -42,22 +42,6 @@ class IssueRepository
             ->where('name', 'LIKE', "%$request->param%")
             ->where('archived', 0)
             ->paginate(10, ['id', 'name', 'link', 'created_at']);
-    }
-
-    public function update(Request $request, int $id)
-    {
-        $data = $request->except('_token');
-        $issue = $this->find($id);
-
-        $issue->update($data);
-    }
-
-    public function recover($id)
-    {
-        $issue = $this->find($id);
-        $issue->archived = 0;
-
-        $issue->update();
     }
 
     public function getLatest()

@@ -34,7 +34,7 @@ class PhotoController extends Controller
      */
     public function create(MediaFolderService $folderService)
     {
-        $mediaFolders = $folderService->getIndex();
+        $mediaFolders = $folderService->index();
 
         return view('photos.create', ['mediaFolders' => $mediaFolders]);
     }

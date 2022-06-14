@@ -9,7 +9,7 @@ class Issue extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'link', 'heading_id', 'archived', 'category_id'];
+    protected $fillable = ['name', 'link', 'archived', 'category_id'];
 
     public function categories()
     {

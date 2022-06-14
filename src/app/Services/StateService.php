@@ -3,32 +3,18 @@
 namespace App\Services;
 
 use App\Http\Requests\StateEditRequest;
+use App\Models\State;
 use App\Repositories\CommentRepository;
+use App\Repositories\RatingRepository;
 use App\Repositories\StateRepository;
 use App\Http\Requests\StateRequest;
+use Illuminate\Support\Facades\Storage;
 
-class StateService
+class StateService extends BaseService
 {
-    private $repository;
-
     public function __construct(StateRepository $repository)
     {
         $this->repository = $repository;
-    }
-
-    public function index()
-    {
-        return $this->repository->index();
-    }
-
-    public function store(StateRequest $request)
-    {
-        $this->repository->store($request);
-    }
-
-    public function search($request)
-    {
-        return $this->repository->search($request);
     }
 
     public function getLatest()
@@ -36,26 +22,41 @@ class StateService
         return $this->repository->getLatest();
     }
 
-    public function show(int $id, CommentRepository $commentRepository)
+    public function show(int $id)
     {
-        $state = $this->repository->find($id);
-        $state['comments'] = $commentRepository->getByStateId($id);
+        $state = $this->find($id);
+        $state['comments'] = (new CommentRepository)->getByStateId($id);
+        $state['rating'] = (new RatingRepository)->getRatingByStateId($id);
+        $state['rating'] = round($state['rating'], 2);
 
         return $state;
     }
 
-    public function edit(int $id)
+    public function store(StateRequest $request)
     {
-        return $this->repository->find($id);
+        $data = $request->except('_token');
+        $data['logo'] = $this->saveImage($request);
+
+        State::create($data);
     }
 
     public function update(StateEditRequest $request, int $id)
     {
-        $this->repository->update($request, $id);
+        $data = $request->except('_token');
+        $state = $this->find($id);
+
+        if($request->logo) {
+            $data['logo'] = $this->saveImage($request);
+            Storage::disk('public')->delete($state->logo);
+        }
+
+        $state->update($data);
     }
 
     public function recover($id)
     {
-        $this->repository->recover($id);
+        $state = $this->find($id);
+        $state->archived = 0;
+        $state->update();
     }
 }

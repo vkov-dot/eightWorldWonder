@@ -2,19 +2,23 @@
 
 namespace App\Services;
 
+use App\Http\Requests\CommentRequest;
+use App\Models\Comment;
 use App\Repositories\CommentRepository;
 
-class CommentService
+class CommentService extends BaseService
 {
-    private $repository;
-
     public function __construct(CommentRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    public function store(\App\Http\Requests\CommentRequest $request, int $id)
+    public function store(CommentRequest $request, int $id)
     {
-        $this->repository->store($request, $id);
+        $data = $request->except('_token');
+        $data['user_id'] = auth()->id();
+        $data['state_id'] = $id;
+
+        Comment::create($data);
     }
 }

@@ -25,7 +25,7 @@
                 <div class="div-search">
                     <div>
                         <input class="add-heading-input @error('name') is-invalid @enderror search-issue-input"
-                               name="param" placeholder="Шукати" type="text" @if($message) value="{{ $message }}" @endif>
+                               name="param" placeholder="Шукати" type="text" {{--value="{{ asset($message) ? $message : ''}}"--}} >
                     </div>
                     <div>
                         <button type="submit" class="search-submit">Пошук</button>

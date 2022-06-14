@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\VerificationJob;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Services\RegisterService;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -24,6 +26,8 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    private $service;
+
     /**
      * Where to redirect users after registration.
      *
@@ -36,8 +40,9 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(RegisterService $service)
     {
+        $this->service = $service;
         $this->middleware('guest');
     }
 
@@ -60,14 +65,18 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['password'])
         ]);
+
+        VerificationJob::dispatch($user);
+
+        return redirect()->route('login');
     }
 }

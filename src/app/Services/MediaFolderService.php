@@ -3,25 +3,20 @@
 namespace App\Services;
 
 use App\Http\Requests\MediaFolderRequest;
+use App\Models\MediaFolder;
 use App\Repositories\MediaFolderRepository;
 
-class MediaFolderService
+class MediaFolderService extends BaseService
 {
-    private $repository;
-
     public function __construct(MediaFolderRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    public function index()
-    {
-        return $this->repository->index();
-    }
-
     public function store(MediaFolderRequest $request)
     {
-        $this->repository->store($request);
+        $data = $request->except('_token');
+        MediaFolder::create($data);
     }
 
     public function show(int $id)
@@ -31,6 +26,4 @@ class MediaFolderService
 
         return $medias;
     }
-
-
 }

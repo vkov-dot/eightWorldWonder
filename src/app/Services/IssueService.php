@@ -3,22 +3,21 @@
 namespace App\Services;
 
 use App\Http\Requests\IssueRequest;
+use App\Jobs\IssuePublishedJob;
+use App\Mail\IssuePublished;
 use App\Repositories\CategoryRepository;
 use App\Repositories\IssueRepository;
 use http\Client\Request;
+use Illuminate\Support\Facades\Mail;
+use phpseclib3\Crypt\EC\BaseCurves\Base;
 
-class IssueService
+class IssueService extends BaseService
 {
-    private $repository;
+    public $repository;
 
     public function __construct(IssueRepository $repository)
     {
         $this->repository = $repository;
-    }
-
-    public function index()
-    {
-        return $this->repository->index();
     }
 
     public function getAll(CategoryRepository $categoryRepository)
@@ -28,26 +27,26 @@ class IssueService
 
     public function store(IssueRequest $request)
     {
-        $this->repository->store($request);
-    }
+        $issue = $this->repository->store($request);
 
-    public function search($request)
-    {
-        return $this->repository->search($request);
-    }
+        //Mail::to($request->user()->email)->send(new IssuePublished($request));
 
-    public function find(int $id)
-    {
-        return $this->repository->find($id);
+        IssuePublishedJob::dispatch($issue);
     }
 
     public function update($request, int $id)
     {
-        $this->repository->update($request, $id);
+        $data = $request->except('_token');
+        $issue = $this->find($id);
+
+        $issue->update($data);
     }
 
     public function recover($id)
     {
-        $this->repository->recover($id);
+        $issue = $this->find($id);
+        $issue->archived = 0;
+
+        $issue->update();
     }
 }

@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CommentRequest;
-use App\Models\Comment;
-use App\Repositories\CommentRepository;
-use App\Services\CommentService;
+use App\Services\RatingService;
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
+class RatingController extends Controller
 {
     private $service;
 
-    public function __construct(CommentService $service)
+    public function __construct(RatingService $service)
     {
         $this->service = $service;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,11 +40,11 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CommentRequest $request, int $id)
+    public function store(Request $request)
     {
-        $this->service->store($request, $id);
+        $this->service->store($request);
 
-        return redirect()->route('states.show', ['state' => $id]);
+        return redirect()->route('states.show', ['state' => $request->state_id]);
     }
 
     /**
@@ -87,23 +85,10 @@ class CommentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
-    public function destroy($stateId, $comment)
+    public function destroy($id)
     {
-        $comment = Comment::find($comment);
-
-        if($comment->user_id === auth()->id()) {
-            $comment->delete();
-        }
-
-        return redirect()->route('states.show', ['state' => $stateId]);
-    }
-
-    public function destroyByStateId(int $id)
-    {
-        Comment::query()
-            ->where('state_id', $id)
-            ->delete();
+        //
     }
 }

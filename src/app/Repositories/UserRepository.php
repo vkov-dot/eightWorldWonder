@@ -33,23 +33,4 @@ class UserRepository
             ->latest()
             ->paginate(10, ['name', 'id', 'email', 'created_at']);
     }
-
-    public function edit(int $id)
-    {
-        return $this->find($id);
-    }
-
-    public function update($request, int $id)
-    {
-        $user = $this->find($id);
-
-        if($request->password) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->admin = $request->role;
-
-        $user->update();
-    }
 }

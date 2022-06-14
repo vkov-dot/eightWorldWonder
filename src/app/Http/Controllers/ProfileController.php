@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Repositories\UserRepository;
-use App\Services\UserService;
+use App\Services\ProfileService;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
     private $service;
 
-    public function __construct(UserService $service)
+    public function __construct(ProfileService $service)
     {
         $this->service = $service;
     }
@@ -19,13 +17,11 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        $users = $this->service->index();
-
-        return view('users.index', ['users' => $users]);
+        //
     }
 
     /**
@@ -49,35 +45,30 @@ class UserController extends Controller
         //
     }
 
-    public function search(Request $request)
-    {
-        $users = $this->service->search($request);
-
-        return view('users.index', ['users' => $users]);
-    }
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $user = $this->service->show();
+
+        return view('profiles.show', ['profile' => $user]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function edit($id)
+    public function edit()
     {
-        $user = $this->service->edit($id);
+        $user = $this->service->edit();
 
-        return view('users.edit', ['user' => $user]);
+        return view('profiles.edit', ['user' => $user]);
     }
 
     /**
@@ -87,11 +78,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $this->service->update($request, $id);
+        $this->service->update($request);
 
-        return redirect()->route('users.index');
+        return redirect()->route('start.index');
     }
 
     /**
@@ -102,6 +93,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::find($id)->destroy();
+        //
     }
 }

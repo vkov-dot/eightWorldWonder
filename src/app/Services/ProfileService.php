@@ -2,19 +2,31 @@
 
 namespace App\Services;
 
-use App\Repositories\UserRepository;
+use App\Repositories\ProfileRepository;
 use Illuminate\Support\Facades\Hash;
 
-class UserService extends BaseService
+class ProfileService
 {
-    public function __construct(UserRepository $repository)
+    private $repository;
+
+    public function __construct(ProfileRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    public function update($request, int $id)
+    public function show()
     {
-        $user = $this->find($id);
+        return auth()->user();
+    }
+
+    public function edit()
+    {
+        return auth()->user();
+    }
+
+    public function update($request)
+    {
+        $user = $this->repository->find($request->user);
         if($request->password) {
             $user->password = Hash::make($request->password);
         }

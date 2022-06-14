@@ -32,13 +32,6 @@ class MediaFolderRepository
         return $this->find($id);
     }
 
-    public function store(MediaFolderRequest $request)
-    {
-        $data = $request->except('_token');
-
-        $this->query()->create($data);
-    }
-
     public function index()
     {
         return $this->query()

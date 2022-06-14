@@ -27,12 +27,4 @@ class HeadingRepository
     {
         return $request->file('image')->store('images');
     }
-
-    public function store(\App\Http\Requests\HeadingRequest $request)
-    {
-        $data = $request->except('_token');
-        $data['image'] = $this->saveImage($request);
-
-        $this->query()->create($data);
-    }
 }

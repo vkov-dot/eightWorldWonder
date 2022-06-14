@@ -34,6 +34,33 @@
                     <p class="state-show-name">
                         {{ $state->name }}
                     </p>
+                    <div>
+                        <form action="{{route('rating.store', ['state_id' => $state->id])}}"
+                              id="addStar" method="POST" class="form-horizontal poststars" >
+                            @csrf
+                            <div class="required">
+                                <div class="col-sm-12">
+                                    <div class="state-rating-div">
+                                        <p class="state-rating-p">
+                                            {{ $state->rating }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <input class="star star-5" value="5" id="star-5" type="submit" name="star"/>
+                                        <label class="star star-5" for="star-5"></label>
+                                        <input class="star star-4" value="4" id="star-4" type="submit" name="star"/>
+                                        <label class="star star-4" for="star-4"></label>
+                                        <input class="star star-3" value="3" id="star-3" type="submit" name="star"/>
+                                        <label class="star star-3" for="star-3"></label>
+                                        <input class="star star-2" value="2" id="star-2" type="submit" name="star"/>
+                                        <label class="star star-2" for="star-2"></label>
+                                        <input class="star star-1" value="1" id="star-1" type="submit" name="star"/>
+                                        <label class="star star-1" for="star-1"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <img src="{{ asset("storage/".$state->logo) }}" class="d-block w-100"
                          alt="Нажаль даного зображення немає :(">
                     <p>
@@ -99,13 +126,14 @@
                                             {{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}
                                         </p>
                                     </div>
-                                    @if(Auth::user() && Auth::user()->admin)
-                                   <form action="{{ route('states.comments.destroy', ['state' => $state->id, 'id' => $comment->id]) }}"
-                                         enctype="multipart/form-data" class="delete-comment" method="POST">
-                                       @csrf
-                                       @method('DELETE')
-                                       <input type="submit" value="&#215;">
-                                   </form>
+                                    @if(Auth::user() && Auth::user()->admin || Auth::id() === $comment->user_id)
+                                        <form
+                                            action="{{ route('states.comments.destroy', ['state' => $state->id, 'comment' => $comment]) }}"
+                                            enctype="multipart/form-data" class="delete-comment" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="submit" value="&#215;">
+                                        </form>
                                     @endif
                                 </div>
                                 <div>

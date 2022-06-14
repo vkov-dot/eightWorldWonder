@@ -3,26 +3,26 @@
 namespace App\Services;
 
 use App\Http\Requests\VideoRequest;
+use App\Models\Video;
 use App\Repositories\MediaFolderRepository;
 use App\Repositories\VideoRepository;
-use http\Client\Request;
 
-class VideoService
+class VideoService extends BaseService
 {
-    private $repository;
-
     public function __construct(VideoRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    public function getIndex(MediaFolderRepository $mediaFolderRepository)
+    public function index()
     {
-        return $mediaFolderRepository->index();
+        return (new MediaFolderRepository)->index();
     }
 
     public function store(VideoRequest $request)
     {
-        $this->repository->store($request);
+        $data = $request->except('_token');
+
+        Video::create($data);
     }
 }

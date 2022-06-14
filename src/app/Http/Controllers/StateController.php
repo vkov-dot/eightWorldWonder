@@ -149,4 +149,3 @@ class StateController extends Controller
         return redirect()->route('archived.show', ['table' => 'states']);
     }
 }
-

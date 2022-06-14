@@ -3,7 +3,7 @@
 @section('content')
     <div class="row create-heading row ">
         <div class="create-heading-content col-lg-8 col-sm-12 justify-content-center">
-            <form id="form1" method="post" action="{{ route('users.update', ['user' => $user->id]) }}"
+            <form id="form1" method="post" action="{{ route('profiles.update', ['user' => $user->id]) }}"
                   enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -73,7 +73,7 @@
             <div class="to-page">
                 <div>
                     <div>
-                        <a href="{{ route('users.index') }}">Назад</a>
+                        <a href="{{ route('start.index') }}">Назад</a>
                     </div>
                     <div>
                         <a href="{{ route('states.store') }}">До статей</a>

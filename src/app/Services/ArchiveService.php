@@ -4,10 +4,8 @@ namespace App\Services;
 
 use App\Repositories\ArchiveRepository;
 
-class ArchiveService
+class ArchiveService extends BaseService
 {
-    private $repository;
-
     public function __construct(ArchiveRepository $repository)
     {
         $this->repository = $repository;

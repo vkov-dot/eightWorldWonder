@@ -25,7 +25,8 @@ class IssueRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'link' => 'required'
+            'link' => 'required',
+            'category_id' => 'required',
         ];
     }
 

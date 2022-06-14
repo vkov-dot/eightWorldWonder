@@ -30,6 +30,11 @@
                                 </a>
                                 <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink"
                                     data-bs-auth="none">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('profiles.show') }}">
+                                            Профіль
+                                        </a>
+                                    </li>
                                     @if(Auth::user()->admin)
                                         <li>
                                             <a class="dropdown-item" href="{{ route('users.index') }}">
@@ -236,40 +241,47 @@
                                 </ul>
                             </div>
                         @endif
-                        <div class="nav-item">
-                            <div id="add-to-archive dropdown" class="display-none">
-                                <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown"
-                                   aria-expanded="false"
-                                   id="dropdown-archive">
-                                    {{ Auth::user()->name }}
-                                </a>
+                        @auth
+                            <div class="nav-item">
+                                <div id="add-to-archive dropdown" class="display-none">
+                                    <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown"
+                                       aria-expanded="false"
+                                       id="dropdown-archive">
+                                        {{ Auth::user()->name }}
+                                    </a>
 
-                                <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink">
-                                    @if(Auth::user() && Auth::user()->admin)
+                                    <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink">
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('users.index') }}">
-                                                Користувачі
+                                            <a class="dropdown-item" href="{{ route('profiles.show') }}">
+                                                Профіль
                                             </a>
                                         </li>
+                                        @if(Auth::user()->admin)
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('users.index') }}">
+                                                    Користувачі
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('addInfo') }}">
+                                                    Опублікувати
+                                                </a>
+                                            </li>
+                                        @endif
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('addInfo') }}">
-                                                Опублікувати
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                Вийти
                                             </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                  class="d-none">
+                                                @csrf
+                                            </form>
                                         </li>
-                                    @endif
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Вийти
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                              class="d-none">
-                                            @csrf
-                                        </form>
-                                    </li>
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        @endauth
                     @endguest
                 </ul>
             </div>
