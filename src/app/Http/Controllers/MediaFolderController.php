@@ -32,7 +32,7 @@ class   MediaFolderController extends Controller
      */
     public function create()
     {
-        $mediaFolders = $this->service->getIndex();
+        $mediaFolders = $this->service->index();
 
         return view('media.create', ['mediaFolders' => $mediaFolders]);
     }

@@ -22,20 +22,6 @@
                             @enderror
                         </div>
 
-                        <div class="states-heading-input margin-auto-null label">
-                            <label for="admin">
-                                Роль
-                            </label>
-
-                            <select class="form-control" id="heading" name="admin">
-                                <option value="{{ (int)$user->admin }}">
-                                    {{ $user->admin ? 'Адмін' : 'Користувач' }}
-                                </option>
-                                <option value="{{ (int)!$user->admin }}">
-                                    {{ !$user->admin ? 'Адмін' : 'Користувач' }}
-                                </option>
-                            </select>
-                        </div>
                     </div>
                     <div class="create-state-name-heading mb-4 margin-auto-null label">
                         <label for="password">

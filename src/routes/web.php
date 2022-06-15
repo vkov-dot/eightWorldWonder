@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\AddInfoController;
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\MediaFolderController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
@@ -14,6 +17,7 @@ use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
+use App\Http\Middleware\Activate;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\AuthUser;
 use Illuminate\Support\Facades\Auth;
@@ -207,10 +211,11 @@ Route::group([
 
 Route::get('/addInfo', [AddInfoController::class, 'index'] )->name('addInfo')->middleware('admin');
 
-Auth::routes(['verify' => true]);
+Auth::routes();
 
-Route::get('activate/{id}', [RegisterController::class, 'activate'])->name('activate');
 Route::get('/home', [StartController::class, 'index'])->name('home');
 
-//Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-//Route::get('verify.resend', 'Auth\VerificationController@show')->name('verification.notice');
+Route::post('/verification', [EmailVerificationController::class, 'verify'])->name('verification');
+Route::post('/verification/reset', [EmailVerificationController::class, 'reset'])->name('verification.reset');
+Route::post('/verification/activate', [EmailVerificationController::class, 'activate'])->name('verification.activate');
+Route::post('/login', [LoginController::class, 'login'])->name('login')->middleware(Activate::class);

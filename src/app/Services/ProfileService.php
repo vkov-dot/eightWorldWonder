@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ProfileRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileService
@@ -30,7 +31,7 @@ class ProfileService
         if($request->password) {
             $user->password = Hash::make($request->password);
         }
-        $user->admin = $request->admin;
+        $user->admin = auth()->user()->admin;
         $user->email = $request->email;
         $user->name = $request->name;
 

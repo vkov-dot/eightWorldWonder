@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Services\RegisterService;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -67,16 +68,13 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
      */
-    protected function create(array $data)
+    protected function create(Request $request, int $code)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+        return User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'verify_code' => $code,
+            'password' => Hash::make($request['password']),
         ]);
-
-        VerificationJob::dispatch($user);
-
-        return redirect()->route('login');
     }
 }

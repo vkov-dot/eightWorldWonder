@@ -58,13 +58,12 @@ class HeadingController extends Controller
      * @param int $id
      * @param \Illuminate\Http\Response
      */
-    public function show($id, StateRepository $stateRepository, HeadingRepository $headingRepository)
+    public function show($id)
     {
-        $states = $this->service->show($id, $stateRepository, $headingRepository);
-
+        $heading = $this->service->show($id);
+        ;
         return view('headings.show', [
-            'states' => $states,
-            'heading' => $states['heading']
+            'heading' => $heading
         ]);
     }
 

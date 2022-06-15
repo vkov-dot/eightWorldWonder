@@ -4,14 +4,14 @@
 
 @section('content')
     <div class="last-states issues-list col-lg-9 col-md-12   heading-show-list">
-        @if($states->count())
+        @if($heading->states->count())
             <div>
                 <div class="notes-list-div states-list">
                     <div class="last-states-title heading-name-link">
                         <a href="{{ route('headings.index') }}">{{ $heading->name }}</a>
                     </div>
                     <ul>
-                        @foreach($states as $state)
+                        @foreach($heading->states as $state)
                             <li>
                                 <p class="date">
                                     {{ \Carbon\Carbon::parse($state->created_at)->format('d.m.Y') }}
@@ -24,7 +24,7 @@
                         @endforeach
                     </ul>
                 </div>
-                @if($states->total() > $states->count())
+                @if($heading->states->total() > $heading->states->count())
                     <div class="row justify-content-center">
                         <div class="col-md-12">
                             <div class="card">

@@ -16,7 +16,7 @@
                     </div>
                     <div>
                         <input type="text" class="add-heading-input @error('name') is-invalid @enderror"
-                               placeholder="Назва фото" name="name">
+                               placeholder="Назва відео" name="name">
                         @error('name')
                         <div class="alert alert-danger">
                             {{ $message }}

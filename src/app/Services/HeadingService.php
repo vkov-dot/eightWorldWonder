@@ -17,16 +17,23 @@ class HeadingService extends BaseService
     public function store(HeadingRequest $request)
     {
         $data = $request->except('_token');
+
         $data['image'] = $this->saveImage($request);
 
         Heading::create($data);
     }
 
+    public function saveImage($request)
+    {
+        return $request->file('image')->store('images');
+    }
+
     public function show(int $id)
     {
-        $states = (new StateRepository)->getForHeading($id);
-        $states['heading'] = (new HeadingRepository)->find($id);
+        $heading = (new HeadingRepository)->find($id);
+        $heading->states = (new StateRepository)->getForHeading($id);
 
-        return $states;
+
+        return $heading;
     }
 }

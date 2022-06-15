@@ -15,14 +15,16 @@ class VerificationJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $user;
+    private $code;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, int $code)
     {
         $this->user = $user;
+        $this->code = $code;
     }
 
     /**
@@ -32,8 +34,9 @@ class VerificationJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::send('emails.users.verify', ['user' => $this->user], function ($message) {
-            $message->to('totest@gmail.com', 'TO PALMO-TEST');
+        info($this->code);
+        Mail::send('emails.users.verify', ['user' => $this->user, 'code' => $this->code], function ($message) {
+            $message->to($this->user->email, 'TO PALMO-TEST');
             $message->from('from.palmo@gmail.com', 'FROM PALMO');
         });
     }
