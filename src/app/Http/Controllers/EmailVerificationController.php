@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Requests\VerifyRequest;
 use App\Jobs\VerificationJob;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class EmailVerificationController extends RegisterController
 {

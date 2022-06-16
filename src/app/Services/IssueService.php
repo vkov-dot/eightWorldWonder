@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\IssueRequest;
 use App\Jobs\IssuePublishedJob;
 use App\Mail\IssuePublished;
+use App\Models\Issue;
 use App\Repositories\CategoryRepository;
 use App\Repositories\IssueRepository;
 use http\Client\Request;
@@ -13,8 +14,6 @@ use phpseclib3\Crypt\EC\BaseCurves\Base;
 
 class IssueService extends BaseService
 {
-    public $repository;
-
     public function __construct(IssueRepository $repository)
     {
         $this->repository = $repository;
@@ -28,9 +27,6 @@ class IssueService extends BaseService
     public function store(IssueRequest $request)
     {
         $issue = $this->repository->store($request);
-
-        //Mail::to($request->user()->email)->send(new IssuePublished($request));
-
         IssuePublishedJob::dispatch($issue);
     }
 
@@ -48,5 +44,17 @@ class IssueService extends BaseService
         $issue->archived = 0;
 
         $issue->update();
+    }
+
+    public function destroy(int $id)
+    {
+        $issue = $this->find($id);
+        if($issue['archived']) {
+            $issue->delete();
+        }
+        else {
+            $issue['archived'] = 1;
+            $issue->update();
+        }
     }
 }

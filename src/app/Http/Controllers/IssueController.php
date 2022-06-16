@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IssueRequest;
-use App\Mail\IssuePublished;
-use App\Models\Issue;
-use App\Services\CategoryService;
 use App\Services\IssueService;
+use Illuminate\Contracts\Foundation\Application as ApplicationAlias;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Repositories\CategoryRepository;
-use App\Repositories\IssueRepository;
 
 class IssueController extends Controller
 {
@@ -23,7 +23,7 @@ class IssueController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return ApplicationAlias|Factory|View
      */
     public function index()
     {
@@ -35,7 +35,7 @@ class IssueController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return ApplicationAlias|Factory|View
      */
     public function create(CategoryRepository $categoryRepository)
     {
@@ -47,16 +47,20 @@ class IssueController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param IssueRequest $request
+     * @return RedirectResponse
      */
-    public function store(IssueRequest $request)
+    public function store(IssueRequest $request): RedirectResponse
     {
         $this->service->store($request);
 
         return redirect()->route('issues.index');
     }
 
+    /**
+     * @param Request $request
+     * @return ApplicationAlias|Factory|View
+     */
     public function search(Request $request)
     {
         $issues = $this->service->search($request);
@@ -65,23 +69,12 @@ class IssueController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param int $id
+     * @return ApplicationAlias|Factory|View
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $issue = $this->service->find($id);
 
@@ -91,11 +84,11 @@ class IssueController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param IssueRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(IssueRequest $request, $id)
+    public function update(IssueRequest $request, int $id): RedirectResponse
     {
         $this->service->update($request, $id);
 
@@ -105,19 +98,12 @@ class IssueController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
-        $issue = Issue::query()->find($id);
-        if($issue['archived']) {
-            $issue->delete();
-        }
-        else {
-            $issue['archived'] = 1;
-            $issue->update();
-        }
+        $this->service->destroy($id);
 
         return redirect()->route('issues.index');
     }
@@ -126,9 +112,9 @@ class IssueController extends Controller
      * recover the issue resource from archive
      *
      * @param $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function recover($id)
+    public function recover($id): RedirectResponse
     {
         $this->service->recover($id);
 

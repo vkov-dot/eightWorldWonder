@@ -28,12 +28,21 @@ class HeadingService extends BaseService
         return $request->file('image')->store('images');
     }
 
-    public function show(int $id)
+    public function show($id)
     {
         $heading = (new HeadingRepository)->find($id);
         $heading->states = (new StateRepository)->getForHeading($id);
 
-
         return $heading;
+    }
+
+    public function update(HeadingRequest $request, int $id)
+    {
+        $heading = $request->except('_token');
+        if(asset($heading['image'])) {
+            $heading['image'] = $this->saveImage($request);
+        }
+
+        Heading::find($id)->update($heading);
     }
 }

@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
-use App\Repositories\CommentRepository;
 use App\Services\CommentService;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
 {
@@ -16,33 +15,15 @@ class CommentController extends Controller
     {
         $this->service = $service;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param CommentRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function store(CommentRequest $request, int $id)
+    public function store(CommentRequest $request, int $id): RedirectResponse
     {
         $this->service->store($request, $id);
 
@@ -50,52 +31,15 @@ class CommentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param $stateId
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function destroy($stateId, $comment)
+    public function destroy($stateId, int $id): RedirectResponse
     {
-        $comment = Comment::find($comment);
-
-        if($comment->user_id === auth()->id()) {
-            $comment->delete();
-        }
+        $this->service->destroy($id);
 
         return redirect()->route('states.show', ['state' => $stateId]);
     }

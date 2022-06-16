@@ -11,7 +11,7 @@ class HeadingRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,10 +21,11 @@ class HeadingRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'image' => 'required'
         ];
     }
 
@@ -33,10 +34,11 @@ class HeadingRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
-            'name.required' => 'Введіть назву рубрики'
+            'name.required' => 'Введіть назву рубрики',
+            'image.required' => 'Вкажіть аватар рубрики'
         ];
     }
 }

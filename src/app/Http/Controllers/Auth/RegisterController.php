@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\VerificationJob;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Services\RegisterService;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,7 +45,6 @@ class RegisterController extends Controller
      */
     public function __construct(RegisterService $service)
     {
-        $this->service = $service;
         $this->middleware('guest');
     }
 
@@ -65,8 +66,9 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     * @param Request $request
+     * @param int $code
+     * @return Application|RedirectResponse|Redirector|void
      */
     protected function create(Request $request, int $code)
     {

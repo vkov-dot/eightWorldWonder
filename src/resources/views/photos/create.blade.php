@@ -3,14 +3,23 @@
 @section('content')
     <div class="row create-heading">
         <div class="create-heading-content">
+            <div class="new-photo-title">
+                <p>
+                    Нове фото
+                </p>
+            </div>
             <form method="POST" action="{{ route('photos.store') }}" class="create-heading-form">
                 @csrf
                 <div>
                     <div class="form-group">
-                        <label for="media_folder_id">Папка</label>
+                        <label for="media_folder_id">
+                            Папка
+                        </label>
                         <select class="form-control" name="media_folder_id">
                             @foreach($mediaFolders as $folder)
-                                <option value="{{ $folder->id }}">{{ $folder->name }}</option>
+                                <option value="{{ $folder->id }}">
+                                    {{ $folder->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

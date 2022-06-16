@@ -6,7 +6,7 @@ abstract class BaseService
 {
     public $repository;
 
-    public function find(int $id)
+    public function find($id)
     {
         return $this->repository->find($id);
     }
@@ -26,12 +26,12 @@ abstract class BaseService
         return $this->repository->search($request);
     }
 
-    public function edit(int $id)
+    public function edit($id)
     {
         return $this->find($id);
     }
 
-    public function show(int $id)
+    public function show($id)
     {
         return $this->repository->show($id);
     }

@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
 use App\Models\Video;
-use App\Repositories\HeadingRepository;
-use App\Repositories\MediaFolderPerository;
-use App\Repositories\MediaFolderRepository;
-use App\Repositories\VideoRepository;
 use App\Services\VideoService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 class VideoController extends Controller
 {
@@ -18,24 +19,15 @@ class VideoController extends Controller
     {
         $this->service = $service;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function create(MediaFolderRepository $mediaFolderRepository)
+    public function create()
     {
-        $mediaFolders = $this->service->index($mediaFolderRepository);
+        $mediaFolders = $this->service->index();
 
         return view('videos.create', [
             'mediaFolders' => $mediaFolders,
@@ -45,10 +37,10 @@ class VideoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param VideoRequest $request
+     * @return RedirectResponse
      */
-    public function store(VideoRequest $request)
+    public function store(VideoRequest $request): RedirectResponse
     {
         $this->service->store($request);
 
@@ -56,46 +48,12 @@ class VideoController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(VideoRequest $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return void
      */
-    public function destroy($id)
+    public function destroy(int $id): Response
     {
         Video::query()->find($id)->delete();
     }

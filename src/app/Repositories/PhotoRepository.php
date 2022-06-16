@@ -23,7 +23,7 @@ class PhotoRepository
             ->get();
     }
 
-    public function index(MediaFolderRepository $folderRepository)
+    public function index()
     {
         return $this->query()
             ->latest()

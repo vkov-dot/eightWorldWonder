@@ -21,4 +21,13 @@ class CommentService extends BaseService
 
         Comment::create($data);
     }
+
+    public function destroy(int $id)
+    {
+        $comment = Comment::find($id);
+
+        if($comment->user_id === auth()->id()) {
+            $comment->delete();
+        }
+    }
 }

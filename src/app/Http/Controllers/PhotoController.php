@@ -6,6 +6,10 @@ use App\Http\Requests\PhotoRequest;
 use App\Models\Photo;
 use App\Services\MediaFolderService;
 use App\Services\PhotoService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PhotoController extends Controller
 {
@@ -15,22 +19,11 @@ class PhotoController extends Controller
     {
         $this->service = $service;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $photos = $this->service->index();
-
-        return view('photos.index', ['photos' =>$photos] );
-    }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create(MediaFolderService $folderService)
     {
@@ -42,10 +35,10 @@ class PhotoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param PhotoRequest $request
+     * @return RedirectResponse
      */
-    public function store(PhotoRequest $request)
+    public function store(PhotoRequest $request): RedirectResponse
     {
         $this->service->store($request);
 
@@ -53,47 +46,15 @@ class PhotoController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(PhotoRequest $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy(int $id)
+    public function destroy(int $id): RedirectResponse
     {
-        Photo::query()->find($id)->delete();
+        Photo::find($id)->delete();
+
+        return back()->withInput();
     }
 }

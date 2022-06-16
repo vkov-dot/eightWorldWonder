@@ -17,16 +17,6 @@ class MediaFolderRepository
         return $this->query()->find($id);
     }
 
-    public function findNotes($id)
-    {
-        $photos = (new PhotoRepository)->getPhotosByFolder($id);
-        $videos = (new VideoRepository)->getVideosByFolder($id);
-        $medias = $photos->merge($videos);
-        $medias->sortByDesc('id');
-
-        return $medias;
-    }
-
     public function findFolder($id)
     {
         return $this->find($id);

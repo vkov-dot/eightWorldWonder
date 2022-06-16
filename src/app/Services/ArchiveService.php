@@ -10,9 +10,4 @@ class ArchiveService extends BaseService
     {
         $this->repository = $repository;
     }
-
-    public function show($tableName)
-    {
-        return $this->repository->show($tableName);
-    }
 }

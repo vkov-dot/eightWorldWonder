@@ -15,12 +15,7 @@ class ProfileService
         $this->repository = $repository;
     }
 
-    public function show()
-    {
-        return auth()->user();
-    }
-
-    public function edit()
+    public function getProfile()
     {
         return auth()->user();
     }

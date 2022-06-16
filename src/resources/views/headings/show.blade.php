@@ -4,12 +4,13 @@
 
 @section('content')
     <div class="last-states issues-list col-lg-9 col-md-12   heading-show-list">
-        @if($heading->states->count())
             <div>
                 <div class="notes-list-div states-list">
                     <div class="last-states-title heading-name-link">
                         <a href="{{ route('headings.index') }}">{{ $heading->name }}</a>
                     </div>
+                    @if($heading->states->count())
+
                     <ul>
                         @foreach($heading->states as $state)
                             <li>
@@ -23,7 +24,15 @@
                             </li>
                         @endforeach
                     </ul>
+                    @endif
                 </div>
+                @if(Auth::user() && Auth::user()->admin)
+                    <form action="{{ route('headings.edit', ['heading' => $heading->id]) }}"
+                          class="">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Редагувати</button>
+                    </form>
+                @endif
                 @if($heading->states->total() > $heading->states->count())
                     <div class="row justify-content-center">
                         <div class="col-md-12">
@@ -36,7 +45,6 @@
                     </div>
                 @endif
             </div>
-        @endif
     </div>
 
 @endsection

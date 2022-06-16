@@ -17,9 +17,4 @@ class RatingRepository
             ->where('state_id', $id)
             ->avg('rating');
     }
-
-    public function getRatingByUserId(int $id)
-    {
-
-    }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\CommentController;
 use App\Http\Requests\StateEditRequest;
+use App\Models\Rating;
 use App\Models\State;
 use App\Repositories\CommentRepository;
 use App\Repositories\RatingRepository;
@@ -22,7 +24,7 @@ class StateService extends BaseService
         return $this->repository->getLatest();
     }
 
-    public function show(int $id)
+    public function show($id)
     {
         $state = $this->find($id);
         $state['comments'] = (new CommentRepository)->getByStateId($id);
@@ -58,5 +60,20 @@ class StateService extends BaseService
         $state = $this->find($id);
         $state->archived = 0;
         $state->update();
+    }
+
+    public function destroy(int $id, CommentController $commentController)
+    {
+        $state = $this->find($id);
+        if($state->archived) {
+            Rating::where('state_id', $id)->delete();
+            Storage::disk('public')->delete($state->logo);
+            $commentController->destroyByStateId($id);
+            $state->delete();
+        }
+        else {
+            $state->archived = 1;
+            $state->update();
+        }
     }
 }

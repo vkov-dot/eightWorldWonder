@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StateEditRequest;
 use App\Http\Requests\StateRequest;
-use App\Models\State;
-use App\Repositories\CommentRepository;
 use App\Repositories\HeadingRepository;
 use App\Services\HeadingService;
 use App\Services\StateService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class StateController extends Controller
 {
@@ -24,7 +25,7 @@ class StateController extends Controller
     /**
      * Display a listing of the resource
      *
-     * @return \Illuminate\Contracts\Foundation\Application
+     * @return Application
      */
     public function index()
     {
@@ -36,7 +37,7 @@ class StateController extends Controller
     /**
      * Show the form for creating a new resource
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create(HeadingService $headingService)
     {
@@ -48,10 +49,10 @@ class StateController extends Controller
     /**
      * Store a nuwky created resource in storage
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param StateRequest $request
+     * @return RedirectResponse
      */
-    public function store(StateRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StateRequest $request): RedirectResponse
     {
         $this->service->store($request);
 
@@ -73,12 +74,12 @@ class StateController extends Controller
      * Display the specified resource
      *
      * @param int $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function show(int $id, CommentRepository $commentRepository)
+    public function show(int $id)
     {
         $lastStates = $this->service->getLatest();
-        $state = $this->service->show($id, $commentRepository);
+        $state = $this->service->show($id);
 
         return view('states.show', [
             'state' => $state,
@@ -90,9 +91,10 @@ class StateController extends Controller
      * Show the form for editing the specified resource
      *
      * @param int $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param HeadingRepository $headingRepository
+     * @return Application|Factory|View
      */
-    public function edit($id, HeadingRepository $headingRepository)
+    public function edit(int $id, HeadingRepository $headingRepository)
     {
         $state = $this->service->edit($id);
         $headings = $headingRepository->index();
@@ -103,11 +105,11 @@ class StateController extends Controller
     /**
      * Update the specified resource in storage
      *
-     * @param \Illuminate\Http\Request $request
+     * @param StateEditRequest $request
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(StateEditRequest $request, $id)
+    public function update(StateEditRequest $request, int $id)
     {
         $this->service->update($request, $id);
 
@@ -118,20 +120,12 @@ class StateController extends Controller
      * Remove the specified resource from storage
      *
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param CommentController $commentController
+     * @return RedirectResponse
      */
-    public function destroy($id, CommentController $commentController)
+    public function destroy(int $id, CommentController $commentController): RedirectResponse
     {
-        $state = State::find($id);
-        if($state->archived) {
-            Storage::disk('public')->delete($state->logo);
-            $commentController->destroyByStateId($id);
-            $state->delete();
-        }
-        else {
-            $state->archived = 1;
-            $state->update();
-        }
+        $this->service->destroy($id, $commentController);
 
         return redirect()->route('states.index');
     }
@@ -140,9 +134,9 @@ class StateController extends Controller
      * recover the state resource from archive
      *
      * @param $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function recover($id): \Illuminate\Http\RedirectResponse
+    public function recover($id): RedirectResponse
     {
         $this->service->recover($id);
 

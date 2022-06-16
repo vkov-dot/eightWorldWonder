@@ -502,7 +502,8 @@ a {
     font-style: italic;
 }
 
-.destroy-state button {
+.destroy-state button,
+.destroy-submit {
     border: 0;
     padding: 8px 16px;
     background-color: #ea7232;
@@ -799,7 +800,9 @@ div.stars {
     display: inline-block;
 }
 
-input.star { display: none; }
+input.star {
+    display: none;
+}
 
 label.star {
     float: right;
@@ -815,10 +818,7 @@ input.star:hover ~ label.star:before {
     transition: all .25s;
 }
 
-input.star-5:hover ~ label.star:before {
-    color: #fad03e;
-}
-
+input.star-5:hover ~ label.star:before,
 input.star-1:hover ~ label.star:before {
     color: #fad03e;
 }
@@ -830,14 +830,6 @@ label.star:hover {
 
 label.star:before {
     content: '★';
-}
-
-.horline > li:not(:last-child):after {
-    content: " |";
-}
-
-.horline > li {
-    font-weight: bold;
 }
 
 .state-rating-div {

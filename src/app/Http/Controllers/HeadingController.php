@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\HeadingRequest;
-use App\Models\Heading;
-use App\Repositories\HeadingRepository;
-use App\Repositories\StateRepository;
 use App\Services\HeadingService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class HeadingController extends Controller
 {
@@ -20,7 +21,7 @@ class HeadingController extends Controller
     /**
      * Display a listing of the resource
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -32,7 +33,7 @@ class HeadingController extends Controller
     /**
      * Show the form for creating a new resource
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -42,10 +43,10 @@ class HeadingController extends Controller
     /**
      * Store a newly created resource in storage
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param HeadingRequest $request
+     * @return RedirectResponse
      */
-    public function store(HeadingRequest $request)
+    public function store(HeadingRequest $request): RedirectResponse
     {
         $this->service->store($request);
 
@@ -56,12 +57,12 @@ class HeadingController extends Controller
      * Display the specified resource
      *
      * @param int $id
-     * @param \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function show($id)
+    public function show(int $id)
     {
         $heading = $this->service->show($id);
-        ;
+
         return view('headings.show', [
             'heading' => $heading
         ]);
@@ -71,34 +72,26 @@ class HeadingController extends Controller
      * Show the form for editing the specified resource
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(int $id)
     {
+        $heading = $this->service->edit($id);
 
+        return view('headings.edit', ['heading' => $heading]);
     }
 
     /**
      * Update the specified resource in storage
      *
-     * @param \Illuminate\Http\Request $request
+     * @param HeadingRequest $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(HeadingRequest $request, $id)
+    public function update(HeadingRequest $request, int $id): RedirectResponse
     {
+        $this->service->update($request, $id);
 
-    }
-
-    /**
-     * Remove the specified resource from storage
-     *
-     * @param int $id
-     * @return int
-     */
-    public function destroy($id)
-    {
-        Heading::query()->delete($id);
+        return redirect()->route('headings.index');
     }
 }
-
