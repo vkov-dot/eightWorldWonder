@@ -11,11 +11,13 @@
                         <p>
                             Останні статті
                         </p>
+                        <p class="d-none">
+                            {{ \Carbon\Carbon::setLocale('uk') }}
+                        </p>
                     </div>
                     @foreach($lastStates as $states)
                         <li>
                             <p class="date">
-                                {{ \Carbon\Carbon::setLocale('uk') }}
                                 {{ \Carbon\Carbon::parse($states->created_at)->format('d.m.Y') }}
                             </p>
                             <a href="{{ route('states.show', ['state' => $states->id ]) }}" class="state-name">

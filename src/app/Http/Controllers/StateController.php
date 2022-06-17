@@ -76,7 +76,7 @@ class StateController extends Controller
      * @param int $id
      * @return Application|Factory|View
      */
-    public function show(int $id)
+    public function show($id)
     {
         $lastStates = $this->service->getLatest();
         $state = $this->service->show($id);
