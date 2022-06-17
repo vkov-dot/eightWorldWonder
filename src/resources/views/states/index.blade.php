@@ -3,13 +3,13 @@
 @section('content')
     <div class="last-states issues-list">
 
-        <form method="post" enctype="multipart/form-data" action="{{ route('states.sort') }}">
+        <form method="post" enctype="multipart/form-data" action="{{ route('states.sort') }}" class="search-issue-form">
             @csrf
-            <label for="sort" class="sort-by">
-                <p>
+            <label for="sort" class="sort-by states-search-label mb-2">
+                <p class="mr-1">
                     Сортування:
                 </p>
-                <select class="form-control" id="search" name="sort">
+                <select class="form-control select-sort" id="search" name="sort">
                     <option value="asc" type="submit">
                         новіше
                     </option>
@@ -17,7 +17,7 @@
                         старіше
                     </option>
                 </select>
-                <input type="submit" value="Сортувати">
+                <input type="submit" value="Сортувати" class=" btn btn-primary">
             </label>
         </form>
 
@@ -44,7 +44,8 @@
                 <div class="div-search">
                     <div>
                         <input class="add-heading-input @error('name') is-invalid @enderror search-issue-input"
-                               name="param" placeholder="Шукати" type="text" {{--value="{{ asset($message) ? $message : ''}}"--}} >
+                               name="param" placeholder="Шукати"
+                               type="text" {{--value="{{ asset($message) ? $message : ''}}"--}} >
                     </div>
                     <div>
                         <button type="submit" class="search-submit">Пошук</button>
@@ -53,34 +54,34 @@
             </div>
         </form>
         @if($states->count())
-        <div>
-            <div class="notes-list-div states-list">
-                <ul>
-                    @foreach($states as $state)
-                        <li>
-                            <p class="date">
-                                {{ \Carbon\Carbon::parse($state->created_at)->format('d.m.Y') }}
-                            </p>
-                            <a href="{{ route('states.show', ['state' => $state->id]) }}" class="state-name">
-                                {{ $state->name }}
-                            </a>
-                            <p class="state-author">{{ $state->author }}</p>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-            @if($states->total() > $states->count())
-                <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body pagination">
-                                {{ $states->links() }}
+            <div>
+                <div class="notes-list-div states-list">
+                    <ul>
+                        @foreach($states as $state)
+                            <li>
+                                <p class="date">
+                                    {{ \Carbon\Carbon::parse($state->created_at)->format('d.m.Y') }}
+                                </p>
+                                <a href="{{ route('states.show', ['state' => $state->id]) }}" class="state-name">
+                                    {{ $state->name }}
+                                </a>
+                                <p class="state-author">{{ $state->author }}</p>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                @if($states->total() > $states->count())
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body pagination">
+                                    {{ $states->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
-        </div>
+                @endif
+            </div>
         @endif
 
     </div>

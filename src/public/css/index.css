@@ -857,6 +857,10 @@ label.star:before {
     flex-wrap: wrap;
 }
 
+.select-sort {
+    margin-right: 15px;
+}
+
 @media screen and (max-width: 992px) {
 
     .start-section,
