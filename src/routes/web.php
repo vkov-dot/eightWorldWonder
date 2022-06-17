@@ -111,6 +111,7 @@ Route::group([
     Route::get('/create', [StateController::class, 'create'])->name('create')->middleware('admin');
     Route::post('/', [StateController::class, 'store'])->name('store')->middleware('admin');
     Route::post('/search', [StateController::class, 'search'])->name('search');
+    Route::post('/sort', [StateController::class, 'sort'])->name('sort');
     Route::get('/{state}/', [StateController::class, 'show'])->name('show');
     Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit')->middleware('admin');
     Route::put('/{state}', [StateController::class, 'update'])->name('update')->middleware('admin');

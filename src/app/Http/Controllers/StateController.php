@@ -87,6 +87,12 @@ class StateController extends Controller
         ]);
     }
 
+    public function sort(Request $request)
+    {
+        $states = $this->service->sort($request);
+
+        return view('states.index', ['states' => $states]);
+    }
     /**
      * Show the form for editing the specified resource
      *

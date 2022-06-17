@@ -26,7 +26,7 @@ class StateRequest extends FormRequest
         return [
             'name' => 'required',
             'body' => 'required',
-            'logo' => 'required',
+            'logo' => 'required|file|max:5120',
             'author' => 'required'
         ];
     }
@@ -42,7 +42,7 @@ class StateRequest extends FormRequest
             'name.required' => 'Введіть назву статті',
             'logo.required' => 'Оберіть Головне зображенні статті',
             'body.required' => 'Заповніть поле для тексту статті',
-            'author.required' => 'Введіть ім\'я автора'
+            'author.required' => 'Введіть ім\'я автора',
         ];
     }
 }

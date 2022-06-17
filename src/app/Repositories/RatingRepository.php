@@ -17,4 +17,11 @@ class RatingRepository
             ->where('state_id', $id)
             ->avg('rating');
     }
+
+    public function getRatingCountByStateId($id)
+    {
+        return $this->query()
+            ->where('state_id', $id)
+            ->count();
+    }
 }

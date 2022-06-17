@@ -2,6 +2,25 @@
 
 @section('content')
     <div class="last-states issues-list">
+
+        <form method="post" enctype="multipart/form-data" action="{{ route('states.sort') }}">
+            @csrf
+            <label for="sort" class="sort-by">
+                <p>
+                    Сортування:
+                </p>
+                <select class="form-control" id="search" name="sort">
+                    <option value="asc" type="submit">
+                        новіше
+                    </option>
+                    <option value="desc" type="submit">
+                        старіше
+                    </option>
+                </select>
+                <input type="submit" value="Сортувати">
+            </label>
+        </form>
+
         <form method="post" enctype="multipart/form-data" action="{{ route('states.search') }}"
               class="search-issue-form">
             @csrf

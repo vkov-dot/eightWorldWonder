@@ -18,12 +18,15 @@
                                     <p class="date">
                                         {{ \Carbon\Carbon::parse($state->created_at)->format('d.m.Y') }}
                                     </p>
-                                    <a href="{{ route('states.show', ['state' => $state->id ]) }}" class="state-name">
-                                        {{ $state->name }}
-                                    </a>
-                                    <p class="author">
-                                        {{ $state->author }}
-                                    </p>
+                                    <div class="note-list-elem">
+                                        <a href="{{ route('states.show', ['state' => $state->id ]) }}" class="state-name">
+                                            {{ $state->name }}
+                                        </a>
+                                        <p class="author">
+                                            {{ $state->author }}
+                                        </p>
+                                    </div>
+
                                 </li>
                             @endforeach
                         </ul>
@@ -44,7 +47,7 @@
                                     <p class="date">
                                         {{ \Carbon\Carbon::parse($issue->created_at)->format('d.m.Y') }}
                                     </p>
-                                    <a href="{{ $issue->link }}" class="state-name">
+                                    <a href="{{ $issue->link }}" class="state-name" target="_blank">
                                         {{ $issue->name }}
                                     </a>
                                 </li>

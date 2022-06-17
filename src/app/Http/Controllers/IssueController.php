@@ -105,7 +105,7 @@ class IssueController extends Controller
     {
         $this->service->destroy($id);
 
-        return redirect()->route('issues.index');
+        return back()->withInput();
     }
 
     /**

@@ -29,6 +29,7 @@ class StateService extends BaseService
         $state = $this->find($id);
         $state['comments'] = (new CommentRepository)->getByStateId($id);
         $state['rating'] = (new RatingRepository)->getRatingByStateId($id);
+        $state['ratingCount'] = (new RatingRepository)->getRatingCountByStateId($id);
         $state['rating'] = round($state['rating'], 2);
 
         return $state;
@@ -75,5 +76,10 @@ class StateService extends BaseService
             $state->archived = 1;
             $state->update();
         }
+    }
+
+    public function sort($request)
+    {
+        return $this->repository->sort($request);
     }
 }

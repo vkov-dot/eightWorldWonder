@@ -26,6 +26,7 @@ class StateEditRequest extends FormRequest
         return [
             'name' => 'required',
             'body' => 'required',
+            'logo' => 'file|max:5120',
             'author' => 'required'
         ];
     }

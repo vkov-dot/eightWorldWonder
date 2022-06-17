@@ -15,6 +15,7 @@
                     @foreach($lastStates as $states)
                         <li>
                             <p class="date">
+                                {{ \Carbon\Carbon::setLocale('ru') }}
                                 {{ \Carbon\Carbon::parse($states->created_at)->format('d.m.Y') }}
                             </p>
                             <a href="{{ route('states.show', ['state' => $states->id ]) }}" class="state-name">
@@ -42,7 +43,10 @@
                                 <div class="col-sm-12">
                                     <div class="state-rating-div">
                                         <p class="state-rating-p">
-                                            {{ $state->rating }}
+                                            Середня: {{ $state->rating }}
+                                        </p>
+                                        <p class="state-rating-p">
+                                            Вже оцінили: {{ $state->ratingCount }}
                                         </p>
                                     </div>
                                     <div>

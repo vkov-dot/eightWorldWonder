@@ -57,8 +57,15 @@ class StateRepository
 
     public function findEdit(int $id)
     {
-        dd($this->query()
+        $this->query()
             ->find($id)
-            ->except('logo'));
+            ->except('logo');
+    }
+
+    public function sort($request)
+    {
+        return $this->query()
+            ->orderBy('created_at', $request->sort)
+            ->paginate(20, ['id', 'name', 'author', 'created_at']);
     }
 }

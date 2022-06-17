@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-lg-8 col-sm-12">
                 <div class="card">
                     <div class="card-header">{{ __('Підтвердження адреси електронної пошти') }}</div>
 
@@ -22,7 +22,7 @@
                                 <label for="verify_code" class="col-md-4 col-form-label text-md-end">{{ __('Код підтвердження') }}</label>
 
                                 <div class="col-md-6">
-                                    <input class="form-control @error('email') is-invalid @enderror"
+                                    <input class="form-control w-100 @error('email') is-invalid @enderror"
                                            type="number" name="verify_code" required>
 
                                     @error('verify_code')
@@ -45,10 +45,11 @@
                                 @method('POST')
                                 <input type="hidden" name="id" value="{{ $userId }}">
 
-                                <button class="btn btn-link" type="submit">
+                                <button class="btn verify-reset-submit" type="submit">
                                     {{ __('Надіслати ще раз') }}
                                 </button>
                             </form>
+
                     </div>
                 </div>
             </div>

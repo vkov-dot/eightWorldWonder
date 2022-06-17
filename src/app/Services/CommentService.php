@@ -26,7 +26,7 @@ class CommentService extends BaseService
     {
         $comment = Comment::find($id);
 
-        if($comment->user_id === auth()->id()) {
+        if($comment->user_id === auth()->id() || auth()->user()->admin) {
             $comment->delete();
         }
     }

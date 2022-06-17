@@ -51,10 +51,12 @@ class VideoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return void
+     * @return RedirectResponse
      */
-    public function destroy(int $id): Response
+    public function destroy(int $id)
     {
-        Video::query()->find($id)->delete();
+        Video::findOrFail($id)->delete();
+
+        return back()->withInput();
     }
 }
