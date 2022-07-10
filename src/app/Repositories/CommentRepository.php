@@ -18,4 +18,9 @@ class CommentRepository
             ->latest()
             ->get();
     }
+
+    public function find($id)
+    {
+        return $this->query()->where('state_id', $id)->first();
+    }
 }

@@ -5,46 +5,38 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Jobs\VerificationJob;
 use App\Models\User;
-use DateTime;
+use App\Services\EmailVerificationService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class EmailVerificationController extends RegisterController
 {
-    public function verify(Request $request)
+    private $service;
+
+    public function __construct(EmailVerificationService $service)
     {
-        $user = User::where('email', $request->email)->get();
+        $this->service = $service;
+    }
 
-        if(!$user->count()) {
-            $code = rand(1000, 9999);
-            $user = RegisterController::create($request, $code);
-            VerificationJob::dispatch($user, $code);
-        }
-        $user = User::where('email', $request->email)->get();
+    public function verify(Request $request, UserService $userService)
+    {
+        $this->service->verify($request);
+        $user = $userService->getByEmail($request->email);
 
-        return view('auth.verify', ['userId' => $user[0]->id]);
+        return view('auth.verify', ['userId' => $user->id]);
     }
 
     public function activate(Request $request)
     {
-        $user = User::find($request->id);
-        if($user->verify_code === (int)$request->verify_code) {
-            $user->email_verified_at = new DateTime();
-            $user->email_verified = 1;
-            $user->update();
-            return redirect()->route('login');
-        }
+        $this->service->activate($request);
 
         return $this->reset($request);
     }
 
     public function reset(Request $request)
     {
-        $code = rand(1000, 9999);
-        $user = User::find($request->id);
-        $user->verify_code = $code;
-        $user->update();
-        VerificationJob::dispatch($user, $code);
+        $this->service->reset($request);
 
-        return view('auth.verify', ['userId' => $user->id]);
+        return view('auth.verify', ['userId' => $request->id]);
     }
 }

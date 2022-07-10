@@ -2,35 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\IssueRepository;
-use App\Repositories\StateRepository;
-use App\Services\StartService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use App\Services\IssueService;
+use App\Services\StateService;
+
 
 class StartController extends Controller
 {
-    private $service;
-
-    public function __construct(StartService $service)
-    {
-        $this->service = $service;
-
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return array|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(StateRepository $stateRepository, IssueRepository $issueRepository)
+    public function index()
     {
-        $lastNotes = $this->service->index($stateRepository, $issueRepository);
-
-        return view('start', [
-            'lastStates' => $lastNotes['states'],
-            'lastIssues' => $lastNotes['issues'],
-        ]);
+        return view('layouts.app');
     }
 }

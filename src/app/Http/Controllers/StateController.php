@@ -29,9 +29,12 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = $this->service->index();
+        return $this->service->index();
+    }
 
-        return view('states.index', ['states' =>$states]);
+    public function lastStates(): \Illuminate\Support\Collection
+    {
+        return $this->service->getLatest();
     }
 
     /**
@@ -74,17 +77,15 @@ class StateController extends Controller
      * Display the specified resource
      *
      * @param int $id
-     * @return Application|Factory|View
+     * @return array
      */
     public function show($id)
     {
-        $lastStates = $this->service->getLatest();
+//        $lastStates = $this->service->getLatest();
         $state = $this->service->show($id);
 
-        return view('states.show', [
-            'state' => $state,
-            'lastStates' =>$lastStates
-        ]);
+        return $state;
+//            'lastStates' =>$lastStates;
     }
 
     public function sort(Request $request)

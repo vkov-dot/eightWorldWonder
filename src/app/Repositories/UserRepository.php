@@ -3,9 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use http\Client\Request;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
 
 class UserRepository
 {
@@ -32,5 +29,12 @@ class UserRepository
             ->where($request->message, 'LIKE', "%$request->param%")
             ->latest()
             ->paginate(10, ['name', 'id', 'email', 'created_at']);
+    }
+
+    public function getByEmail($email)
+    {
+        return $this->query()
+            ->where('email', $email)
+            ->first();
     }
 }

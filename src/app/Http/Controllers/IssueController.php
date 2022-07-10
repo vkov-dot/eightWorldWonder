@@ -32,6 +32,10 @@ class IssueController extends Controller
         return view('issues.index', ['issues' => $issues]);
     }
 
+    public function lastIssues()
+    {
+        return $this->service->getLatest();
+    }
     /**
      * Show the form for creating a new resource.
      *

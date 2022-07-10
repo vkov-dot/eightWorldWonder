@@ -24,8 +24,6 @@ class MediaFolderRepository
 
     public function index()
     {
-        return $this->query()
-            ->latest()
-            ->get();
+        return collect($this->query()->latest()->get());
     }
 }

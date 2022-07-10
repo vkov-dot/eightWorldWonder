@@ -24,9 +24,7 @@ class   MediaFolderController extends Controller
      */
     public function index()
     {
-        $mediaFolders = $this->service->index();
-
-        return view('media.index', ['mediaFolders' => $mediaFolders]);
+        return $this->service->index();
     }
 
     /**

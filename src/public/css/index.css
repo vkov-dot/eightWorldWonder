@@ -22,7 +22,8 @@ header {
     width: 100%;
 }
 
-.last-states ul li {
+.last-states ul li,
+.list-element {
     line-height: 1.25;
     background-color: white;
     border-bottom: 1px solid rgba(128, 128, 128, 0.4);

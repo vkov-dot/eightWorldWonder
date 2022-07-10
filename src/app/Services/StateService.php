@@ -10,6 +10,7 @@ use App\Repositories\CommentRepository;
 use App\Repositories\RatingRepository;
 use App\Repositories\StateRepository;
 use App\Http\Requests\StateRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class StateService extends BaseService
@@ -21,16 +22,21 @@ class StateService extends BaseService
 
     public function getLatest()
     {
-        return $this->repository->getLatest();
+        $states = $this->repository->getLatest();
+        foreach($states as $state) {
+            $state->published_at = Carbon::parse($state->created_at)->format('d.m.Y');
+        }
+
+        return $states;
     }
 
     public function show($id)
     {
         $state = $this->find($id);
+        $rating = (new RatingRepository)->getRatingByStateId($id);
         $state['comments'] = (new CommentRepository)->getByStateId($id);
-        $state['rating'] = (new RatingRepository)->getRatingByStateId($id);
-        $state['ratingCount'] = (new RatingRepository)->getRatingCountByStateId($id);
-        $state['rating'] = round($state['rating'], 2);
+        $state['rating'] = round($rating->avg('rating'), 2);
+        $state['ratingCount'] = $rating->count();
 
         return $state;
     }

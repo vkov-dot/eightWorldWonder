@@ -16,6 +16,8 @@ use App\Http\Controllers\IssueController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use App\Http\Middleware\Activate;
+use App\Repositories\IssueRepository;
+use App\Repositories\StateRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\StateController;
@@ -37,7 +39,6 @@ Route::group([
     'prefix' => '',
 ], function () {
     Route::get('/', [StartController::class, 'index'])->name('index');
-
 });
 
 Route::group([
@@ -60,17 +61,6 @@ Route::group([
     'prefix' => 'categories'
 ], function () {
     Route::get('/{category}/', [CategoryController::class, 'show'])->name('show');
-});
-
-Route::group([
-    'as' => 'media.',
-    'prefix' => 'media'
-], function () {
-    Route::get('/', [MediaFolderController::class, 'index'])->name('index');
-    Route::get('/create', [MediaFolderController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [MediaFolderController::class, 'store'])->name('store')->middleware('admin');
-    Route::get('/{media}/', [MediaFolderController::class, 'show'])->name('show');
-    Route::delete('/{media}', [MediaFolderController::class, 'destroy'])->name('destroy')->middleware('admin');
 });
 
 Route::group([
@@ -107,12 +97,12 @@ Route::group([
    'as' => 'states.',
    'prefix' => 'states'
 ], function () {
-    Route::get('/', [StateController::class, 'index'])->name('index');
+//    Route::get('/', [StateController::class, 'index'])->name('index');
     Route::get('/create', [StateController::class, 'create'])->name('create')->middleware('admin');
     Route::post('/', [StateController::class, 'store'])->name('store')->middleware('admin');
     Route::post('/search', [StateController::class, 'search'])->name('search');
     Route::post('/sort', [StateController::class, 'sort'])->name('sort');
-    Route::get('/{state}/', [StateController::class, 'show'])->name('show');
+//    Route::get('/{state}/', [StateController::class, 'show'])->name('show');
     Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit')->middleware('admin');
     Route::put('/{state}', [StateController::class, 'update'])->name('update')->middleware('admin');
     Route::delete('/{id}', [StateController::class, 'destroy'])->name('destroy')->middleware('admin');
@@ -177,3 +167,4 @@ Route::group([
     Route::post('/activate', [EmailVerificationController::class, 'activate'])->name('verification.activate');
 });
 
+Route::get('/home', [App\Http\Controllers\StartController::class, 'index'])->name('home');

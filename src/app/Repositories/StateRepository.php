@@ -48,11 +48,11 @@ class StateRepository
 
     public function getLatest()
     {
-        return $this->query()
+        return collect($this->query()
             ->where('archived', 0)
             ->take(5)
             ->latest()
-            ->get(['id', 'name', 'author', 'logo', 'created_at']);
+            ->get(['id', 'name', 'author', 'logo', 'created_at']));
     }
 
     public function findEdit(int $id)

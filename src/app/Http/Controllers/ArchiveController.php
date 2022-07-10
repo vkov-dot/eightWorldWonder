@@ -34,23 +34,4 @@ class ArchiveController extends Controller
             'name' => $tableName
         ]);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param $tableName
-     * @param int $id
-     * @return RedirectResponse
-     */
-    public function destroy($tableName, int $id): RedirectResponse
-    {
-        if($tableName === 'states') {
-            (new StateService)->destroy($id);
-        }
-        else {
-            (new IssueService)->destroy($id);
-        }
-
-        return redirect()->route('archived.show', ['table' => $tableName]);
-    }
 }

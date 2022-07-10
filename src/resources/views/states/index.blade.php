@@ -54,22 +54,7 @@
             </div>
         </form>
         @if($states->count())
-            <div>
-                <div class="notes-list-div states-list">
-                    <ul>
-                        @foreach($states as $state)
-                            <li>
-                                <p class="date">
-                                    {{ \Carbon\Carbon::parse($state->created_at)->format('d.m.Y') }}
-                                </p>
-                                <a href="{{ route('states.show', ['state' => $state->id]) }}" class="state-name">
-                                    {{ $state->name }}
-                                </a>
-                                <p class="state-author">{{ $state->author }}</p>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+            <index-states-list :states="{{ $states }}"></index-states-list>
                 @if($states->total() > $states->count())
                     <div class="row justify-content-center">
                         <div class="col-md-12">

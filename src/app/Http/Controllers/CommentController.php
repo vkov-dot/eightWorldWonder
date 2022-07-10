@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Services\CommentService;
+use App\Services\StateService;
 use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
@@ -46,8 +47,6 @@ class CommentController extends Controller
 
     public function destroyByStateId(int $id)
     {
-        Comment::query()
-            ->where('state_id', $id)
-            ->delete();
+        $this->service->destroy($id);
     }
 }

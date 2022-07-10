@@ -24,4 +24,9 @@ class UserService extends BaseService
 
         $user->update();
     }
+
+    public function getByEmail($email)
+    {
+        return $this->repository->getByEmail($email);
+    }
 }
