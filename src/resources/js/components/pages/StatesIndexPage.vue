@@ -33,6 +33,7 @@
                         <input class="add-heading-input search-issue-input"
                                placeholder="Шукати"
                                type="text"
+                               v-focus
                                v-model.trim="searchMessage">
                         <div>
                             <button type="submit" class="search-submit" @click="searchToMixin">
