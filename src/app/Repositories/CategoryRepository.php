@@ -14,9 +14,12 @@ class CategoryRepository
 
     public function getAll()
     {
-        return $this->query()
-            ->latest()
-            ->get();
+        return $this->query()->latest()->get();
+    }
+
+    public function getCategory($id)
+    {
+        return $this->query()->where('id', $id)->get(['name']);
     }
 
     public function show(int $id)

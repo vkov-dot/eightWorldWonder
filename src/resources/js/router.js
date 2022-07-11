@@ -10,6 +10,8 @@ import ArchivePage from "./components/pages/ArchivePage";
 import ProfileShowPage from "./components/pages/ProfileShowPage";
 import addInfoPage from "./components/pages/addInfoPage";
 import UsersIndexPage from "./components/pages/UsersIndexPage";
+import HeadingsShowPage from "./components/pages/HeadingsShowPage";
+import CategoryShowPage from "./components/pages/CategoryShowPage";
 
 Vue.use(VueRouter)
 
@@ -39,15 +41,24 @@ export default new VueRouter({
             component: IssuesIndexPage,
         },
         {
+            path: '/issues/categories/:id',
+            name: 'categories.show',
+            component: CategoryShowPage,
+        },
+        {
             path: '/media',
             name: 'media.index',
             component: MediaIndexPage,
-            props: true,
         },
         {
             path: '/headings',
             name: 'headings.index',
             component: HeadingsIndexPage,
+        },
+        {
+            path: '/headings/:heading',
+            name: 'headings.show',
+            component: HeadingsShowPage,
         },
         {
             path: '/archive/:table',

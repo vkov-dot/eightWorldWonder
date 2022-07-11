@@ -48,7 +48,7 @@ ul {
 
 .state-name {
     margin: auto 0;
-    padding: 10px 14px;
+    padding: 10px 6px;
     border-left: 1px solid rgba(128, 128, 128, 0.4);
     font-size: 18px;
 }
@@ -404,7 +404,7 @@ a {
 
 .author {
     white-space: nowrap;
-    margin: auto 8px auto 14px;
+    margin: auto 8px auto 6px;
     color: gray;
 }
 

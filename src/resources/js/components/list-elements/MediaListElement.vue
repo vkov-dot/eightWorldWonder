@@ -4,9 +4,9 @@
             {{ media.published_at }}
         </p>
         <!--a :href="media.link"-->
-        <p  class="state-name">
+        <a :href="media.link"  class="state-name" target="_blank">
             {{ media.name }}
-        </p>
+        </a>
     </div>
 </template>
 

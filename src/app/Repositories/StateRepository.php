@@ -39,11 +39,11 @@ class StateRepository
             ->paginate(10, ['id', 'name', 'author', 'created_at']);
     }
 
-    public function getForHeading(int $id)
+    public function getForHeadingId(int $id)
     {
         return $this->query()
             ->where('heading_id', $id)
-            ->paginate(10);
+            ->paginate(10, ['id', 'name', 'author', 'created_at', 'heading_id']);
     }
 
     public function getLatest()

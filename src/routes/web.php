@@ -38,30 +38,32 @@ Route::group([
     'as' => 'start.',
     'prefix' => '',
 ], function () {
-    Route::get('/', [StartController::class, 'index'])->name('index');
+    Route::get('/{any}', [StartController::class, 'index'])->name('index')->where('any', '.*');
 });
 
-Route::group([
-    'as' => 'issues.',
-    'prefix' => 'issues'
-], function () {
-    Route::get('/', [IssueController::class, 'index'])->name('index');
-    Route::get('/create', [IssueController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [IssueController::class, 'store'])->name('store')->middleware('admin');
-    Route::post('/search', [IssueController::class, 'search'])->name('search');
-    Route::get('/{issue}/', [IssueController::class, 'show'])->name('show');
-    Route::get('/{issue}/edit', [IssueController::class, 'edit'])->name('edit')->middleware('admin');
-    Route::put('/{issue}', [IssueController::class, 'update'])->name('update')->middleware('admin');
-    Route::delete('/{id}', [IssueController::class, 'destroy'])->name('destroy')->middleware('admin');;
-    Route::put('/recover/{id}', [IssueController::class, 'recover'])->name('recover')->middleware('admin');;
-});
 
-Route::group([
-    'as' => 'categories.',
-    'prefix' => 'categories'
-], function () {
-    Route::get('/{category}/', [CategoryController::class, 'show'])->name('show');
-});
+//
+//Route::group([
+//    'as' => 'issues.',
+//    'prefix' => 'issues'
+//], function () {
+//    Route::get('/', [IssueController::class, 'index'])->name('index');
+//    Route::get('/create', [IssueController::class, 'create'])->name('create')->middleware('admin');
+//    Route::post('/', [IssueController::class, 'store'])->name('store')->middleware('admin');
+//    Route::post('/search', [IssueController::class, 'search'])->name('search');
+//    Route::get('/{issue}/', [IssueController::class, 'show'])->name('show');
+//    Route::get('/{issue}/edit', [IssueController::class, 'edit'])->name('edit')->middleware('admin');
+//    Route::put('/{issue}', [IssueController::class, 'update'])->name('update')->middleware('admin');
+//    Route::delete('/{id}', [IssueController::class, 'destroy'])->name('destroy')->middleware('admin');;
+//    Route::put('/recover/{id}', [IssueController::class, 'recover'])->name('recover')->middleware('admin');;
+//});
+
+//Route::group([
+//    'as' => 'categories.',
+//    'prefix' => 'categories'
+//], function () {
+//    Route::get('/{category}/', [CategoryController::class, 'show'])->name('show');
+//});
 
 Route::group([
     'as' => 'photos.',
@@ -79,18 +81,6 @@ Route::group([
     Route::get('/create', [VideoController::class, 'create'])->name('create')->middleware('admin');
     Route::post('/', [VideoController::class, 'store'])->name('store')->middleware('admin');
     Route::delete('/{video}', [VideoController::class, 'destroy'])->name('destroy')->middleware('admin');
-});
-
-Route::group([
-    'as' => 'headings.',
-    'prefix' => 'headings',
-], function () {
-    Route::get('/', [HeadingController::class, 'index'])->name('index');
-    Route::get('/create', [HeadingController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [HeadingController::class, 'store'])->name('store')->middleware('admin');
-    Route::get('/{heading}/', [HeadingController::class, 'show'])->name('show');
-    Route::get('/{heading}/edit', [HeadingController::class, 'edit'])->name('edit')->middleware('admin');
-    Route::put('/{heading}', [HeadingController::class, 'update'])->name('update')->middleware('admin');
 });
 
 Route::group([

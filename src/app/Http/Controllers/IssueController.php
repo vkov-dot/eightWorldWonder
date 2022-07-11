@@ -27,9 +27,7 @@ class IssueController extends Controller
      */
     public function index()
     {
-        $issues = $this->service->index();
-
-        return view('issues.index', ['issues' => $issues]);
+        return $this->service->index();
     }
 
     public function lastIssues()

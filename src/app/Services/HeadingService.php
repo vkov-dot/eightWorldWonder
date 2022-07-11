@@ -6,6 +6,7 @@ use App\Http\Requests\HeadingRequest;
 use App\Models\Heading;
 use App\Repositories\HeadingRepository;
 use App\Repositories\StateRepository;
+use Carbon\Carbon;
 
 class HeadingService extends BaseService
 {
@@ -31,7 +32,10 @@ class HeadingService extends BaseService
     public function show($id)
     {
         $heading = (new HeadingRepository)->find($id);
-        $heading->states = (new StateRepository)->getForHeading($id);
+        $heading->states = (new StateRepository)->getForHeadingId($id);
+        foreach($heading->states as $state) {
+            $state->published_at = Carbon::parse($state->created_at)->format('d.m.Y');
+        }
 
         return $heading;
     }

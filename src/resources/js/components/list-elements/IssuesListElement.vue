@@ -3,7 +3,7 @@
         <p class="date">
             {{ issue.published_at }}
         </p>
-        <a :href="issue.link" class="state-name">
+        <a :href="issue.link" class="state-name" target="_blank">
             {{ issue.name }}
         </a>
     </div>

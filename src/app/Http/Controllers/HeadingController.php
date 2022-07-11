@@ -25,9 +25,7 @@ class HeadingController extends Controller
      */
     public function index()
     {
-        $headings = $this->service->index();
-
-        return view('headings.index', ['headings' => $headings]);
+        return $this->service->index();
     }
 
     /**
@@ -61,11 +59,7 @@ class HeadingController extends Controller
      */
     public function show(int $id)
     {
-        $heading = $this->service->show($id);
-
-        return view('headings.show', [
-            'heading' => $heading
-        ]);
+        return $this->service->show($id);
     }
 
     /**

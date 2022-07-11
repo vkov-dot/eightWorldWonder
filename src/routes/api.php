@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\StateController;
@@ -51,6 +54,8 @@ Route::group([
     });
 });
 
+Route::get('issues/categories/{category}/', [CategoryController::class, 'show'])->name('show');
+
 Route::group([
     'as' => 'media.',
     'prefix' => 'media'
@@ -64,3 +69,14 @@ Route::group([
 
 Route::get('/issues/latest', [IssueController::class, 'lastIssues'])->name('getLatestIssues');
 
+Route::group([
+    'as' => 'headings.',
+    'prefix' => 'headings',
+], function () {
+    Route::get('/', [HeadingController::class, 'index'])->name('index');
+    Route::get('/create', [HeadingController::class, 'create'])->name('create')->middleware('admin');
+    Route::post('/', [HeadingController::class, 'store'])->name('store')->middleware('admin');
+    Route::get('/{heading}/', [HeadingController::class, 'show'])->name('show');
+    Route::get('/{heading}/edit', [HeadingController::class, 'edit'])->name('edit')->middleware('admin');
+    Route::put('/{heading}', [HeadingController::class, 'update'])->name('update')->middleware('admin');
+});

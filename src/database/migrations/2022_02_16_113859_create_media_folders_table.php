@@ -16,6 +16,7 @@ class CreateMediaFoldersTable extends Migration
         Schema::create('media_folders', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('link');
             $table->timestamps();
         });
     }

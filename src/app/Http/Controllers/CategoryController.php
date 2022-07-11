@@ -24,8 +24,6 @@ class CategoryController extends Controller
      */
     public function show(int $id)
     {
-        $issues = $this->service->show($id);
-
-        return view('issues.index', ['issues' => $issues]);
+        return $this->service->show($id);
     }
 }

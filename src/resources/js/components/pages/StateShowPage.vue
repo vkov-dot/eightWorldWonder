@@ -1,6 +1,6 @@
 <template>
     <div class="row flex-row">
-        <div class="col-lg-4 col-md-12 last-states">
+        <div class="col-xl-4 col-lg-12 last-states">
             <last-states-list :states="this.lastStates"></last-states-list>
         </div>
         <div class="last-states col-xl-8 col-lg-12" v-model="showState">
@@ -10,7 +10,7 @@
                         {{ this.showState.name }}
                     </p>
                     <div>
-                        <form :action="{name: 'rating.store', stateId: this.showState.id }"
+                        <form :action="{ name: 'rating.store', stateId: this.showState.id }"
                               id="addStar" method="POST" class="form-horizontal poststars">
                             <div class="required">
                                 <div class="col-sm-12">
@@ -109,5 +109,10 @@ export default {
         this.getStateById(this.$attrs.state)
         this.getLastStates()
     },
+    watch: {
+        '$route'(){
+            this.getStateById(this.$attrs.state)
+        }
+    }
 }
 </script>

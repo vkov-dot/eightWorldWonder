@@ -3,29 +3,17 @@
         <div class="search-issue-form justify-content-center">
             <div class="mr-3">
                 <select class="form-control" v-model="sortBy" @change="sortByOption">
-                    <option disabled value="">
-                        Сортувати
-                    </option>
-                    <option value="asc">
-                        Спочатку новіше
-                    </option>
-                    <option value="desc">
-                        Спочатку старіше
-                    </option>
+                    <option disabled value="">Сортувати</option>
+                    <option value="asc">Спочатку новіше</option>
+                    <option value="desc">Спочатку старіше</option>
                 </select>
             </div>
             <div class="div-search">
                 <label class="states-search-label">
                     <select class="form-control" v-model="searchOption" required>
-                        <option disabled value="" >
-                            Шукати за
-                        </option>
-                        <option value="author">
-                            автором
-                        </option>
-                        <option value="name">
-                            назвою
-                        </option>
+                        <option disabled value="" >Шукати за</option>
+                        <option value="author">автором</option>
+                        <option value="name">назвою</option>
                     </select>
                 </label>
                 <div>
@@ -45,13 +33,13 @@
             </div>
         </div>
         <div v-if="this.states.length">
-            <index-states-list :states="this.states" v-model:states="this.states"/>
+            <states-list :states="this.states" v-model:states="this.states"/>
         </div>
     </div>
 </template>
 
 <script>
-import indexStatesList from "../IndexStatesList";
+import StatesList from "../StatesList";
 import { mapActions, mapGetters } from "vuex";
 import searchMixin from "../../mixins/search";
 
@@ -65,16 +53,11 @@ export default {
         }
     },
     components: {
-        indexStatesList,
+        StatesList,
     },
     computed: mapGetters(['allStates']),
     methods: {
         ...mapActions(['getLastStates']),
-
-        ToStateShowPage(id) {
-            this.$router.push({name: 'states.show', state: id})
-        },
-
         sortByOption() {
             if (this.sortBy === 'desc') {
                 this.allStates.sort((a, b) => b['id'] > a['id'] ? 1 : -1);

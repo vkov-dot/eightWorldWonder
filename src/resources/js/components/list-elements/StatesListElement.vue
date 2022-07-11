@@ -3,7 +3,7 @@
         <p class="date">
             {{ state.published_at }}
         </p>
-        <router-link :to="{ name: 'states.show', params: {state: state.id} }" class="state-name">
+        <router-link :to="{ name: 'states.show', params: { state: state.id } }" class="state-name">
             {{ state.name }}
         </router-link>
         <p class="author">
