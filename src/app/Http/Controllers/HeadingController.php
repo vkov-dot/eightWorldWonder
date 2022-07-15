@@ -28,6 +28,10 @@ class HeadingController extends Controller
         return $this->service->index();
     }
 
+    public function getNames()
+    {
+        return $this->service->getNames();
+    }
     /**
      * Show the form for creating a new resource
      *

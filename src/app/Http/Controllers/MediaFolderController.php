@@ -43,13 +43,11 @@ class   MediaFolderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param MediaFolderRequest $request
-     * @return RedirectResponse
+     * @return void
      */
     public function store(MediaFolderRequest $request): RedirectResponse
     {
         $this->service->store($request);
-
-        return redirect()->route('media.index');
     }
 
     /**

@@ -65,66 +65,15 @@ Route::group([
 //    Route::get('/{category}/', [CategoryController::class, 'show'])->name('show');
 //});
 
-Route::group([
-    'as' => 'photos.',
-    'prefix' => 'photos'
-], function () {
-    Route::get('/create', [PhotoController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [PhotoController::class, 'store'])->name('store')->middleware('admin');
-    Route::delete('/{photo}', [PhotoController::class, 'destroy'])->name('destroy')->middleware('admin');
-});
 
-Route::group([
-    'as' => 'videos.',
-    'prefix' => 'videos'
-], function () {
-    Route::get('/create', [VideoController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [VideoController::class, 'store'])->name('store')->middleware('admin');
-    Route::delete('/{video}', [VideoController::class, 'destroy'])->name('destroy')->middleware('admin');
-});
-
-Route::group([
-   'as' => 'states.',
-   'prefix' => 'states'
-], function () {
-//    Route::get('/', [StateController::class, 'index'])->name('index');
-    Route::get('/create', [StateController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [StateController::class, 'store'])->name('store')->middleware('admin');
-    Route::post('/search', [StateController::class, 'search'])->name('search');
-    Route::post('/sort', [StateController::class, 'sort'])->name('sort');
-//    Route::get('/{state}/', [StateController::class, 'show'])->name('show');
-    Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit')->middleware('admin');
-    Route::put('/{state}', [StateController::class, 'update'])->name('update')->middleware('admin');
-    Route::delete('/{id}', [StateController::class, 'destroy'])->name('destroy')->middleware('admin');
-    Route::put('/recover/{id}', [StateController::class, 'recover'])->name('recover')->middleware('admin');
-
-    Route::group([
-        'as' => 'comments.',
-        'prefix' => '{state}/comments'
-    ], function () {
-        Route::post('/store', [CommentController::class, 'store'])->name('store')->middleware('auth');
-        Route::delete('/{comment}', [CommentController::class, 'destroy'])->name('destroy')->middleware('auth');
-   });
-});
-
-Route::group([
+/*Route::group([
     'as' => 'archived.',
     'prefix' => 'archived'
 ], function () {
     Route::get('/{table}', [ArchiveController::class, 'show'])->name('show')->middleware('admin');
     Route::delete('/{table}/{id}', [ArchiveController::class, 'destroy'])->name('destroy')->middleware('admin');
-});
+});*/
 
-Route::group([
-    'as' => 'users.',
-    'prefix' => 'users'
-], function () {
-    Route::get('/', [UserController::class, 'index'])->name('index')->middleware('admin');
-    Route::post('/search', [UserController::class, 'search'])->name('search')->middleware('admin');
-    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit')->middleware('admin');
-    Route::put('/{user}', [UserController::class, 'update'])->name('update')->middleware('admin');
-    Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy')->middleware('admin');
-});
 
 Route::group([
     'as' => 'profiles.',

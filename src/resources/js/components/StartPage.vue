@@ -19,8 +19,8 @@ export default {
     name: "StartPage",
     components: {
         Carousel,
-       LastIssuesList,
-        LastStatesList
+        LastIssuesList,
+        LastStatesList,
     },
     computed: mapGetters(['lastStates', 'lastIssues']),
     methods: {

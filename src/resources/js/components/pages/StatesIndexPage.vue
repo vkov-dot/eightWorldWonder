@@ -3,28 +3,40 @@
         <div class="search-issue-form justify-content-center">
             <div class="mr-3">
                 <select class="form-control" v-model="sortBy" @change="sortByOption">
-                    <option disabled value="">Сортувати</option>
-                    <option value="asc">Спочатку новіше</option>
-                    <option value="desc">Спочатку старіше</option>
+                    <option disabled value="">
+                        Сортувати
+                    </option>
+                    <option value="desc">
+                        Спочатку новіше
+                    </option>
+                    <option value="asc">
+                        Спочатку старіше
+                    </option>
                 </select>
             </div>
             <div class="div-search">
                 <label class="states-search-label">
-                    <select class="form-control" v-model="searchOption" required>
-                        <option disabled value="" >Шукати за</option>
-                        <option value="author">автором</option>
-                        <option value="name">назвою</option>
+                    <select class="form-control" v-model="localSearchOption" required>
+                        <option disabled value="">
+                            Шукати за
+                        </option>
+                        <option value="author">
+                            автором
+                        </option>
+                        <option value="name">
+                            назвою
+                        </option>
                     </select>
                 </label>
                 <div>
-                    <div @keyup.enter="searchToMixin">
+                    <div @keyup.enter="search">
                         <input class="add-heading-input search-issue-input"
                                placeholder="Шукати"
                                type="text"
                                v-focus
-                               v-model.trim="searchMessage">
+                               v-model.trim="localSearchMessage">
                         <div>
-                            <button type="submit" class="search-submit" @click="searchToMixin">
+                            <button type="submit" class="search-submit" @click="search">
                                 Пошук
                             </button>
                         </div>
@@ -32,24 +44,24 @@
                 </div>
             </div>
         </div>
-        <div v-if="this.states.length">
-            <states-list :states="this.states" v-model:states="this.states"/>
+        <div v-if="this.allStates.length">
+            <states-list :states="this.allStates" v-model:states="this.allStates"/>
         </div>
     </div>
 </template>
 
 <script>
 import StatesList from "../StatesList";
-import { mapActions, mapGetters } from "vuex";
-import searchMixin from "../../mixins/search";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
     name: "StatesIndexPage",
-    mixins: [searchMixin],
+
     data() {
         return {
             sortBy: '',
-            states: Array,
+            localSearchOption: '',
+            localSearchMessage: '',
         }
     },
     components: {
@@ -57,25 +69,23 @@ export default {
     },
     computed: mapGetters(['allStates']),
     methods: {
-        ...mapActions(['getLastStates']),
+        ...mapActions(['getAllStates', 'getSearchOption', 'getSearchMessage']),
+        ...mapMutations(['updateStates', 'statesDesc', 'statesAsc']),
         sortByOption() {
             if (this.sortBy === 'desc') {
-                this.allStates.sort((a, b) => b['id'] > a['id'] ? 1 : -1);
+                this.statesDesc()
             }
             else if (this.sortBy === 'asc') {
-                this.allStates.sort((a, b) => a['id'] > b['id'] ? 1 : -1);
+                this.statesAsc()
             }
         },
-        searchToMixin() {
-            this.states = this.search(this.allStates)
+        search() {
+            this.getSearchMessage(this.localSearchMessage)
+            this.getSearchOption(this.localSearchOption)
         },
     },
-    beforeMount() {
-        this.states = this.allStates
-        console.log(this.states)
-    },
     mounted() {
-        this.getAllStates;
+        this.getAllStates()
     },
 }
 </script>

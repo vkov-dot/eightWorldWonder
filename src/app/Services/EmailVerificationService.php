@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Jobs\VerificationJob;
 use App\Models\User;
 use DateTime;
-use \Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 class EmailVerificationService extends BaseService
 {

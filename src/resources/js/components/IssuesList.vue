@@ -13,7 +13,6 @@
                 @if($issues->count())-->
                 <div>
                     <div class="notes-list-div states-list">
-
                         <ul>
                             <issues-list-element
                                 v-for="issue in category"

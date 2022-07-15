@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MediaFolder extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'link'];
 
-    public function photos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function photos(): HasMany
     {
         return $this->hasMany(Photo::class);
     }

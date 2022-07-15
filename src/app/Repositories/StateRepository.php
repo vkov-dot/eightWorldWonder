@@ -68,4 +68,9 @@ class StateRepository
             ->orderBy('created_at', $request->sort)
             ->paginate(20, ['id', 'name', 'author', 'created_at']);
     }
+
+    public function archive()
+    {
+        return $this->query()->where('archived', 1)->get();
+    }
 }

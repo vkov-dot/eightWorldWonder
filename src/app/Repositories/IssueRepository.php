@@ -32,6 +32,7 @@ class IssueRepository
     {
         $data = $request->except('_token');
         $issue = $this->query()->create($data);
+        $issue = $this->find($issue->id);
 
         return $issue;
     }
@@ -51,5 +52,10 @@ class IssueRepository
             ->where('archived', 0)
             ->take(5)
             ->get(['id', 'name', 'link', 'created_at']);
+    }
+
+    public function archive()
+    {
+        return $this->query()->where('archived', 1)->get();
     }
 }

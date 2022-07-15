@@ -49,4 +49,9 @@ class HeadingService extends BaseService
 
         Heading::find($id)->update($heading);
     }
+
+    public function getNames()
+    {
+        return $this->repository->getNames();
+    }
 }

@@ -13,9 +13,7 @@ class HeadingRepository
 
     public function index()
     {
-        return $this->query()
-            ->latest()
-            ->get();
+        return $this->query()->latest()->get();
     }
 
     public function find(int $id)
@@ -23,8 +21,8 @@ class HeadingRepository
         return $this->query()->find($id);
     }
 
-    private function saveImage($request)
+    public function getNames()
     {
-        return $request->file('image')->store('images');
+        return $this->query()->get(['id', 'name']);
     }
 }

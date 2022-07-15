@@ -22,13 +22,11 @@ class CommentController extends Controller
      *
      * @param CommentRequest $request
      * @param int $id
-     * @return RedirectResponse
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|RedirectResponse|object|void
      */
-    public function store(CommentRequest $request, int $id): RedirectResponse
+    public function store(CommentRequest $request, int $id)
     {
-        $this->service->store($request, $id);
-
-        return redirect()->route('states.show', ['state' => $id]);
+        return $this->service->store($request, $id);
     }
 
     /**

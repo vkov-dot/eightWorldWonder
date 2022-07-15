@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use mysql_xdevapi\Exception;
 
 class LoginController extends Controller
 {
@@ -35,6 +38,87 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+//        $this->middleware('guest')->except('logout');
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $this->clearLoginAttempts($request);
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
+        }
+
+        $token = $request->user()->createToken('api_token');
+        return response()->json([
+            'token'    => $token->plainTextToken,
+            'user'     => $request->user()
+        ]);
+    }
+    /**
+     * Log the user out of the application.
+     *
+     * @authenticated
+     * @response status=204 scenario="Success" {}
+     * @response status=400 scenario="Unauthenticated" {
+     *     "message": "Unauthenticated."
+     * }
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return $request->wantsJson()
+            ? new Response('', 204)
+            : redirect('/');
+    }
+
+    /**
+     * Handle a login request to the application.
+     *
+     * @bodyParam email email required The email of the user. Example: demo@demo.com
+     * @bodyParam password password required The password of the user. Example: password
+     *
+     * @response status=422 scenario="Validation error" {
+     *    "message": "The given data was invalid.",
+     *    "errors": {
+     *        "email": [
+     *            "The email field is required."
+     *        ]
+     *    }
+     * }
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
     }
 }

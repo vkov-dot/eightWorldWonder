@@ -21,6 +21,6 @@ class CommentRepository
 
     public function find($id)
     {
-        return $this->query()->where('state_id', $id)->first();
+        return $this->query()->find($id);
     }
 }

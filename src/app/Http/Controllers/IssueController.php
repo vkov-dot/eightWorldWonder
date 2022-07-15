@@ -30,7 +30,7 @@ class IssueController extends Controller
         return $this->service->index();
     }
 
-    public function lastIssues()
+    public function lastFive()
     {
         return $this->service->getLatest();
     }
@@ -50,13 +50,11 @@ class IssueController extends Controller
      * Store a newly created resource in storage.
      *
      * @param IssueRequest $request
-     * @return RedirectResponse
+     * @return void
      */
-    public function store(IssueRequest $request): RedirectResponse
+    public function store(IssueRequest $request): string
     {
         $this->service->store($request);
-
-        return redirect()->route('issues.index');
     }
 
     /**
@@ -88,38 +86,37 @@ class IssueController extends Controller
      *
      * @param IssueRequest $request
      * @param int $id
-     * @return RedirectResponse
+     * @return void
      */
     public function update(IssueRequest $request, int $id): RedirectResponse
     {
         $this->service->update($request, $id);
+    }
 
-        return redirect()->route('issues.show', ['issue' => $id]);
+    public function archive()
+    {
+        return $this->service->archive();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return RedirectResponse
+     * @return void
      */
     public function destroy(int $id): RedirectResponse
     {
         $this->service->destroy($id);
-
-        return back()->withInput();
     }
 
     /**
      * recover the issue resource from archive
      *
      * @param $id
-     * @return RedirectResponse
+     * @return void
      */
     public function recover($id): RedirectResponse
     {
         $this->service->recover($id);
-
-        return redirect()->route('archived.show', ['table' => 'issues']);
     }
 }

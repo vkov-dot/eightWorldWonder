@@ -3,6 +3,9 @@
 namespace App\Services;
 
 
+use Carbon\Carbon;
+use function Sodium\add;
+
 abstract class BaseService
 {
     public $repository;
@@ -12,6 +15,14 @@ abstract class BaseService
         return $this->repository->find($id);
     }
 
+    public function addPublishedAt($notes)
+    {
+        foreach($notes as $note) {
+            $note->published_at = Carbon::parse($note->created_at)->format('d.m.Y');
+        }
+
+        return $notes;
+    }
     public function saveImage($request)
     {
         return $request->file('logo')->store('images');
@@ -19,7 +30,7 @@ abstract class BaseService
 
     public function index()
     {
-        return $this->repository->index();
+        return $this->addPublishedAt($this->repository->index());
     }
 
     public function search($request)
@@ -35,5 +46,10 @@ abstract class BaseService
     public function show($id)
     {
         return $this->repository->show($id);
+    }
+
+    public function archive()
+    {
+        return $this->addPublishedAt($this->repository->archive());
     }
 }

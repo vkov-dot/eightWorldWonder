@@ -38,27 +38,31 @@
                             </div>
                         </form>
                     </div>
-                    <img :src="/storage/ + this.showState.logo" class="d-block w-100">
+                    <div class="mb-4">
+                        <img :src="/storage/ + this.showState.logo" class="d-block w-100">
+                    </div>
                     <p v-html="this.showState.body">
                         {{ this.showState.body }}
                     </p>
                     <p class="state-show-author">
                         {{ this.showState.author }}
                     </p>
-                    @if(Auth::user() && Auth::user()->admin)
-                    <div class="state-show-redact-destroy">
+                    <div v-if="user && user.admin" class="state-show-redact-destroy">
                         <div class="redact-state-link">
                             <router-link :to="{ name: 'states.edit', params: { state: this.showState.id } }">
                                 Редагувати
                             </router-link>
                         </div>
-                        <form :action="{ name:'state.destroy', params: { state: this.showState.id } }"
-                              class="destroy-state"
-                              method="post">
-                            <button type="submit">
-                                До архіва
+                        <div class="destroy-state">
+                            <button type="submit" @click="destroyState">
+                                {{ +showState.archived === 1 ? 'Видалити' : 'До архіва' }}
                             </button>
-                        </form>
+                        </div>
+                        <div v-if="showState.archived">
+                            <button type="submit" @click="recoverState" class="btn btn-primary">
+                                Відновити
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,22 +73,29 @@
                     </p>
                 </div>
                 <div class="row">
-                    <form :action="{ name: 'states.comments.store', params: {state: this.showState.id} }"
-                          method="POST" enctype="multipart/form-data">
+                    <div>
                         <div class="row">
                             <div class="col-12 comment-send-div">
-                                <textarea class="comment-message" name="message" placeholder="Додати коментар">
+                                <textarea class="comment-message" name="message" v-model="commentMessage" placeholder="Додати коментар">
                                 </textarea>
                             </div>
                             <div class="row">
                                 <div class="col-12 comment-submit">
-                                    <input type="submit" value="Опублікувати" class="btn">
+                                    <input
+                                        @click="createComment()"
+                                        type="submit"
+                                        value="Опублікувати"
+                                        class="btn">
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <comments-list :comments="this.showState.comments"></comments-list>
+                <comments-list
+                    :comments="showState.comments"
+                    :state-id="showState.id"
+                    v-model:comments="showState.comments"
+                />
             </div>
         </div>
     </div>
@@ -94,23 +105,44 @@
 import LastStatesList from "../LastStatesList";
 import CommentsList from "../CommentsList";
 import StateShow from "../StateShow";
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "StateShowPage",
+    data() {
+        return {
+            commentMessage: '',
+        }
+    },
     components: {
         CommentsList,
         LastStatesList,
         StateShow,
     },
-    computed: mapGetters(['showState', 'lastStates']),
-    methods: mapActions(['getStateById', 'getLastStates']),
+
+    computed: {
+        ...mapGetters(['showState', 'lastStates', 'getStateComments']),
+        ...mapGetters("auth", ["user","apiToken"]),
+    },
+    methods: {
+        ...mapActions(['getStateById', 'getLastStates', 'postComment', 'deleteShowState', 'recoverShowState']),
+        createComment() {
+            this.postComment([this.showState.id, this.commentMessage])
+            this.commentMessage = '';
+        },
+        destroyState() {
+            this.deleteShowState(this.showState.id)
+        },
+        recoverState() {
+            this.recoverShowState(this.showState.id)
+        },
+    },
     mounted() {
         this.getStateById(this.$attrs.state)
         this.getLastStates()
     },
     watch: {
-        '$route'(){
+        '$route'() {
             this.getStateById(this.$attrs.state)
         }
     }

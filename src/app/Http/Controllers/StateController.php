@@ -44,34 +44,20 @@ class StateController extends Controller
      */
     public function create(HeadingService $headingService)
     {
-        $headings = $headingService->index();
-
-        return view('states.create', ['headings' => $headings]);
+/*        return $headingService->getNames();*/
     }
 
     /**
      * Store a nuwky created resource in storage
      *
      * @param StateRequest $request
-     * @return RedirectResponse
+     * @return void
      */
     public function store(StateRequest $request): RedirectResponse
     {
         $this->service->store($request);
-
-        return redirect()->route('states.index');
     }
 
-
-    public function search(Request $request)
-    {
-        $states = $this->service->search($request);
-
-        return view('states.index', [
-            'states' => $states,
-            'message' => $request->param
-            ]);
-    }
 
     /**
      * Display the specified resource
@@ -81,32 +67,22 @@ class StateController extends Controller
      */
     public function show($id)
     {
-//        $lastStates = $this->service->getLatest();
-        $state = $this->service->show($id);
-
-        return $state;
-//            'lastStates' =>$lastStates;
+        return $this->service->show($id);
     }
 
-    public function sort(Request $request)
-    {
-        $states = $this->service->sort($request);
-
-        return view('states.index', ['states' => $states]);
-    }
     /**
      * Show the form for editing the specified resource
      *
      * @param int $id
      * @param HeadingRepository $headingRepository
-     * @return Application|Factory|View
+     * @return array
      */
     public function edit(int $id, HeadingRepository $headingRepository)
     {
         $state = $this->service->edit($id);
         $headings = $headingRepository->index();
 
-        return view('states.edit', ['state' => $state, 'headings' => $headings]);
+        return ['state' => $state, 'headings' => $headings];
     }
 
     /**
@@ -114,13 +90,16 @@ class StateController extends Controller
      *
      * @param StateEditRequest $request
      * @param int $id
-     * @return RedirectResponse
+     * @return void
      */
     public function update(StateEditRequest $request, int $id)
     {
         $this->service->update($request, $id);
+    }
 
-        return redirect()->route('states.show', ['state' => $id]);
+    public function archive()
+    {
+        return $this->service->archive();
     }
 
     /**
@@ -128,25 +107,21 @@ class StateController extends Controller
      *
      * @param int $id
      * @param CommentController $commentController
-     * @return RedirectResponse
+     * @return void
      */
     public function destroy(int $id, CommentController $commentController): RedirectResponse
     {
         $this->service->destroy($id, $commentController);
-
-        return redirect()->route('states.index');
     }
 
     /**
      * recover the state resource from archive
      *
      * @param $id
-     * @return RedirectResponse
+     * @return void
      */
     public function recover($id): RedirectResponse
     {
         $this->service->recover($id);
-
-        return redirect()->route('archived.show', ['table' => 'states']);
     }
 }

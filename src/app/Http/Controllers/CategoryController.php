@@ -20,7 +20,7 @@ class CategoryController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return Application|Factory|View
+     * @return array
      */
     public function show(int $id)
     {

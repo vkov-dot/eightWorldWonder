@@ -8,15 +8,10 @@
                 <div class="burger-menu">
                     <div class="collapse" id="navbarToggleExternalContent">
                         <div class="p-4">
-                            <!--
-                                                            @auth()
-                            -->
-                            <div id="add-to-archive dropdown">
+                            <div id="add-to-archive dropdown" v-if="user">>
                                 <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown"
                                    aria-expanded="false" id="dropdown-archive">
-                                    <!--
-                                                                            {{ user.name }}
-                                    -->
+                                    {{ user.name }}
                                 </a>
                                 <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink"
                                     data-bs-auth="none">
@@ -25,36 +20,24 @@
                                             Профіль
                                         </router-link>
                                     </li>
-                                    <!--
-                                                                            @if(Auth::user()->admin)
-                                    -->
-                                    <li>
+                                    <li v-if="user && user.admin">
                                         <router-link :to="{ name: 'users.index', params: {} }" class="dropdown-item">
                                             Користувачі
                                         </router-link>
                                     </li>
-                                    <li>
+                                    <li v-if="user && user.admin">
                                         <router-link :to="{ name: 'addInfo', params: {} }" class="dropdown-item">
                                             Опублікувати
                                         </router-link>
                                     </li>
-<!--                                    @endif-->
                                     <li>
-                                        <router-link class="dropdown-item" :to="{ name: 'logout' }"
-                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <router-link class="dropdown-item" :to="{ name: 'logout' }">
                                             Вийти
                                         </router-link>
-                                        <form id="logout-form" :action="{ name: 'logout' }" method="POST"
-                                              class="d-none">
-<!--                                            @csrf-->
-                                        </form>
                                     </li>
                                 </ul>
                             </div>
-                            <!--
-                                                            @endauth
-                            -->
-                            <div id="add-to-archive dropdown dropdown-inline">
+                            <div id="add-to-archive dropdown dropdown-inline" v-if="user && user.admin">
                                 <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown"
                                    aria-expanded="false">
                                     Архів
@@ -189,85 +172,62 @@
             <div>
                 <div class="" id="navbar-content">
                     <ul class="navbar-nav">
-                        <!--
-                                                    @guest
-                        -->
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="!user">
                             <router-link :to="{ name: 'login'}" class="menu-list-link">
                                 Увійти
                             </router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="!user">
                             <router-link :to="{ name: 'register' }" class="menu-list-link">
                                 Реєстрація
                             </router-link>
                         </li>
-                        <!--                            @else
-                                                    @if(Auth::user() && Auth::user()->admin)-->
-                        <div id="add-to-archive dropdown" class="display-none">
+                        <div id="add-to-archive dropdown" class="display-none" v-if="user && user.admin">
                             <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false">
                                 Архів
                             </a>
                             <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink">
                                 <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'archive', table: 'states' }">
+                                    <router-link class="dropdown-item" :to="{ name: 'states.archive'}">
                                         Статті
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{ name: 'archive', table: 'issues' }" class="dropdown-item">
+                                    <router-link :to="{ name: 'issues.archive'}" class="dropdown-item">
                                         Газета
                                     </router-link>
                                 </li>
                             </ul>
                         </div>
-                        <!--                            @endif
-                                                    @auth-->
-                        <div class="nav-item">
+                        <div class="nav-item" v-if="user">
                             <div id="add-to-archive dropdown" class="display-none">
-                                <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown"
-                                   aria-expanded="false"
-                                   id="dropdown-archive">
-                                    <!--
-                                                                            {{ user.name }}
-                                    -->
+                                <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ user.name }}
                                 </a>
-
                                 <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink">
                                     <li>
                                         <router-link :to="{ name: 'profile.show' }" class="dropdown-item">
                                             Профіль
                                         </router-link>
                                     </li>
-                                    <!--
-                                                                            @if(Auth::user()->admin)
-                                    -->
-                                    <li>
+                                    <li v-if="user && user.admin">
                                         <router-link :to="{ name: 'users.index' }" class="dropdown-item">
                                             Користувачі
                                         </router-link>
                                     </li>
-                                    <li>
+                                    <li v-if="user && user.admin">
                                         <router-link :to="{ name: 'addInfo' }" class="dropdown-item">
                                             Опублікувати
                                         </router-link>
                                     </li>
-                                    <!--                                        @endif-->
                                     <li>
-                                        <router-link :to="{ name: 'logout' }" class="dropdown-item"
-                                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <span @click="logout" class="dropdown-item">
                                             Вийти
-                                        </router-link>
-                                        <form id="logout-form" :action="{ name: 'logout' }" method="POST"
-                                              class="d-none">
-                                            @csrf
-                                        </form>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <!--                            @endauth
-                                                    @endguest-->
                     </ul>
                 </div>
             </div>
@@ -276,7 +236,18 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex";
+
 export default {
     name: "AppHeader",
+    computed: {
+        ...mapGetters("auth", ["user","apiToken"]),
+    },
+    methods: {
+        ...mapActions("auth", ["sendLogoutRequest"]),
+        logout() {
+            this.sendLogoutRequest()
+        }
+    }
 }
 </script>

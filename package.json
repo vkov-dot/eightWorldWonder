@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^34.2.0",
+    "@ckeditor/ckeditor5-vue": "^4.0.1",
+    "@ckeditor/ckeditor5-vue2": "^3.0.1",
+    "laravel-vue-pagination": "^3.0.0",
     "vue-router": "^3.5.4"
   },
   "devDependencies": {

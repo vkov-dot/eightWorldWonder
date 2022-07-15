@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Repositories\CommentRepository;
+use Carbon\Carbon;
 
 class CommentService extends BaseService
 {
@@ -18,8 +19,13 @@ class CommentService extends BaseService
         $data = $request->except('_token');
         $data['user_id'] = auth()->id();
         $data['state_id'] = $id;
+        $comment = Comment::create($data);
+        $comment = $this->repository->find($comment->id);
+        Carbon::setLocale('uk');
+        $comment->published_at = Carbon::parse($comment->created_at)->diffForHumans();
+        $comment->userName = $comment->user->name;
 
-        Comment::create($data);
+        return $comment;
     }
 
     public function destroy(int $id)

@@ -1,22 +1,19 @@
 <template>
     <div class="comment-list">
         <div>
-            <div v-for="comment in this.comments">
+            <div v-for="comment in comments">
                 <div class="comment-element justify-content-between">
                     <div class="comment-element">
                         <p>
-                            {{ comment.user.name }}
+                            {{ comment.userName }}
                         </p>
                         <p class="comment-date">
-<!--
-                            {{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}
--->
+                            {{ comment.published_at }}
                         </p>
                     </div>
-                    <form :action="{ name: 'states.comments.destroy', params: {'state': comment.state_id, 'comment': comment.id } }"
-                        enctype="multipart/form-data" class="delete-comment" method="POST">
-                        <input type="submit" value="&#215;">
-                    </form>
+                    <button @click="commentDelete(comment.id)" class="bg-white border-0">
+                        ✕
+                    </button>
                 </div>
                 <div>
                     <p>
@@ -30,14 +27,21 @@
 </template>
 
 <script>
+
+import {mapActions} from "vuex";
+
 export default {
     name: "CommentsList",
     props: {
         comments: Array,
+        stateId: '',
     },
-    mounted() {
-        console.log(this.comments);
-    }
+    methods: {
+        ...mapActions(['deleteCommentState', 'deleteComment']),
+        commentDelete(commentId) {
+            this.deleteCommentState([this.stateId, commentId])
+        },
+    },
 }
 </script>
 

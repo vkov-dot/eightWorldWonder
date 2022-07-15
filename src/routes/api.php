@@ -1,12 +1,20 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\Activate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MediaFolderController;
 
@@ -26,6 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+
 Route::get('/', [StartController::class, 'index'])->name('index');
 
 Route::group([
@@ -33,24 +42,21 @@ Route::group([
     'prefix' => 'states'
 ], function () {
     Route::get('/latest', [StateController::class, 'lastStates'])->name('latest');
-    Route::get('/', [StateController::class, 'index'])->name('index');
-
-    Route::get('/create', [StateController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [StateController::class, 'store'])->name('store')->middleware('admin');
-    Route::post('/search', [StateController::class, 'search'])->name('search');
-    Route::post('/sort', [StateController::class, 'sort'])->name('sort');
+    Route::get('/all', [StateController::class, 'index'])->name('index');
+    Route::get('/create', [StateController::class, 'create'])->name('create')->middleware('auth:sanctum');
+    Route::post('/store', [StateController::class, 'store'])->name('store')->middleware('auth:sanctum');
     Route::get('/{state}', [StateController::class, 'show']);
-    Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit')->middleware('admin');
-    Route::put('/{state}', [StateController::class, 'update'])->name('update')->middleware('admin');
-    Route::delete('/{id}', [StateController::class, 'destroy'])->name('destroy')->middleware('admin');
-    Route::put('/recover/{id}', [StateController::class, 'recover'])->name('recover')->middleware('admin');
+    Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit')->middleware('auth:sanctum');
+    Route::put('/{state}', [StateController::class, 'update'])->name('update')->middleware('auth:sanctum');
+    Route::delete('/{id}', [StateController::class, 'destroy'])->name('destroy')->middleware('auth:sanctum');
+    Route::put('/recover/{id}', [StateController::class, 'recover'])->name('recover')->middleware('auth:sanctum');
 
     Route::group([
         'as' => 'comments.',
         'prefix' => '{state}/comments'
     ], function () {
-        Route::post('/store', [CommentController::class, 'store'])->name('store')->middleware('auth');
-        Route::delete('/{comment}', [CommentController::class, 'destroy'])->name('destroy')->middleware('auth');
+        Route::post('/store', [CommentController::class, 'store'])->name('store')->middleware('auth:sanctum');
+        Route::delete('/{comment}', [CommentController::class, 'destroy'])->name('destroy')->middleware('auth:sanctum');
     });
 });
 
@@ -61,22 +67,78 @@ Route::group([
     'prefix' => 'media'
 ], function () {
     Route::get('/', [MediaFolderController::class, 'index'])->name('index');
-    Route::get('/create', [MediaFolderController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [MediaFolderController::class, 'store'])->name('store')->middleware('admin');
+    Route::get('/create', [MediaFolderController::class, 'create'])->name('create')->middleware('auth:sanctum');
+    Route::post('/store', [MediaFolderController::class, 'store'])->name('store')->middleware('auth:sanctum');
     Route::get('/{media}/', [MediaFolderController::class, 'show'])->name('show');
-    Route::delete('/{media}', [MediaFolderController::class, 'destroy'])->name('destroy')->middleware('admin');
+    Route::delete('/{media}', [MediaFolderController::class, 'destroy'])->name('destroy')->middleware('auth:sanctum');
 });
 
-Route::get('/issues/latest', [IssueController::class, 'lastIssues'])->name('getLatestIssues');
+Route::group([
+    'as' => 'users.',
+    'prefix' => 'users'
+], function () {
+    Route::get('/', [UserController::class, 'index'])->name('index')->middleware('admin');
+    Route::post('/search', [UserController::class, 'search'])->name('search')->middleware('admin');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit')->middleware('admin');
+    Route::put('/{user}', [UserController::class, 'update'])->name('update')->middleware('admin');
+    Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy')->middleware('admin');
+});
+
 
 Route::group([
     'as' => 'headings.',
     'prefix' => 'headings',
 ], function () {
+    Route::get('/names', [HeadingController::class, 'getNames']);
     Route::get('/', [HeadingController::class, 'index'])->name('index');
-    Route::get('/create', [HeadingController::class, 'create'])->name('create')->middleware('admin');
-    Route::post('/', [HeadingController::class, 'store'])->name('store')->middleware('admin');
+    Route::get('/create', [HeadingController::class, 'create'])->name('create')->middleware('auth:sanctum');
+    Route::post('/', [HeadingController::class, 'store'])->name('store')->middleware('auth:sanctum');
     Route::get('/{heading}/', [HeadingController::class, 'show'])->name('show');
-    Route::get('/{heading}/edit', [HeadingController::class, 'edit'])->name('edit')->middleware('admin');
-    Route::put('/{heading}', [HeadingController::class, 'update'])->name('update')->middleware('admin');
+    Route::get('/{heading}/edit', [HeadingController::class, 'edit'])->name('edit')->middleware('auth:sanctum');
+    Route::put('/{heading}', [HeadingController::class, 'update'])->name('update')->middleware('auth:sanctum');
+});
+
+Route::group([
+    'as' => 'issues.',
+    'prefix' => 'issues'
+], function () {
+    Route::get('/latest', [IssueController::class, 'lastFive'])->name('latest');
+    Route::get('/', [IssueController::class, 'index'])->name('index');
+    Route::get('/create', [IssueController::class, 'create'])->name('create')->middleware('auth:sanctum');
+    Route::post('/store', [IssueController::class, 'store'])->name('store')->middleware('auth:sanctum');
+    Route::post('/search', [IssueController::class, 'search'])->name('search');
+    Route::get('/{issue}/', [IssueController::class, 'show'])->name('show');
+    Route::get('/{issue}/edit', [IssueController::class, 'edit'])->name('edit')->middleware('auth:sanctum');
+    Route::put('/{issue}', [IssueController::class, 'update'])->name('update')->middleware('auth:sanctum');
+    Route::delete('/{id}', [IssueController::class, 'destroy'])->name('destroy')->middleware('auth:sanctum');
+    Route::put('/recover/{id}', [IssueController::class, 'recover'])->name('recover')->middleware('auth:sanctum');
+});
+
+Route::group([
+    'as' => 'archived.',
+    'prefix' => 'archived'
+], function () {
+    Route::get('/issues', [IssueController::class, 'archive'])->name('issues.show')->middleware('auth:sanctum');
+    Route::get('/states', [StateController::class, 'archive'])->name('states.show')->middleware('auth:sanctum');
+    Route::delete('/{table}/{id}', [ArchiveController::class, 'destroy'])->name('destroy')->middleware('auth:sanctum');
+});
+
+Auth::routes();
+
+Route::post('/login', [LoginController::class, 'login'])->name('login')/*->middleware(Activate::class)*/;
+Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/home', [StartController::class, 'index'])->name('home');
+
+Route::group([
+    'prefix' => 'verification'
+], function () {
+    Route::post('/', [EmailVerificationController::class, 'verify'])->name('verification');
+    Route::post('/reset', [EmailVerificationController::class, 'reset'])->name('verification.reset');
+    Route::post('/activate', [EmailVerificationController::class, 'activate'])->name('verification.activate');
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [LoginController::class, 'logout']);
+    Route::get('/user', [AuthenticationController::class, 'user']);
 });
