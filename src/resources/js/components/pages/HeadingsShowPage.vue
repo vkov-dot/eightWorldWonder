@@ -16,24 +16,6 @@
                         class="list-element"
                     />
             </div>
-<!--            @if(Auth::user() && Auth::user()->admin)
-            <form action="{{ route('headings.edit', ['heading' => $heading->id]) }}"
-                  class="">
-                @csrf
-                <button type="submit" class="btn btn-primary">Редагувати</button>
-            </form>-->
-<!--            @endif
-            @if($heading->states->total() > $heading->states->count())
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body pagination">
-                            {{ $states->links() }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif-->
         </div>
     </div>
 </template>
@@ -46,9 +28,9 @@ import IndexStatesList from "../StatesList";
 export default {
     name: "HeadingsShowPage",
     components: {IndexStatesList, StatesListElement},
-    computed: mapGetters(['headingStates']),
+    computed: mapGetters('heading', ['headingStates']),
     methods: {
-        ...mapActions(['getStatesByHeadingId']),
+        ...mapActions('heading', ['getStatesByHeadingId']),
     },
     mounted() {
         console.log(this.headingStates);

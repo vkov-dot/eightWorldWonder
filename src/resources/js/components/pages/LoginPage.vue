@@ -1,30 +1,42 @@
 <template>
     <div class="text-center">
-        <div class="d-flex justify-content-center mt-4">
-            <form @submit.prevent="sendCredentials">
-                <div class="form-floating">
-                    <input type="email" v-model="details.email" class="form-control" id="floatingEmail"
-                           placeholder="name@example.com">
-                    <label for="floatingEmail">Email address</label>
-                </div>
-                <div class="form-floating">
-                    <input type="password" v-model="details.password" class="form-control" id="floatingPassword"
-                           placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Вхід до акаунту</div>
+                    <div class="card-body">
+                        <form @submit.prevent="sendCredentials">
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <span v-if="signIn" @click="signIn = !signIn" class="signin text-decoration-underline">
-                            Sign In </span>
-                        <span v-else @click="signIn = !signIn" class="signin text-decoration-underline">
-                            Log In
-                        </span>
-                    </label>
+                            <div class="row mb-3">
+                                <label for="email" class="col-md-4 col-form-label text-md-end">
+                                    Електронна адреса
+                                </label>
+
+                                <div class="col-md-6">
+                                    <input id="email" type="email" class="form-control" v-model="details.email"
+                                           name="email" required autocomplete="email" autofocus>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="password" class="col-md-4 col-form-label text-md-end">
+                                    Пароль
+                                </label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="password" class="form-control" name="password" required
+                                           autocomplete="current-password" v-model="details.password">
+                                </div>
+                            </div>
+                            <div class="checkbox mb-3">
+                                <div>
+                                    <button class="btn btn-primary">Увійти</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <button v-if="signIn" class="w-100 btn btn-lg btn-primary"> Login</button>
-                <button v-else class="w-100 btn btn-lg btn-primary">Sign in</button>
-            </form>
+            </div>
         </div>
     </div>
 </template>
@@ -36,9 +48,9 @@ export default {
     data: function () {
         return {
             details: {
-                name: "Vlad Kov",
-                email: "vkov8212@gmail.com",
-                password: "123456789",
+                name: "",
+                email: "",
+                password: "",
             },
             signIn: true,
             user_id: 0,

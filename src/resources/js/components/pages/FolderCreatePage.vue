@@ -43,7 +43,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['storeFolder']),
+        ...mapActions('media', ['storeFolder']),
         folderStore() {
             this.storeFolder(this.folder)
         }

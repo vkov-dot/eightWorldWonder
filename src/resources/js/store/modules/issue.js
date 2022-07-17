@@ -2,15 +2,20 @@ import {axiosInstance} from "../../service/api";
 import router from "../../router";
 
 export default {
+    namespaced: true,
+
     actions: {
         async getLastIssues(ctx) {
             axios.get("http://example.palmo/api/issues/latest")
                 .then(response => ctx.commit('updateLastIssues', response.data))
                 .catch(error => console.log(error))
         },
-        async getAllIssues(ctx) {
-            axios.get(`http://example.palmo/api/issues`)
-                .then(response => ctx.commit('updateAllIssues', response.data.data))
+        async getAllIssues(ctx, pageNumber) {
+            axios.get(`http://example.palmo/api/issues?page=${pageNumber}`)
+                .then(response => {
+                    ctx.commit('updateAllIssues', response.data.data)
+                    ctx.commit('updateTotal', response.data.total)
+                })
                 .catch(error => console.log(error))
         },
         async getArchiveIssues(ctx) {
@@ -70,16 +75,19 @@ export default {
             let index = state.archiveIssues.findIndex(item => item.id === issue);
             state.archiveIssues.splice(index, 1)
         },
+        updateTotal: (state, count) => state.total = count
     },
     state: {
         lastIssues: [],
         allIssues: [],
         archiveIssues: [],
         searchMessage: '',
+        total: 1,
     },
     getters: {
         lastIssues: state => state.lastIssues,
         allIssues: state => state.allIssues.filter(note => note['name'].includes(state.searchMessage)),
-        archiveIssues: state => state.archiveIssues.filter(note => note['name'].includes(state.searchMessage))
+        archiveIssues: state => state.archiveIssues.filter(note => note['name'].includes(state.searchMessage)),
+        totalIssues: state => state.total
     }
 }

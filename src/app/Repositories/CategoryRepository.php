@@ -14,7 +14,7 @@ class CategoryRepository
 
     public function getAll()
     {
-        return $this->query()->latest()->get();
+        return $this->query()->latest()->paginate(10);
     }
 
     public function getCategory($id)

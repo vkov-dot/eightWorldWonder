@@ -58,7 +58,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['storeIssue']),
+        ...mapActions('issue', ['storeIssue']),
         issueStore() {
             this.storeIssue(this.issue)
         }

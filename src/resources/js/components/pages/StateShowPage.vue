@@ -10,11 +10,17 @@
                         {{ this.showState.name }}
                     </p>
                     <div>
-                        <form :action="{ name: 'rating.store', stateId: this.showState.id }"
-                              id="addStar" method="POST" class="form-horizontal poststars">
                             <div class="required">
                                 <div class="col-sm-12">
-                                    <div class="state-rating-div">
+                                    <star-rating
+                                        :increment="0.5"
+                                        :star-size="40"
+                                        :glow="5"
+                                        :padding="15"
+                                        @rating-selected="setRating"
+                                        :rating="this.showState.rating"
+                                        text-class="state-rating-p"/>
+                                    <div class="d-flex mt-2 mb-4">
                                         <p class="state-rating-p">
                                             Середня: {{ this.showState.rating }}
                                         </p>
@@ -22,21 +28,8 @@
                                             Вже оцінили: {{ this.showState.ratingCount }}
                                         </p>
                                     </div>
-                                    <div>
-                                        <input class="star star-5" value="5" id="star-5" type="submit" name="star"/>
-                                        <label class="star star-5" for="star-5"></label>
-                                        <input class="star star-4" value="4" id="star-4" type="submit" name="star"/>
-                                        <label class="star star-4" for="star-4"></label>
-                                        <input class="star star-3" value="3" id="star-3" type="submit" name="star"/>
-                                        <label class="star star-3" for="star-3"></label>
-                                        <input class="star star-2" value="2" id="star-2" type="submit" name="star"/>
-                                        <label class="star star-2" for="star-2"></label>
-                                        <input class="star star-1" value="1" id="star-1" type="submit" name="star"/>
-                                        <label class="star star-1" for="star-1"></label>
-                                    </div>
                                 </div>
                             </div>
-                        </form>
                     </div>
                     <div class="mb-4">
                         <img :src="/storage/ + this.showState.logo" class="d-block w-100">
@@ -59,7 +52,7 @@
                             </button>
                         </div>
                         <div v-if="showState.archived">
-                            <button type="submit" @click="recoverState" class="btn btn-primary">
+                            <button type="submit" @click="recoverState" class="btn btn-primary recovery-button">
                                 Відновити
                             </button>
                         </div>
@@ -104,7 +97,7 @@
 <script>
 import LastStatesList from "../LastStatesList";
 import CommentsList from "../CommentsList";
-import StateShow from "../StateShow";
+import StarRating from 'vue-star-rating'
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -112,29 +105,38 @@ export default {
     data() {
         return {
             commentMessage: '',
+            rating: '',
         }
     },
     components: {
-        CommentsList,
+        CommentsList, StarRating,
         LastStatesList,
-        StateShow,
     },
 
     computed: {
-        ...mapGetters(['showState', 'lastStates', 'getStateComments']),
+        ...mapGetters('state', ['showState', 'lastStates']),
+        ...mapGetters('comment', ['getStateComments']),
         ...mapGetters("auth", ["user","apiToken"]),
     },
     methods: {
-        ...mapActions(['getStateById', 'getLastStates', 'postComment', 'deleteShowState', 'recoverShowState']),
+        ...mapActions('state', ['getStateById', 'getLastStates', 'deleteShowState', 'recoverShowState']),
+        ...mapActions('comment', ['postComment']),
+
         createComment() {
-            this.postComment([this.showState.id, this.commentMessage])
-            this.commentMessage = '';
+            if(this.user) {
+                this.postComment([this.showState.id, this.commentMessage])
+                this.commentMessage = '';
+            }
+
         },
         destroyState() {
             this.deleteShowState(this.showState.id)
         },
         recoverState() {
             this.recoverShowState(this.showState.id)
+        },
+        setRating() {
+            console.log(StarRating.data);
         },
     },
     mounted() {
@@ -144,7 +146,7 @@ export default {
     watch: {
         '$route'() {
             this.getStateById(this.$attrs.state)
-        }
+        },
     }
 }
 </script>

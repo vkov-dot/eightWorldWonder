@@ -47,11 +47,17 @@
         <div v-if="this.allStates.length">
             <states-list :states="this.allStates" v-model:states="this.allStates"/>
         </div>
+        <Pagination
+            :total="totalStates"
+            :item="10"
+            @page-changed="getAllStates"
+        />
     </div>
 </template>
 
 <script>
 import StatesList from "../StatesList";
+import Pagination from "../Pagination";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -62,15 +68,16 @@ export default {
             sortBy: '',
             localSearchOption: '',
             localSearchMessage: '',
+            page: 1,
         }
     },
     components: {
-        StatesList,
+        StatesList, Pagination
     },
-    computed: mapGetters(['allStates']),
+    computed: mapGetters('state', ['allStates', 'totalStates']),
     methods: {
-        ...mapActions(['getAllStates', 'getSearchOption', 'getSearchMessage']),
-        ...mapMutations(['updateStates', 'statesDesc', 'statesAsc']),
+        ...mapActions('state', ['getAllStates', 'getSearchOption', 'getSearchMessage']),
+        ...mapMutations('state', ['updateStates', 'statesDesc', 'statesAsc']),
         sortByOption() {
             if (this.sortBy === 'desc') {
                 this.statesDesc()
@@ -85,7 +92,7 @@ export default {
         },
     },
     mounted() {
-        this.getAllStates()
+        this.getAllStates(this.page)
     },
 }
 </script>

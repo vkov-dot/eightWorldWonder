@@ -4,15 +4,9 @@
             <div class="search-issue-form justify-content-center mb-3">
                 <div>
                     <select class="form-control" v-model="sortBy" @change="sortByOption">
-                        <option disabled value="">
-                            Сортувати
-                        </option>
-                        <option value="desc">
-                            Спочатку новіше
-                        </option>
-                        <option value="asc">
-                            Спочатку старіше
-                        </option>
+                        <option disabled value="">Сортувати</option>
+                        <option value="desc">Спочатку новіше</option>
+                        <option value="asc">Спочатку старіше</option>
                     </select>
                 </div>
                 <div class="search-div ml-2">
@@ -32,9 +26,7 @@
             <div v-if="archiveIssues.length">
                 <ul class="states-list">
                     <div class="last-states-title border-bottom-grey">
-                        <p>
-                            Архів випусків
-                        </p>
+                        <p>Архів випусків</p>
                     </div>
                     <issues-list-element
                         v-for="issue in archiveIssues"
@@ -64,11 +56,11 @@ export default {
     components: {
         IssuesListElement, pagination,
     },
-    computed: mapGetters(['archiveIssues']),
+    computed: mapGetters('issue', ['archiveIssues']),
     methods: {
-        ...mapActions(['getArchiveIssues', 'getSearchMessage']),
+        ...mapActions('issue', ['getArchiveIssues', 'getIssueSearchMessage']),
         search() {
-            this.getSearchMessage(this.localSearchMessage)
+            this.getIssueSearchMessage(this.localSearchMessage)
         },
         sortByOption() {
             if (this.sortBy === 'desc') {

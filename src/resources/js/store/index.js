@@ -7,13 +7,14 @@ import heading from "./modules/heading";
 import category from "./modules/category";
 import comment from "./modules/comment";
 import auth from './modules/auth';
+import profile from "./modules/profile";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
         state, issue, media, auth,
-        heading, category, comment,
+        heading, category, comment, profile
     },
     mutations: {
         setErrors: (state, errors) => state.errors = errors,

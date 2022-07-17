@@ -1,6 +1,8 @@
 import {axiosInstance} from "../../service/api";
 
 export default {
+    namespaced: true,
+
     actions: {
         async postComment(ctx, [state, message]) {
             if(localStorage.getItem("authToken")) {
@@ -8,6 +10,7 @@ export default {
             }
             axiosInstance.post(`http://example.palmo/api/states/${state}/comments/store`, { message } )
                 .then(response => {
+                    console.log(response)
                     ctx.commit('updateStateComments', response.data)
                 })
                 .catch(error => console.log(error))

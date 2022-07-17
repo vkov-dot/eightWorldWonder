@@ -1,10 +1,15 @@
 import {axiosInstance} from "../../service/api";
 
 export default {
+    namespaced: true,
+
     actions: {
-        async getAllStates(ctx) {
-            axios("http://example.palmo/api/states/all")
-                .then(response => ctx.commit('updateStates', response.data.data))
+        async getAllStates(ctx, pageNumber) {
+            axios(`http://example.palmo/api/states/all?page=${pageNumber}`)
+                .then(response => {
+                    ctx.commit('updateStates', response.data.data)
+                    ctx.commit('updateTotal', response.data.total)
+                })
                 .catch(error => console.log(error));
         },
         async getLastStates(ctx) {
@@ -13,7 +18,10 @@ export default {
                 .catch(error => console.log(error));
         },
         async getStateById(ctx, id) {
-            axios(`http://example.palmo/api/states/${id}`)
+            if (localStorage.getItem("authToken")) {
+                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
+            }
+            axiosInstance.get(`http://example.palmo/api/states/${id}/show`)
                 .then(response => ctx.commit('updateShowState', response.data))
                 .catch(error => console.log(error));
         },
@@ -38,10 +46,15 @@ export default {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
             }
             axiosInstance.put(`http://example.palmo/api/states/recover/${state}`)
-                .then(response => {
-                    console.log(response)
-                    ctx.commit('updateArchiveStates', response.data)
-                })
+                .then(response => ctx.commit('updateArchiveStates', response.data))
+                .catch(error => console.log(error))
+        },
+        async storeState(ctx, state) {
+            if (localStorage.getItem("authToken")) {
+                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
+            }
+            axiosInstance.post("http://example.palmo/api/states/store", state)
+                .then(response => console.log(response)/*ctx.commit('updateStates', response.data)*/)
                 .catch(error => console.log(error))
         },
         getSearchMessage(ctx, message) {
@@ -70,7 +83,9 @@ export default {
             let index = state.showState.comments.findIndex(item => item.id === comment);
             state.showState.comments.splice(index, 1)
         },
-
+        updateTotal(state, count) {
+            state.total = count;
+        },
     },
     state: {
         states: [],
@@ -78,9 +93,11 @@ export default {
         archiveStates: [],
         searchStateMessage: '',
         searchOption: '',
+        total: 1,
     },
     getters: {
         lastStates: state => state.states,
+        totalStates: state => state.total,
         allStates: state => {
             if(state.searchOption && state.searchStateMessage) {
                 return state.states.filter(note => note[state.searchOption].includes(state.searchStateMessage))

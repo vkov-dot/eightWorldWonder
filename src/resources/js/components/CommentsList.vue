@@ -37,7 +37,7 @@ export default {
         stateId: '',
     },
     methods: {
-        ...mapActions(['deleteCommentState', 'deleteComment']),
+        ...mapActions('comment', ['deleteCommentState']),
         commentDelete(commentId) {
             this.deleteCommentState([this.stateId, commentId])
         },

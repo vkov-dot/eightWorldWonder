@@ -29,22 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->service->index();
-
-        return view('users.index', ['users' => $users]);
-    }
-
-    /**
-     * Display a search listing of resource
-     *
-     * @param Request $request
-     * @return Application|Factory|View
-     */
-    public function search(Request $request)
-    {
-        $users = $this->service->search($request);
-
-        return view('users.index', ['users' => $users]);
+        return $this->service->index();
     }
 
     /**
@@ -55,9 +40,7 @@ class UserController extends Controller
      */
     public function edit(int $id)
     {
-        $user = $this->service->edit($id);
-
-        return view('users.edit', ['user' => $user]);
+        return $this->service->edit($id);
     }
 
     /**
@@ -65,13 +48,11 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return RedirectResponse
+     * @return void
      */
     public function update(Request $request, int $id): RedirectResponse
     {
         $this->service->update($request, $id);
-
-        return redirect()->route('users.index');
     }
 
     /**

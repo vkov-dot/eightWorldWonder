@@ -3,6 +3,11 @@
         <div v-if="this.allMedias.length">
             <index-media-list :medias="this.allMedias"/>
         </div>
+        <Pagination
+            :total="totalMedias"
+            :item="10"
+            @page-changed="getAllMedias"
+        />
     </div>
 </template>
 
@@ -10,18 +15,24 @@
 
 import IndexMediaList from '../IndexMediaList'
 import {mapActions, mapGetters} from 'vuex'
+import Pagination from "../Pagination";
 
 export default {
     name: "MediaIndexPage",
-    components: {
-        IndexMediaList,
+    data() {
+        return {
+            page: 1,
+        }
     },
-    computed: mapGetters(['allMedias']),
+    components: {
+        IndexMediaList, Pagination
+    },
+    computed: mapGetters('media', ['allMedias', 'totalMedias']),
     methods: {
-        ...mapActions(['getAllMedias']),
+        ...mapActions('media', ['getAllMedias']),
     },
     mounted() {
-        this.getAllMedias();
+        this.getAllMedias(this.page);
     }
 }
 </script>

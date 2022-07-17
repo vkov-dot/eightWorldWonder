@@ -33,6 +33,7 @@ export default {
                     commit("setUserData", response.data.user);
                     localStorage.setItem("authToken", response.data.token);
                     localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN'])
+                    router.push('/')
                 })
                 .catch(err => console.log(err));
         },

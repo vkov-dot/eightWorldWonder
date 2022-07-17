@@ -18,6 +18,8 @@ import FolderCreatePage from "./components/pages/FolderCreatePage";
 import HeadingsCreatePage from "./components/pages/HeadingsCreatePage";
 import StatesArchivePage from "./components/pages/StatesArchivePage";
 import IssuesArchivePage from "./components/pages/IssuesArchivePage";
+import RegisterPage from "./components/pages/RegisterPage";
+import ProfileEditPage from "./components/pages/ProfileEditPage";
 
 Vue.use(VueRouter)
 
@@ -30,7 +32,7 @@ export default new VueRouter({
             component: StartPage,
             props: true,
         }, {
-            path: '/states/:state',
+            path: '/states/show/:state',
             name: 'states.show',
             component: StateShowPage,
             props: true,
@@ -98,6 +100,14 @@ export default new VueRouter({
             path: '/headings/create',
             name: 'headings.create',
             component: HeadingsCreatePage,
-        },
+        }, {
+            path: '/register',
+            name: 'register',
+            component: RegisterPage,
+        }, {
+            path: '/profile/:user/edit',
+            name: 'profile.edit',
+            component: ProfileEditPage,
+        }
     ]
 })

@@ -38,7 +38,6 @@ class StateService extends BaseService
         $state['rating'] = round($rating->avg('rating'), 2);
         $state['ratingCount'] = $rating->count();
         Carbon::setLocale('uk');
-
         foreach ($state['comments'] as $comment) {
             $comment->published_at = Carbon::parse($comment->created_at)->diffForHumans();
             $comment->userName = $comment->user->name;

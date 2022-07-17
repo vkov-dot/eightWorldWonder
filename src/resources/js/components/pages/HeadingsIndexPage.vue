@@ -26,9 +26,9 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "HeadingsIndexPage",
-    computed: mapGetters(['allHeadings']),
+    computed: mapGetters('heading', ['allHeadings']),
     methods: {
-        ...mapActions(['getAllHeadings']),
+        ...mapActions('heading', ['getAllHeadings']),
     },
     mounted() {
         this.getAllHeadings();

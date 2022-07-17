@@ -1,4 +1,6 @@
 export default {
+    namespaced: true,
+
     actions: {
         async getAllHeadings(ctx) {
             axios.get("http://example.palmo/api/headings")

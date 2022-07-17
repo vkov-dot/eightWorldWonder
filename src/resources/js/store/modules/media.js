@@ -2,10 +2,16 @@ import {axiosInstance} from "../../service/api";
 import router from "../../router";
 
 export default {
+    namespaced: true,
+
     actions: {
-        async getAllMedias(ctx) {
-            return await axios.get("http://example.palmo/api/media")
-                .then(response => ctx.commit('updateMedias', response.data))
+        async getAllMedias(ctx, pageNumber) {
+            return await axios.get(`http://example.palmo/api/media?page=${pageNumber}`)
+                .then(response => {
+                    console.log(response)
+                    ctx.commit('updateMedias', response.data.data)
+                    ctx.commit('updateTotal', response.data.total)
+                })
                 .catch(error => console.log(error))
         },
         async storeFolder(ctx, issue) {
@@ -19,11 +25,14 @@ export default {
     },
     mutations: {
         updateMedias: (state, medias) => state.medias = medias,
+        updateTotal: (state, total) => state.total = total,
     },
     state: {
-        medias: []
+        medias: [],
+        total: 1,
     },
     getters: {
         allMedias: state => state.medias,
+        totalMedias: state => state.total,
     },
 }

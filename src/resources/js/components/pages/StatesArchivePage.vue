@@ -81,10 +81,10 @@ export default {
     components: {
         StatesListElement, pagination,
     },
-    computed: mapGetters(['archiveStates']),
+    computed: mapGetters('state', ['archiveStates']),
     methods: {
-        ...mapActions(['getArchiveStates', 'getSearchOption', 'getSearchMessage']),
-        ...mapMutations(['statesAsc', 'statesDesc']),
+        ...mapActions('state', ['getArchiveStates', 'getSearchOption', 'getSearchMessage']),
+        ...mapMutations('state', ['statesAsc', 'statesDesc']),
         searchStates() {
             this.getSearchMessage(this.localSearchMessage)
             this.getSearchOption(this.localSearchOption)

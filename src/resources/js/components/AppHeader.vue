@@ -31,9 +31,9 @@
                                         </router-link>
                                     </li>
                                     <li>
-                                        <router-link class="dropdown-item" :to="{ name: 'logout' }">
+                                        <span @click="logout" class="dropdown-item">
                                             Вийти
-                                        </router-link>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
@@ -44,12 +44,12 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" archive-menu="none">
                                     <li>
-                                        <router-link class="dropdown-item" :to="{ name: 'archive.states', params: {} }">
+                                        <router-link class="dropdown-item" :to="{ name: 'states.archive'}">
                                             Статті
                                         </router-link>
                                     </li>
                                     <li>
-                                        <router-link class="dropdown-item" :to="{ name: 'archive.issues', params: {} }">
+                                        <router-link :to="{ name: 'issues.archive'}" class="dropdown-item">
                                             Газета
                                         </router-link>
                                     </li>
@@ -240,9 +240,7 @@ import {mapGetters, mapActions} from "vuex";
 
 export default {
     name: "AppHeader",
-    computed: {
-        ...mapGetters("auth", ["user","apiToken"]),
-    },
+    computed: mapGetters("auth", ["user","apiToken"]),
     methods: {
         ...mapActions("auth", ["sendLogoutRequest"]),
         logout() {

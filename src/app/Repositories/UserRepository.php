@@ -15,7 +15,7 @@ class UserRepository
     {
         return $this->query()
             ->latest()
-            ->paginate(20, ['name', 'id', 'email', 'created_at']);
+            ->paginate(10, ['name', 'id', 'email', 'created_at']);
     }
 
     public function find(int $id)

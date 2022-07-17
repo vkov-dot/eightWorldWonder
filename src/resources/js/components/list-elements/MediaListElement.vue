@@ -14,7 +14,7 @@
 export default {
     name: "MediaListElement",
     props: {
-        media: Array,
+        media: {},
     },
 }
 </script>

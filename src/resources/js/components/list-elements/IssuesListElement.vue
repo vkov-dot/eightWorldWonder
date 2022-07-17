@@ -12,10 +12,10 @@
             </button>
         </div>
         <div v-if="user && user.admin && issue.archived" class="destroy-recover-div">
-            <button type="submit" class="destroy-note-submit" @click="deleteIssue(issue)">
+            <button class="destroy-note-submit mr-1" @click="deleteIssue(issue)">
                 Видалити
             </button>
-            <button type="submit" class="recover-note-submit" @click="recoverIssue(issue.id)">
+            <button class="recover-note-submit mr-1" @click="recoverIssue(issue.id)">
                 Відновити
             </button>
         </div>
@@ -32,7 +32,7 @@ export default {
     },
     computed: mapGetters("auth", ["user","apiToken"]),
     methods: {
-        ...mapActions(['actionDeleteIssue', 'actionDeleteArchivedIssue', 'actionRecoverIssue']),
+        ...mapActions('issue', ['actionDeleteIssue', 'actionDeleteArchivedIssue', 'actionRecoverIssue']),
         deleteIssue(issue) {
             if(issue.archived === 1) {
                 this.actionDeleteArchivedIssue(issue.id)

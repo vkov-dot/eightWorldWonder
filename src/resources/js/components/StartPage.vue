@@ -22,9 +22,13 @@ export default {
         LastIssuesList,
         LastStatesList,
     },
-    computed: mapGetters(['lastStates', 'lastIssues']),
+    computed: {
+        ...mapGetters('state', ['lastStates']),
+        ...mapGetters('issue', ['lastIssues']),
+    },
     methods: {
-        ...mapActions(['getLastIssues', 'getLastStates']),
+        ...mapActions('state', ['getLastStates']),
+        ...mapActions('issue', ['getLastIssues']),
         ToStateShowPage(id) {
             this.$router.push({ name: 'states.show', state: id })
         }

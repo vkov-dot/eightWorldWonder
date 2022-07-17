@@ -10,17 +10,6 @@
                 />
             </ul>
         </div>
-        <!--
-                <div class="row justify-content-center" v-if="states.length > states.total">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body pagination">
-                                {{ states.links() }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        -->
     </div>
 </template>
 

@@ -18,16 +18,6 @@ class MediaFolderService extends BaseService
         $this->repository = $repository;
     }
 
-    public function index()
-    {
-        $medias = $this->repository->index();
-        foreach($medias as $media) {
-            $media->published_at = Carbon::parse($media->created_at)->format('d.m.Y');
-        }
-
-        return $medias;
-    }
-
     public function store(MediaFolderRequest $request)
     {
         $data = $request->except('_token');

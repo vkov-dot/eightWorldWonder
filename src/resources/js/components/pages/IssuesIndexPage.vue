@@ -28,6 +28,7 @@
                 </div>
             </div>
         </div>
+        <div>
         <ul class="states-list">
             <div class="last-states-title border-bottom-grey">
                 <p>
@@ -41,13 +42,20 @@
                 class="list-element"
             />
         </ul>
-        <pagination class="d-flex justify-content-center" :data="{allIssues}" @pagination-change-page="getAllIssues"></pagination>
+
+        </div>
+        <Pagination
+            :total="totalIssues"
+            :item="10"
+            @page-changed="getAllIssues"
+        />
     </div>
 </template>
 
 <script>
 import IssuesListElement from "../list-elements/IssuesListElement";
 import pagination from 'laravel-vue-pagination'
+import Pagination from "../Pagination";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -56,15 +64,17 @@ export default {
         return {
             sortBy: '',
             localSearchMessage: '',
+            page: 1,
         }
     },
     components: {
         IssuesListElement, pagination,
+        Pagination
     },
-    computed: mapGetters(['allIssues']),
+    computed: mapGetters('issue', ['allIssues', 'totalIssues']),
     methods: {
-        ...mapActions(['getAllIssues', 'getIssueSearchMessage']),
-        ...mapMutations(['updateSearchMessage']),
+        ...mapActions('issue', ['getAllIssues', 'getIssueSearchMessage']),
+        ...mapMutations('issue', ['updateIssueSearchMessage']),
         search() {
             this.getIssueSearchMessage(this.localSearchMessage)
         },
@@ -78,7 +88,7 @@ export default {
         },
     },
     mounted() {
-        this.getAllIssues()
+        this.getAllIssues(this.page)
     },
 }
 </script>
