@@ -5,7 +5,7 @@
                 <div>
                     <div class="form-group create-state-name-heading">
                         <div class="state-name-div">
-                            <input type="text" class="state-name-input" placeholder="Назва статті" v-model="state.name">
+                            <input type="text" class="state-name-input" placeholder="Название статьи" v-model="state.name">
                         </div>
 
                         <div class="states-heading-input">
@@ -24,13 +24,13 @@
                         </div>
                     </div>
 
-                    <textarea name="body" v-model="state.body">
-                        {{ state.body }}
-                    </textarea>
+                    <textarea name="body" v-model="state.body"></textarea>
+
                     <div class="state-author-div">
                         <input type="text" class="state-author-input" placeholder="Автор" v-model="state.author">
                     </div>
                 </div>
+
                 <div class="submit-button">
                     <button @click="createState">
                         Опублікувати
@@ -60,7 +60,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-    name: "StatesCreatePage",
+    name: "StateEditPage",
     data() {
         return {
             ckeditor: null,
@@ -73,26 +73,41 @@ export default {
             }
         }
     },
-    computed: mapGetters('heading', ['headingNames']),
+    computed: {
+        ...mapGetters('heading', ['headingNames']),
+        ...mapGetters('state', ['showState']),
+    },
     methods: {
-        ...mapActions('state', ['storeState']),
+        ...mapActions('state', ['storeState', 'getStateById', 'updateState']),
         ...mapActions('heading', ['getHeadingNames']),
         createState() {
             this.state.logo = this.$refs.file.files[0];
             this.state.body = CKEDITOR.instances['body'].getData();
             let formData = new FormData();
+            formData.append('id', this.$route.params.state);
             formData.append('logo', this.state.logo);
             formData.append('name', this.state.name);
             formData.append('heading_id', this.state.heading_id);
             formData.append('body', this.state.body);
             formData.append('author', this.state.author);
-
-            this.storeState(formData)
+            this.updateState([formData, this.$route.params.state])
         }
     },
     mounted() {
         this.getHeadingNames();
+        this.getStateById(this.$route.params.state);
         this.ckeditor = CKEDITOR.replace('body').stringify;
-    }
+    },
+    watch: {
+        'showState'() {
+            if(this.showState) {
+                this.state.name = this.showState.name;
+                this.state.body = this.showState.body;
+                this.state.author = this.showState.author;
+                this.state.heading_id = this.showState.heading_id;
+            }
+        }
+    },
 }
 </script>
+

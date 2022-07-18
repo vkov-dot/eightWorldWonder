@@ -24,8 +24,8 @@ class HeadingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'image' => 'required'
+            /*'name' => 'required',
+            'image' => 'required'*/
         ];
     }
 

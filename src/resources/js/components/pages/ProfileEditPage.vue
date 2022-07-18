@@ -51,7 +51,7 @@
             <div class="to-page">
                 <div>
                     <div>
-                        <router-link :to="{ name: 'addInfo' }">
+                        <router-link :to="{ name: 'users.index' }">
                             Назад
                         </router-link>
                     </div>
@@ -69,12 +69,14 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import router from "../../router";
 
 export default {
     name: "ProfileEditPage",
     data() {
         return {
             userLocal: {
+                id: null,
                 name: '',
                 email: '',
                 password: '',
@@ -90,8 +92,8 @@ export default {
         ...mapActions('profile', ['getEditUserById', 'updateUser']),
         ...mapActions('auth', ['getUserData']),
         getUpdateUserResponse() {
-            console.log(this.showUser);
             this.updateUser(this.userLocal);
+            router.push({ name: 'users.index' })
         }
     },
     mounted() {
@@ -101,6 +103,7 @@ export default {
     watch: {
         'showUser'() {
             if (this.showUser) {
+                this.userLocal.id = this.$route.params.user;
                 this.userLocal.name = this.showUser.name;
                 this.userLocal.email = this.showUser.email;
                 this.userLocal.password = this.showUser.password;

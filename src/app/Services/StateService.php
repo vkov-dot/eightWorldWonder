@@ -54,17 +54,18 @@ class StateService extends BaseService
         State::create($data);
     }
 
-    public function update(StateEditRequest $request, int $id)
+    public function update(StateEditRequest $request)
     {
         $data = $request->except('_token');
-        $state = $this->find($id);
+        $state = $this->find($request->id);
 
         if($request->logo) {
             $data['logo'] = $this->saveImage($request);
             Storage::disk('public')->delete($state->logo);
         }
-
         $state->update($data);
+
+        return $state->archived;
     }
 
     public function recover($id)
@@ -80,7 +81,9 @@ class StateService extends BaseService
         if($state->archived) {
             Rating::where('state_id', $id)->delete();
             Storage::disk('public')->delete($state->logo);
-            $commentController->destroyByStateId($id);
+            if($state->comments) {
+                $commentController->destroyByStateId($id);
+            }
             $state->delete();
         }
         else {

@@ -19,12 +19,12 @@ class RatingController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $this->service->store($request);
 
-        return redirect()->route('states.show', ['state' => $request->state_id]);
+        return response()->json(['message' => 'success']);
     }
 }

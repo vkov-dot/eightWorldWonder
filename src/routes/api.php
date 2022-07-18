@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -9,10 +8,11 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HeadingController;
 use App\Http\Controllers\IssueController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\Activate;
 use App\Http\Middleware\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,9 +48,10 @@ Route::group([
     Route::post('/store', [StateController::class, 'store'])->name('store')->middleware(['auth:sanctum', Admin::class]);
     Route::get('/{state}/show', [StateController::class, 'show']);
     Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit')->middleware(['auth:sanctum', Admin::class]);
-    Route::put('/{state}', [StateController::class, 'update'])->name('update')->middleware(['auth:sanctum', Admin::class]);
+    Route::post('/update/{state}', [StateController::class, 'update'])->name('update')->middleware(['auth:sanctum', Admin::class]);
     Route::delete('/{id}', [StateController::class, 'destroy'])->name('destroy')->middleware(['auth:sanctum', Admin::class]);
     Route::put('/recover/{id}', [StateController::class, 'recover'])->name('recover')->middleware(['auth:sanctum', Admin::class]);
+    Route::post('/rating/store', [RatingController::class, 'store'])->name('store')->middleware('auth:sanctum');
 
     Route::group([
         'as' => 'comments.',
@@ -93,7 +94,7 @@ Route::group([
     Route::get('/names', [HeadingController::class, 'getNames']);
     Route::get('/', [HeadingController::class, 'index'])->name('index');
     Route::get('/create', [HeadingController::class, 'create'])->name('create')->middleware('auth:sanctum');
-    Route::post('/', [HeadingController::class, 'store'])->name('store')->middleware('auth:sanctum');
+    Route::post('/store', [HeadingController::class, 'store'])->name('store')->middleware('auth:sanctum');
     Route::get('/{heading}/', [HeadingController::class, 'show'])->name('show');
     Route::get('/{heading}/edit', [HeadingController::class, 'edit'])->name('edit')->middleware('auth:sanctum');
     Route::put('/{heading}', [HeadingController::class, 'update'])->name('update')->middleware('auth:sanctum');
@@ -105,7 +106,7 @@ Route::group([
 ], function () {
     Route::get('/latest', [IssueController::class, 'lastFive'])->name('latest');
     Route::get('/', [IssueController::class, 'index'])->name('index');
-    Route::get('/create', [IssueConftroller::class, 'create'])->name('create')->middleware('auth:sanctum');
+    Route::get('/create', [IssueController::class, 'create'])->name('create')->middleware('auth:sanctum');
     Route::post('/store', [IssueController::class, 'store'])->name('store')->middleware('auth:sanctum');
     Route::post('/search', [IssueController::class, 'search'])->name('search');
     Route::get('/{issue}/', [IssueController::class, 'show'])->name('show');
@@ -121,12 +122,11 @@ Route::group([
 ], function () {
     Route::get('/issues', [IssueController::class, 'archive'])->name('issues.show')->middleware('auth:sanctum');
     Route::get('/states', [StateController::class, 'archive'])->name('states.show')->middleware('auth:sanctum');
-    Route::delete('/{table}/{id}', [ArchiveController::class, 'destroy'])->name('destroy')->middleware('auth:sanctum');
 });
 
 Auth::routes();
 
-Route::post('/login', [LoginController::class, 'login'])->name('login')/*->middleware(Activate::class)*/;
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/home', [StartController::class, 'index'])->name('home');
 
@@ -138,8 +138,16 @@ Route::group([
     Route::post('/activate', [EmailVerificationController::class, 'activate'])->name('verification.activate');
 });
 
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::get('/user', [AuthenticationController::class, 'user']);
+});
+
+Route::group([
+    'as' => 'profiles.',
+    'prefix' => 'profiles'
+], function () {
+    Route::get('/', [ProfileController::class, 'show'])->name('show')->middleware('auth');
+    Route::get('{profile}/edit', [ProfileController::class, 'edit'])->name('edit')->middleware('auth');
+    Route::put('/update', [ProfileController::class, 'update'])->name('update')->middleware('auth');
 });

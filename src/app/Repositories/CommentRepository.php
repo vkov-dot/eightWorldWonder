@@ -23,4 +23,9 @@ class CommentRepository
     {
         return $this->query()->find($id);
     }
+
+    public function deleteByStateId(int $id)
+    {
+        $this->getByStateId($id)->forceDelete();
+    }
 }

@@ -8,18 +8,13 @@
                 <div class="burger-menu">
                     <div class="collapse" id="navbarToggleExternalContent">
                         <div class="p-4">
-                            <div id="add-to-archive dropdown" v-if="user">>
+                            <div id="add-to-archive dropdown" v-if="user">
                                 <a class="dropdown-toggle menu-list-link" data-bs-toggle="dropdown"
                                    aria-expanded="false" id="dropdown-archive">
                                     {{ user.name }}
                                 </a>
                                 <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink"
                                     data-bs-auth="none">
-                                    <li>
-                                        <router-link :to="{ name: 'profile.show', params: {} }" class="dropdown-item">
-                                            Профіль
-                                        </router-link>
-                                    </li>
                                     <li v-if="user && user.admin">
                                         <router-link :to="{ name: 'users.index', params: {} }" class="dropdown-item">
                                             Користувачі
@@ -82,18 +77,17 @@
                                         </router-link>
                                     </li>
                                     <li>
-                                        <router-link to="/categories/1" class="dropdown-item">
+                                        <router-link :to="{ name: 'categories.show', params: {id: 1} }" class="dropdown-item">
                                             Випуски
                                         </router-link>
                                     </li>
                                     <li>
-                                        <router-link to="/categories/2" class="dropdown-item">
+                                        <router-link :to="{ name: 'categories.show', params: {id: 2} }" class="dropdown-item">
                                             Біблія
                                         </router-link>
                                     </li>
                                     <li>
-                                        <router-link :to="{ name: 'categories.show', params: {id: 3} }"
-                                                     class="dropdown-item">
+                                        <router-link :to="{ name: 'categories.show', params: {id: 3}}" class="dropdown-item">
                                             День народження
                                         </router-link>
                                     </li>
@@ -205,11 +199,6 @@
                                     {{ user.name }}
                                 </a>
                                 <ul class="dropdown-menu " id="dropdown-archive" aria-labelledby="dropdownMenuLink">
-                                    <li>
-                                        <router-link :to="{ name: 'profile.show' }" class="dropdown-item">
-                                            Профіль
-                                        </router-link>
-                                    </li>
                                     <li v-if="user && user.admin">
                                         <router-link :to="{ name: 'users.index' }" class="dropdown-item">
                                             Користувачі

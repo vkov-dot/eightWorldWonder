@@ -37,13 +37,11 @@ class IssueController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return ApplicationAlias|Factory|View
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function create(CategoryRepository $categoryRepository)
     {
-        $categories = $this->service->getAll($categoryRepository);
-
-        return view('issues.create', ['categories' => $categories]);
+        return $this->service->getAll($categoryRepository);
     }
 
     /**
@@ -55,30 +53,6 @@ class IssueController extends Controller
     public function store(IssueRequest $request): string
     {
         $this->service->store($request);
-    }
-
-    /**
-     * @param Request $request
-     * @return ApplicationAlias|Factory|View
-     */
-    public function search(Request $request)
-    {
-        $issues = $this->service->search($request);
-
-        return view('issues.index', ['issues' => $issues]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return ApplicationAlias|Factory|View
-     */
-    public function edit(int $id)
-    {
-        $issue = $this->service->find($id);
-
-        return view('issues.edit', ['issue' => $issue]);
     }
 
     /**

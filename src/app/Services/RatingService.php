@@ -18,9 +18,8 @@ class RatingService extends BaseService
         $data = [
             'user_id' => $user,
             'state_id' => $request->state_id,
-            'rating' => $request->star
+            'rating' => $request->rating,
         ];
-
         if($rating->count()) {
             $this->query()->where('user_id', $user)->update($data);
         }

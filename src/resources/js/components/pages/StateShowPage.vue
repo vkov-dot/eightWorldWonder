@@ -10,26 +10,27 @@
                         {{ this.showState.name }}
                     </p>
                     <div>
-                            <div class="required">
-                                <div class="col-sm-12">
-                                    <star-rating
-                                        :increment="0.5"
-                                        :star-size="40"
-                                        :glow="5"
-                                        :padding="15"
-                                        @rating-selected="setRating"
-                                        :rating="this.showState.rating"
-                                        text-class="state-rating-p"/>
-                                    <div class="d-flex mt-2 mb-4">
-                                        <p class="state-rating-p">
-                                            Середня: {{ this.showState.rating }}
-                                        </p>
-                                        <p class="state-rating-p">
-                                            Вже оцінили: {{ this.showState.ratingCount }}
-                                        </p>
-                                    </div>
+                        <div class="required">
+                            <div class="col-sm-12">
+                                <star-rating
+                                    :round-start-rating="false"
+                                    :increment="0.1"
+                                    :star-size="40"
+                                    :glow="5"
+                                    :padding="15"
+                                    @rating-selected="setRating"
+                                    :rating="this.stateRating"
+                                    text-class="state-rating-p"/>
+                                <div class="d-flex mt-2 mb-4">
+                                    <p class="state-rating-p">
+                                        Середня: {{ this.stateRating }}
+                                    </p>
+                                    <p class="state-rating-p">
+                                        Вже оцінили: {{ this.showState?.ratingCount }}
+                                    </p>
                                 </div>
                             </div>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <img :src="/storage/ + this.showState.logo" class="d-block w-100">
@@ -62,14 +63,15 @@
             <div class="last-states states state-show-div">
                 <div class="comments-count">
                     <p>
-                        Коментарі: {{ this.showState.comments.length }}
+                        Коментарі: {{ this.showState.comments?.length }}
                     </p>
                 </div>
                 <div class="row">
                     <div>
                         <div class="row">
                             <div class="col-12 comment-send-div">
-                                <textarea class="comment-message" name="message" v-model="commentMessage" placeholder="Додати коментар">
+                                <textarea class="comment-message" name="message" v-model="commentMessage"
+                                          placeholder="Додати коментар">
                                 </textarea>
                             </div>
                             <div class="row">
@@ -98,14 +100,14 @@
 import LastStatesList from "../LastStatesList";
 import CommentsList from "../CommentsList";
 import StarRating from 'vue-star-rating'
-import { mapActions, mapGetters } from "vuex";
+import router from "../../router";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
     name: "StateShowPage",
     data() {
         return {
-            commentMessage: '',
-            rating: '',
+            commentMessage: null,
         }
     },
     components: {
@@ -114,29 +116,39 @@ export default {
     },
 
     computed: {
-        ...mapGetters('state', ['showState', 'lastStates']),
+        ...mapGetters('state', ['showState', 'lastStates', 'stateRating']),
         ...mapGetters('comment', ['getStateComments']),
-        ...mapGetters("auth", ["user","apiToken"]),
+        ...mapGetters("auth", ["user", "apiToken"]),
     },
     methods: {
-        ...mapActions('state', ['getStateById', 'getLastStates', 'deleteShowState', 'recoverShowState']),
-        ...mapActions('comment', ['postComment']),
-
+        ...mapActions('state', ['getStateById', 'getLastStates', 'deleteShowState', 'recoverShowState', 'storeRating']),
+        ...mapActions('state', ['postComment', 'deleteComment']),
+        ...mapMutations('state', ['updateRating']),
         createComment() {
-            if(this.user) {
+            if (this.user && this.commentMessage?.length > 5) {
                 this.postComment([this.showState.id, this.commentMessage])
                 this.commentMessage = '';
+            } else if(!this.user) {
+                router.push({ name: 'login' })
             }
-
         },
         destroyState() {
             this.deleteShowState(this.showState.id)
+            router.push({ name: 'states.archive' })
         },
         recoverState() {
             this.recoverShowState(this.showState.id)
         },
-        setRating() {
-            console.log(StarRating.data);
+        setRating(ratingCount) {
+            if(this.user) {
+                let rating = {
+                    rating: ratingCount,
+                    state_id: this.showState.id,
+                }
+                this.storeRating(rating)
+            } else {
+                router.push({ name: 'login'})
+            }
         },
     },
     mounted() {
@@ -147,6 +159,9 @@ export default {
         '$route'() {
             this.getStateById(this.$attrs.state)
         },
+        'showState'() {
+            this.rating = this.showState.rating
+        }
     }
 }
 </script>

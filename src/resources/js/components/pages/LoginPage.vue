@@ -52,9 +52,12 @@ export default {
                 email: "",
                 password: "",
             },
-            signIn: true,
             user_id: 0,
         };
+    },
+    computed: {
+        ...mapGetters(["errors"]),
+        ...mapGetters("auth", ["user", "apiToken"]),
     },
     mounted() {
         this.setErrors({});
@@ -63,16 +66,8 @@ export default {
         ...mapMutations(["setErrors"]),
         ...mapActions("auth", ["sendLoginRequest", "sendRegisterRequest"]),
         async sendCredentials() {
-            if (this.signIn) {
-                await this.sendLoginRequest(this.details);
-            } else {
-                await this.sendRegisterRequest(this.details);
-            }
+            await this.sendLoginRequest(this.details);
         },
-    },
-    computed: {
-        ...mapGetters(["errors"]),
-        ...mapGetters("auth", ["user", "apiToken"]),
     },
 }
 </script>

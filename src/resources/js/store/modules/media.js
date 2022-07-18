@@ -8,7 +8,6 @@ export default {
         async getAllMedias(ctx, pageNumber) {
             return await axios.get(`http://example.palmo/api/media?page=${pageNumber}`)
                 .then(response => {
-                    console.log(response)
                     ctx.commit('updateMedias', response.data.data)
                     ctx.commit('updateTotal', response.data.total)
                 })

@@ -35,4 +35,9 @@ class CommentService extends BaseService
             $comment->delete();
         }
     }
+
+    public function destroyByStateId(int $id)
+    {
+        $this->repository->deleteByStateId($id);
+    }
 }

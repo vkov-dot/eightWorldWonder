@@ -11,9 +11,11 @@
                             {{ comment.published_at }}
                         </p>
                     </div>
-                    <button @click="commentDelete(comment.id)" class="bg-white border-0">
-                        ✕
-                    </button>
+                    <div v-if="user">
+                        <button v-if="user.id === comment.user_id || user.admin" @click="commentDelete(comment.id)" class="bg-white border-0">
+                            ✕
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <p>
@@ -28,23 +30,23 @@
 
 <script>
 
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: "CommentsList",
     props: {
         comments: Array,
         stateId: '',
+        userAdmin: 0,
+    },
+    computed: {
+        ...mapGetters("auth", ["user", "apiToken"]),
     },
     methods: {
-        ...mapActions('comment', ['deleteCommentState']),
+        ...mapActions('state', ['deleteCommentState']),
         commentDelete(commentId) {
             this.deleteCommentState([this.stateId, commentId])
         },
     },
 }
 </script>
-
-<style scoped>
-
-</style>

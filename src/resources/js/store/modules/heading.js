@@ -1,3 +1,5 @@
+import {axiosInstance} from "../../service/api";
+
 export default {
     namespaced: true,
 
@@ -17,6 +19,14 @@ export default {
                 .then(response => ctx.commit('updateHeadingNames', response.data))
                 .catch(error => console.log(error))
         },
+        async storeHeading(ctx, heading) {
+            if (localStorage.getItem("authToken")) {
+                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
+            }
+            axiosInstance.post("http://example.palmo/api/headings/store", heading)
+                .then(response => console.log(response)/*ctx.commit('updateStates', response.data)*/)
+                .catch(error => console.log(error))
+        }
     },
     mutations: {
         updateHeadings: (state, headings) => state.headings = headings,

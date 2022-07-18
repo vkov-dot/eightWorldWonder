@@ -3,7 +3,6 @@
         <p class="date">
             {{ media.published_at }}
         </p>
-        <!--a :href="media.link"-->
         <a :href="media.link"  class="state-name" target="_blank">
             {{ media.name }}
         </a>
@@ -18,7 +17,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-
-</style>

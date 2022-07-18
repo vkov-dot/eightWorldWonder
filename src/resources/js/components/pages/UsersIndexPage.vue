@@ -79,11 +79,11 @@ export default {
         }
     },
 
-    computed: mapGetters('user', ['allUsers', 'totalUsers']),
+    computed: mapGetters('profile', ['allUsers', 'totalUsers']),
 
     methods: {
-        ...mapActions('user', ['getAllUsers', 'getSearchOption', 'getSearchMessage']),
-        ...mapMutations('user', ['usersDesc', 'usersAsc']),
+        ...mapActions('profile', ['getAllUsers', 'getSearchOption', 'getSearchMessage']),
+        ...mapMutations('profile', ['usersDesc', 'usersAsc']),
         sortByOption() {
             if (this.sortBy === 'desc') {
                 this.usersDesc()
@@ -102,7 +102,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-
-</style>

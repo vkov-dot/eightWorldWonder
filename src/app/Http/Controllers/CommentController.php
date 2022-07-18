@@ -6,6 +6,7 @@ use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Services\CommentService;
 use App\Services\StateService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
@@ -22,7 +23,7 @@ class CommentController extends Controller
      *
      * @param CommentRequest $request
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|RedirectResponse|object|void
+     * @return Builder|\Illuminate\Database\Eloquent\Model|RedirectResponse|object|void
      */
     public function store(CommentRequest $request, int $id)
     {
@@ -34,17 +35,15 @@ class CommentController extends Controller
      *
      * @param $stateId
      * @param int $id
-     * @return RedirectResponse
+     * @return void
      */
     public function destroy($stateId, int $id): RedirectResponse
     {
         $this->service->destroy($id);
-
-        return redirect()->route('states.show', ['state' => $stateId]);
     }
 
     public function destroyByStateId(int $id)
     {
-        $this->service->destroy($id);
+        $this->service->destroyByStateId($id);
     }
 }

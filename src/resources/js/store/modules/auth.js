@@ -24,6 +24,7 @@ export default {
                     commit("setUserData", response.data.user);
                     localStorage.setItem("authToken", response.data.token)
                     commit("setApiToken", response.data.token);
+                    router.push({ name: 'start' })
                 }).catch(err => console.log(err));
         },
         sendRegisterRequest({ commit }, data) {
@@ -33,7 +34,7 @@ export default {
                     commit("setUserData", response.data.user);
                     localStorage.setItem("authToken", response.data.token);
                     localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN'])
-                    router.push('/')
+                    router.push({ name: 'start' })
                 })
                 .catch(err => console.log(err));
         },

@@ -14,7 +14,6 @@
                     </button>
                 </div>
             </div>
-
             <div class="to-page">
                 <div>
                     <router-link :to="{ name: 'addInfo' }">
@@ -50,7 +49,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

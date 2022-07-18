@@ -19,39 +19,25 @@ class ProfileController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @return Application|Factory|View
-     */
-    public function show()
-    {
-        $user = $this->service->getProfile();
-
-        return view('profiles.show', ['profile' => $user]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @return Application|Factory|View
+     * @return \Illuminate\Contracts\Auth\Authenticatable
      */
     public function edit()
     {
-        $user = $this->service->getProfile();
-
-        return view('profiles.edit', ['user' => $user]);
+        return $this->service->getProfile();
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @return RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request): \Illuminate\Http\JsonResponse
     {
         $this->service->update($request);
 
-        return redirect()->route('start.index');
+        return response()->json(['message' => 'success']);
     }
 }

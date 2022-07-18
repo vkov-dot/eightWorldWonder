@@ -3,29 +3,17 @@
         <div class="search-issue-form justify-content-center">
             <div class="mr-3">
                 <select class="form-control" v-model="sortBy" @change="sortByOption">
-                    <option disabled value="">
-                        Сортувати
-                    </option>
-                    <option value="desc">
-                        Спочатку новіше
-                    </option>
-                    <option value="asc">
-                        Спочатку старіше
-                    </option>
+                    <option disabled value="">Сортувати</option>
+                    <option value="desc">Спочатку новіше</option>
+                    <option value="asc">Спочатку старіше</option>
                 </select>
             </div>
             <div class="div-search">
                 <label class="states-search-label">
                     <select class="form-control" v-model="localSearchOption" required>
-                        <option disabled value="">
-                            Шукати за
-                        </option>
-                        <option value="author">
-                            автором
-                        </option>
-                        <option value="name">
-                            назвою
-                        </option>
+                        <option disabled value="">Шукати за</option>
+                        <option value="author">автором</option>
+                        <option value="name">назвою</option>
                     </select>
                 </label>
                 <div>
@@ -96,7 +84,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-
-</style>

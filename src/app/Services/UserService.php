@@ -12,9 +12,9 @@ class UserService extends BaseService
         $this->repository = $repository;
     }
 
-    public function update($request, int $id)
+    public function update($request)
     {
-        $user = $this->find($id);
+        $user = $this->find($request->id);
         if($request->password) {
             $user->password = Hash::make($request->password);
         }

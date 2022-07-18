@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\HeadingRequest;
 use App\Services\HeadingService;
+use http\Env\Response;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -46,13 +47,11 @@ class HeadingController extends Controller
      * Store a newly created resource in storage
      *
      * @param HeadingRequest $request
-     * @return RedirectResponse
+     * @return void
      */
     public function store(HeadingRequest $request): RedirectResponse
     {
         $this->service->store($request);
-
-        return redirect()->route('headings.index');
     }
 
     /**
@@ -74,9 +73,7 @@ class HeadingController extends Controller
      */
     public function edit(int $id)
     {
-        $heading = $this->service->edit($id);
-
-        return view('headings.edit', ['heading' => $heading]);
+        return $this->service->edit($id);
     }
 
     /**
@@ -84,12 +81,12 @@ class HeadingController extends Controller
      *
      * @param HeadingRequest $request
      * @param int $id
-     * @return RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(HeadingRequest $request, int $id): RedirectResponse
+    public function update(HeadingRequest $request, int $id): \Illuminate\Http\JsonResponse
     {
         $this->service->update($request, $id);
 
-        return redirect()->route('headings.index');
+        return response()->json(['message' => 'success']);
     }
 }

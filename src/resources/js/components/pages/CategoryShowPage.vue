@@ -16,6 +16,7 @@
         </ul>
         </div>
         <Pagination
+            v-if="categoryIssues.length"
             :total="totalCategoryIssues"
             :item="10"
             @page-changed="getPage"
@@ -56,6 +57,3 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>

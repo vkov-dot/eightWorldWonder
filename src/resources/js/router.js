@@ -6,7 +6,6 @@ import StatesIndexPage from "./components/pages/StatesIndexPage";
 import IssuesIndexPage from "./components/pages/IssuesIndexPage";
 import MediaIndexPage from "./components/pages/MediaIndexPage.vue";
 import HeadingsIndexPage from "./components/pages/HeadingsIndexPage";
-import ProfileShowPage from "./components/pages/ProfileShowPage";
 import addInfoPage from "./components/pages/addInfoPage";
 import UsersIndexPage from "./components/pages/UsersIndexPage";
 import HeadingsShowPage from "./components/pages/HeadingsShowPage";
@@ -20,6 +19,7 @@ import StatesArchivePage from "./components/pages/StatesArchivePage";
 import IssuesArchivePage from "./components/pages/IssuesArchivePage";
 import RegisterPage from "./components/pages/RegisterPage";
 import ProfileEditPage from "./components/pages/ProfileEditPage";
+import StateEditPage from "./components/pages/StateEditPage";
 
 Vue.use(VueRouter)
 
@@ -41,6 +41,10 @@ export default new VueRouter({
             name: 'states.index',
             component: StatesIndexPage,
         }, {
+            path: '/states/edit/:state',
+            name: 'states.edit',
+            component: StateEditPage,
+        }, {
             path: '/issues',
             name: 'issues.index',
             component: IssuesIndexPage,
@@ -57,7 +61,7 @@ export default new VueRouter({
             name: 'headings.index',
             component: HeadingsIndexPage,
         }, {
-            path: '/headings/:heading',
+            path: '/headings/show/:heading',
             name: 'headings.show',
             component: HeadingsShowPage,
         }, {
@@ -76,10 +80,6 @@ export default new VueRouter({
             path: '/users',
             name: 'users.index',
             component: UsersIndexPage,
-        }, {
-            path: '/profile',
-            name: 'profile.show',
-            component: ProfileShowPage,
         }, {
             path: '/login',
             name: 'login',
