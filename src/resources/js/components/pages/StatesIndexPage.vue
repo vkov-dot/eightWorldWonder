@@ -35,7 +35,13 @@
         <div v-if="this.allStates.length">
             <states-list :states="this.allStates" v-model:states="this.allStates"/>
         </div>
+        <div v-else-if="!this.allStates.length" class="no-elements-message">
+            <p>
+                Нажаль записів немає
+            </p>
+        </div>
         <Pagination
+            v-if="this.allStates.length"
             :total="totalStates"
             :item="10"
             @page-changed="getAllStates"

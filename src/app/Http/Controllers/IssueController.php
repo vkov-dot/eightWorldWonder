@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IssueRequest;
 use App\Services\IssueService;
+use http\Env\Response;
 use Illuminate\Contracts\Foundation\Application as ApplicationAlias;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse as JsonResponseAlias;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Repositories\CategoryRepository;
@@ -53,6 +55,8 @@ class IssueController extends Controller
     public function store(IssueRequest $request): string
     {
         $this->service->store($request);
+
+        return response()->json(['message' => 'success']);
     }
 
     /**
@@ -76,21 +80,25 @@ class IssueController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return void
+     * @return JsonResponseAlias
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(int $id): JsonResponseAlias
     {
         $this->service->destroy($id);
+
+        return response()->json(['message' => 'success']);
     }
 
     /**
      * recover the issue resource from archive
      *
      * @param $id
-     * @return void
+     * @return JsonResponseAlias
      */
-    public function recover($id): RedirectResponse
+    public function recover($id): JsonResponseAlias
     {
         $this->service->recover($id);
+
+        return response()->json(['message' => 'success']);
     }
 }

@@ -49,12 +49,23 @@ export default {
                 })
                 .catch(error => console.log(error))
         },
+        async addStateToArchive(ctx, state) {
+            if (localStorage.getItem("authToken")) {
+                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
+            }
+            axiosInstance.post(`http://example.palmo/api/states/archive/add/${state}`)
+                .then(() => router.push({ name: 'states.archive' }))
+                .catch(error => console.log(error))
+        },
         async deleteShowState(ctx, state) {
             if (localStorage.getItem("authToken")) {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
             }
             axiosInstance.delete(`http://example.palmo/api/states/${state}`)
-                .then(response => ctx.commit('updateArchiveStates', response.data))
+                .then(response => {
+                    ctx.commit('updateArchiveStates', response.data)
+                    router.push({ name: 'states.archive' })
+                })
                 .catch(error => console.log(error))
         },
         async recoverShowState(ctx, state) {
@@ -62,7 +73,7 @@ export default {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
             }
             axiosInstance.put(`http://example.palmo/api/states/recover/${state}`)
-                .then(response => ctx.commit('updateArchiveStates', response.data))
+                .then(() => router.push({ name: 'start' }))
                 .catch(error => console.log(error))
         },
         async storeState(ctx, state) {
@@ -70,9 +81,7 @@ export default {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
             }
             axiosInstance.post("http://example.palmo/api/states/store", state)
-                .then(() => {
-                    router.push({ name: 'states.index' })
-                })
+                .then(() => router.push({ name: 'states.index' }))
                 .catch(error => console.log(error))
         },
         async storeRating(ctx, rating) {
@@ -80,7 +89,22 @@ export default {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
             }
             axiosInstance.post("http://example.palmo/api/states/rating/store", rating)
-                .then(response => console.log(response)/*ctx.commit('updateStates', response.data)*/)
+                .catch(error => console.log(error))
+        },
+        async postComment(ctx, [state, message]) {
+            if(localStorage.getItem("authToken")) {
+                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
+            }
+            axiosInstance.post(`http://example.palmo/api/states/${state}/comments/store`, { message } )
+                .then(response => ctx.commit('updateStateComments', response.data))
+                .catch(error => console.log(error))
+        },
+        async deleteCommentState(ctx, [state, comment]) {
+            if (localStorage.getItem("authToken")) {
+                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
+            }
+            await axiosInstance.delete(`http://example.palmo/api/states/${state}/comments/${comment}`)
+                .then((response) => ctx.commit('deleteCommentInList', comment))
                 .catch(error => console.log(error))
         },
         getSearchMessage(ctx, message) {
@@ -92,23 +116,6 @@ export default {
         deleteComment(ctx, commentId) {
             ctx.commit('deleteCommentInList', commentId)
         },
-        async postComment(ctx, [state, message]) {
-            if(localStorage.getItem("authToken")) {
-                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
-            }
-            axiosInstance.post(`http://example.palmo/api/states/${state}/comments/store`, { message } )
-                .then(response => ctx.commit('updateStateComments', response.data))
-                .catch(error => console.log(error))
-        },
-
-        async deleteCommentState(ctx, [state, comment]) {
-            if (localStorage.getItem("authToken")) {
-                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
-            }
-            await axiosInstance.delete(`http://example.palmo/api/states/${state}/comments/${comment}`)
-                .then(() => ctx.commit('deleteCommentInList', comment))
-                .catch(error => console.log(error))
-        }
     },
     mutations: {
         updateStates: (state, states) => state.states = states,

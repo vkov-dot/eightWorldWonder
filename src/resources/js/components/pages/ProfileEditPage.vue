@@ -93,7 +93,6 @@ export default {
         ...mapActions('auth', ['getUserData']),
         getUpdateUserResponse() {
             this.updateUser(this.userLocal);
-            router.push({ name: 'users.index' })
         }
     },
     mounted() {

@@ -86,14 +86,17 @@ class StateService extends BaseService
             }
             $state->delete();
         }
-        else {
-            $state->archived = 1;
-            $state->update();
-        }
     }
 
     public function sort($request)
     {
         return $this->repository->sort($request);
+    }
+
+    public function toArchive(int $id)
+    {
+        $state = $this->find($id);
+        $state->archived = 1;
+        $state->update();
     }
 }

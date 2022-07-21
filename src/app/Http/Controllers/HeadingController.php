@@ -33,25 +33,18 @@ class HeadingController extends Controller
     {
         return $this->service->getNames();
     }
-    /**
-     * Show the form for creating a new resource
-     *
-     * @return Application|Factory|View
-     */
-    public function create()
-    {
-        return view('headings.create');
-    }
 
     /**
      * Store a newly created resource in storage
      *
      * @param HeadingRequest $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(HeadingRequest $request): RedirectResponse
+    public function store(HeadingRequest $request): \Illuminate\Http\JsonResponse
     {
         $this->service->store($request);
+
+        return response()->json(['message' => 'success']);
     }
 
     /**
@@ -83,9 +76,16 @@ class HeadingController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(HeadingRequest $request, int $id): \Illuminate\Http\JsonResponse
+    public function update(HeadingRequest $request): \Illuminate\Http\JsonResponse
     {
-        $this->service->update($request, $id);
+        $this->service->update($request);
+
+        return response()->json(['message' => 'success']);
+    }
+
+    public function destroy(int $id)
+    {
+        $this->service->delete($id);
 
         return response()->json(['message' => 'success']);
     }

@@ -17,12 +17,11 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()) {
-            if(Auth::user()->admin) {
+        if(auth()->user()) {
+            if(auth()->user()->admin) {
                 return $next($request);
             }
         }
-
         return redirect()->route('start.index');
     }
 }

@@ -35,15 +35,19 @@ class CommentController extends Controller
      *
      * @param $stateId
      * @param int $id
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($stateId, int $id): RedirectResponse
+    public function destroy($stateId, int $id): \Illuminate\Http\JsonResponse
     {
         $this->service->destroy($id);
+
+        return response()->json(['message' => 'success']);
     }
 
     public function destroyByStateId(int $id)
     {
         $this->service->destroyByStateId($id);
+
+        return response()->json(['message' => 'success']);
     }
 }

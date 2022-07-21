@@ -10,11 +10,19 @@
                     </div>
                 </div>
                     <states-list-element
-                        v-for="state in headingStates.states.data"
+                        v-for="state in headingStates.states?.data"
                         :key="state.id"
                         :state="state"
                         class="list-element"
                     />
+            </div>
+            <div v-if="user && user.admin">
+                <button class="btn btn-danger" @click="deleteHeadingButton">
+                    Видалити
+                </button>
+                <button class="btn btn-primary" @click="editHeadingButton">
+                    Відредагувати
+                </button>
             </div>
         </div>
     </div>
@@ -24,16 +32,34 @@
 import {mapActions, mapGetters} from "vuex";
 import StatesListElement from "../list-elements/StatesListElement";
 import IndexStatesList from "../StatesList";
+import router from "../../router";
 
 export default {
     name: "HeadingsShowPage",
-    components: {IndexStatesList, StatesListElement},
-    computed: mapGetters('heading', ['headingStates']),
+    components: {
+        IndexStatesList, StatesListElement
+    },
+    computed: {
+        ...mapGetters('heading', ['headingStates']),
+        ...mapGetters('auth', ['user']),
+
+    },
     methods: {
-        ...mapActions('heading', ['getStatesByHeadingId']),
+        ...mapActions('heading', ['getStatesByHeadingId', 'deleteHeading', 'editHeading']),
+        deleteHeadingButton() {
+            this.deleteHeading(this.headingStates.id)
+        },
+        editHeadingButton() {
+            let editHeadingRoute = {
+                name: 'headings.edit',
+                params: {
+                    heading: this.headingStates.id
+                } }
+            router.push(editHeadingRoute)
+        },
+
     },
     mounted() {
-        console.log(this.headingStates);
         this.getStatesByHeadingId(this.$route.params.heading);
     }
 }

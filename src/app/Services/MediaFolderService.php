@@ -26,17 +26,19 @@ class MediaFolderService extends BaseService
 
     public function show($id)
     {
-        $mediaFolder = $this->repository->findFolder($id);
-        $mediaFolder->photos = (new PhotoRepository)->getPhotosByFolder($id);
-        $mediaFolder->videos = (new VideoRepository)->getVideosByFolder($id);
+        return $this->repository->findFolder($id);
+    }
 
-        return $mediaFolder;
+    public function update(MediaFolderRequest $request)
+    {
+        $folder = $this->find($request->id);
+        $folder->link = $request->link;
+        $folder->name = $request->name;
+        $folder->update();
     }
 
     public function destroy(int $id)
     {
-        Photo::where('media_folder_id', $id)->delete();
-        Video::where('media_folder_id', $id)->delete();
         MediaFolder::find($id)->delete();
     }
 }

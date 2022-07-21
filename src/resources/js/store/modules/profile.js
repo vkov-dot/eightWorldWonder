@@ -1,4 +1,5 @@
 import { axiosInstance } from "../../service/api";
+import router from "../../router";
 
 export default {
     namespaced: true,
@@ -36,7 +37,7 @@ export default {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
             }
             axiosInstance.put("http://example.palmo/api/users/update", user)
-                .then(response => console.log(response)/*ctx.commit('updateStates', response.data)*/)
+                .then(() => router.push({ name: 'users.index' }))
                 .catch(error => console.log(error))
         },
         getSearchMessage: (ctx, message) => ctx.commit('updateSearchMessage', message),

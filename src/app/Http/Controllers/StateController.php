@@ -110,6 +110,12 @@ class StateController extends Controller
         return $this->service->archive();
     }
 
+    public function toArchive(int $id)
+    {
+        $this->service->toArchive($id);
+
+        return response()->json(['message' => 'success']);
+    }
     /**
      * Remove the specified resource from storage
      *
@@ -128,10 +134,12 @@ class StateController extends Controller
      * recover the state resource from archive
      *
      * @param $id
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function recover($id): RedirectResponse
+    public function recover($id): \Illuminate\Http\JsonResponse
     {
         $this->service->recover($id);
+
+        return response()->json(['message' => 'success']);
     }
 }

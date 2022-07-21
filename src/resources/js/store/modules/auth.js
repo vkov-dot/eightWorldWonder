@@ -9,9 +9,7 @@ export default {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             }
             axiosInstance.get("/api/user")
-                .then(response => {
-                    commit("setUserData", response.data);
-                })
+                .then(response => commit("setUserData", response.data))
                 .catch(() => {
                     localStorage.removeItem("authToken");
                     commit("setApiToken", null);

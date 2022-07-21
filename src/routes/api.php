@@ -44,11 +44,12 @@ Route::group([
 ], function () {
     Route::get('/latest', [StateController::class, 'lastStates'])->name('latest');
     Route::get('/all', [StateController::class, 'index'])->name('index');
-    Route::get('/create', [StateController::class, 'create'])->name('create')->middleware(['auth:sanctum', Admin::class]);
+    Route::get('/create', [StateController::class, 'create'])->name('create')->middleware(['auth:sanctum', 'admin']);
     Route::post('/store', [StateController::class, 'store'])->name('store')->middleware(['auth:sanctum', Admin::class]);
     Route::get('/{state}/show', [StateController::class, 'show']);
     Route::get('/{state}/edit', [StateController::class, 'edit'])->name('edit')->middleware(['auth:sanctum', Admin::class]);
     Route::post('/update/{state}', [StateController::class, 'update'])->name('update')->middleware(['auth:sanctum', Admin::class]);
+    Route::post('/archive/add/{id}', [StateController::class, 'toArchive'])->name('archive.add')->middleware(['auth:sanctum', Admin::class]);
     Route::delete('/{id}', [StateController::class, 'destroy'])->name('destroy')->middleware(['auth:sanctum', Admin::class]);
     Route::put('/recover/{id}', [StateController::class, 'recover'])->name('recover')->middleware(['auth:sanctum', Admin::class]);
     Route::post('/rating/store', [RatingController::class, 'store'])->name('store')->middleware('auth:sanctum');
@@ -71,8 +72,10 @@ Route::group([
     Route::get('/', [MediaFolderController::class, 'index'])->name('index');
     Route::get('/create', [MediaFolderController::class, 'create'])->name('create')->middleware(['auth:sanctum', Admin::class]);
     Route::post('/store', [MediaFolderController::class, 'store'])->name('store')->middleware(['auth:sanctum', Admin::class]);
-    Route::get('/{media}/', [MediaFolderController::class, 'show'])->name('show');
-    Route::delete('/{media}', [MediaFolderController::class, 'destroy'])->name('destroy')->middleware(['auth:sanctum', Admin::class]);
+    Route::get('/{folder}/', [MediaFolderController::class, 'show'])->name('show');
+    Route::get('/{folder}/edit', [MediaFolderController::class, 'edit'])->name('edit')->middleware(['auth:sanctum', Admin::class]);
+    Route::post('/{folder}/update', [MediaFolderController::class, 'update'])->middleware(['auth:sanctum', Admin::class]);
+    Route::delete('/{folder}', [MediaFolderController::class, 'destroy'])->name('destroy')->middleware(['auth:sanctum', Admin::class]);
 });
 
 Route::group([
@@ -97,7 +100,8 @@ Route::group([
     Route::post('/store', [HeadingController::class, 'store'])->name('store')->middleware('auth:sanctum');
     Route::get('/{heading}/', [HeadingController::class, 'show'])->name('show');
     Route::get('/{heading}/edit', [HeadingController::class, 'edit'])->name('edit')->middleware('auth:sanctum');
-    Route::put('/{heading}', [HeadingController::class, 'update'])->name('update')->middleware('auth:sanctum');
+    Route::post('/{heading}/update', [HeadingController::class, 'update'])->name('update')->middleware('auth:sanctum');
+    Route::delete('/delete/{heading}', [HeadingController::class, 'destroy'])->name('destroy')->middleware('auth:sanctum');
 });
 
 Route::group([

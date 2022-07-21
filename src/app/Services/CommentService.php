@@ -31,7 +31,7 @@ class CommentService extends BaseService
     public function destroy(int $id)
     {
         $comment = $this->find($id);
-        if($comment->user_id === auth()->id() || auth()->user()->admin) {
+        if($comment === auth()->id() || auth()->user()->admin) {
             $comment->delete();
         }
     }

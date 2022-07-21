@@ -1,19 +1,24 @@
 <template>
     <div class="col-lg-12 last-states notes-list-div">
-        <div>
-        <ul class="states-list">
-            <div class="last-states-title border-bottom-grey">
-                <p>
-                    {{ categoryName }}
-                </p>
-            </div>
-            <issues-list-element
-                v-for="issue in categoryIssues"
-                :key="issue.id"
-                :issue="issue"
-                class="list-element"
-            />
-        </ul>
+        <div v-if="this.categoryIssues?.length">
+            <ul class="states-list">
+                <div class="last-states-title border-bottom-grey">
+                    <p>
+                        {{ categoryName }}
+                    </p>
+                </div>
+                <issues-list-element
+                    v-for="issue in categoryIssues"
+                    :key="issue.id"
+                    :issue="issue"
+                    class="list-element"
+                />
+            </ul>
+        </div>
+        <div v-if="!this.categoryIssues.length" class="no-elements-message">
+            <p>
+                Нажаль записів немає
+            </p>
         </div>
         <Pagination
             v-if="categoryIssues.length"
@@ -50,7 +55,7 @@ export default {
         this.getIssuesByCategoryId([this.$route.params.id, this.page]);
     },
     watch: {
-        '$route'(){
+        '$route'() {
             this.getIssuesByCategoryId([this.$route.params.id, this.page]);
         }
     }

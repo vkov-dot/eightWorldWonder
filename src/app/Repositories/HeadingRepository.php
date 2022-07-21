@@ -25,4 +25,9 @@ class HeadingRepository
     {
         return $this->query()->get(['id', 'name']);
     }
+
+    public function delete(int $id)
+    {
+        $this->find($id)->delete();
+    }
 }

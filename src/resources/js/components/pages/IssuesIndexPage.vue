@@ -3,15 +3,9 @@
         <div class="search-issue-form justify-content-center">
             <div>
                 <select class="form-control" v-model="sortBy" @change="sortByOption">
-                    <option disabled value="">
-                        Сортувати
-                    </option>
-                    <option value="desc">
-                        Спочатку новіше
-                    </option>
-                    <option value="asc">
-                        Спочатку старіше
-                    </option>
+                    <option disabled value="">Сортувати</option>
+                    <option value="desc">Спочатку новіше</option>
+                    <option value="asc">Спочатку старіше</option>
                 </select>
             </div>
             <div class="search-div ml-3">
@@ -28,23 +22,28 @@
                 </div>
             </div>
         </div>
-        <div>
-        <ul class="states-list">
-            <div class="last-states-title border-bottom-grey">
-                <p>
-                    Всі випуски
-                </p>
-            </div>
-            <issues-list-element
-                v-for="issue in allIssues"
-                :key="issue.id"
-                :issue="issue"
-                class="list-element"
-            />
-        </ul>
-
+        <div v-if="this.allIssues?.length">
+            <ul class="states-list">
+                <div class="last-states-title border-bottom-grey">
+                    <p>
+                        Всі випуски
+                    </p>
+                </div>
+                <issues-list-element
+                    v-for="issue in allIssues"
+                    :key="issue.id"
+                    :issue="issue"
+                    class="list-element"
+                />
+            </ul>
+        </div>
+        <div v-if="!this.allIssues.length" class="no-elements-message">
+            <p>
+                Нажаль записів немає
+            </p>
         </div>
         <Pagination
+            v-if="this.allIssues.length"
             :total="totalIssues"
             :item="10"
             @page-changed="getAllIssues"
@@ -56,7 +55,7 @@
 import IssuesListElement from "../list-elements/IssuesListElement";
 import pagination from 'laravel-vue-pagination'
 import Pagination from "../Pagination";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
     name: "IssuesIndexPage",
@@ -81,8 +80,7 @@ export default {
         sortByOption() {
             if (this.sortBy === 'desc') {
                 this.allIssues.sort((a, b) => b['id'] > a['id'] ? 1 : -1);
-            }
-            else if (this.sortBy === 'asc') {
+            } else if (this.sortBy === 'asc') {
                 this.allIssues.sort((a, b) => a['id'] > b['id'] ? 1 : -1);
             }
         },

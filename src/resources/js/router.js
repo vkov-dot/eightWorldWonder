@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter  from 'vue-router'
+import VueRouter from 'vue-router'
 import StartPage from "./components/StartPage.vue";
 import StateShowPage from "./components/pages/StateShowPage";
 import StatesIndexPage from "./components/pages/StatesIndexPage";
@@ -20,10 +20,13 @@ import IssuesArchivePage from "./components/pages/IssuesArchivePage";
 import RegisterPage from "./components/pages/RegisterPage";
 import ProfileEditPage from "./components/pages/ProfileEditPage";
 import StateEditPage from "./components/pages/StateEditPage";
+import HeadingEditPage from "./components/pages/HeadingEditPage";
+import FolderEditPage from "./components/pages/FolderEditPage";
+import admin from './middleware/admin';
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
+const router = new VueRouter({
     mode: 'history',
     routes: [
         {
@@ -44,6 +47,9 @@ export default new VueRouter({
             path: '/states/edit/:state',
             name: 'states.edit',
             component: StateEditPage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/issues',
             name: 'issues.index',
@@ -68,18 +74,30 @@ export default new VueRouter({
             path: '/archived/states',
             name: 'states.archive',
             component: StatesArchivePage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/archived/issues',
-            name:  'issues.archive',
-            component: IssuesArchivePage
+            name: 'issues.archive',
+            component: IssuesArchivePage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/addInfo',
             name: 'addInfo',
             component: addInfoPage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/users',
             name: 'users.index',
             component: UsersIndexPage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/login',
             name: 'login',
@@ -88,18 +106,44 @@ export default new VueRouter({
             path: '/issues/create',
             name: 'issues.create',
             component: IssuesCreatePage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/states/create',
             name: 'states.create',
             component: StatesCreatePage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/media/create',
             name: 'media.create',
             component: FolderCreatePage,
+            meta: {
+                middleware: admin,
+            }
+        }, {
+            path: '/media/:folder/edit',
+            name: 'media.edit',
+            component: FolderEditPage,
+            meta: {
+                middleware: admin,
+            }
+        }, {
+            path: '/headings/:heading/edit',
+            name: 'headings.edit',
+            component: HeadingEditPage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/headings/create',
             name: 'headings.create',
             component: HeadingsCreatePage,
+            meta: {
+                middleware: admin,
+            }
         }, {
             path: '/register',
             name: 'register',
@@ -108,6 +152,41 @@ export default new VueRouter({
             path: '/profile/:user/edit',
             name: 'profile.edit',
             component: ProfileEditPage,
+            meta: {
+                middleware: admin,
+            }
         }
     ]
 })
+
+
+function nextFactory(context, middleware, index) {
+    const subsequentMiddleware = middleware[index];
+    if (!subsequentMiddleware) return context.next;
+    return (...parameters) => {
+        context.next(...parameters);
+        const nextMiddleware = nextFactory(context, middleware, index + 1);
+        subsequentMiddleware({...context, next: nextMiddleware});
+    };
+}
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.middleware) {
+        const middleware = Array.isArray(to.meta.middleware)
+            ? to.meta.middleware
+            : [to.meta.middleware];
+        const context = {
+            from,
+            next,
+            router,
+            to,
+        };
+        const nextMiddleware = nextFactory(context, middleware, 1);
+
+        return middleware[0]({...context, next: nextMiddleware});
+    }
+
+    return next();
+});
+
+export default router;

@@ -47,9 +47,14 @@
                                 Редагувати
                             </router-link>
                         </div>
-                        <div class="destroy-state">
+                        <div class="destroy-state" v-if="!showState.archived">
+                            <button type="submit" @click="archiveState">
+                                До архіва
+                            </button>
+                        </div>
+                        <div class="destroy-state" v-if="showState.archived">
                             <button type="submit" @click="destroyState">
-                                {{ +showState.archived === 1 ? 'Видалити' : 'До архіва' }}
+                                Видалити
                             </button>
                         </div>
                         <div v-if="showState.archived">
@@ -122,7 +127,7 @@ export default {
     },
     methods: {
         ...mapActions('state', ['getStateById', 'getLastStates', 'deleteShowState', 'recoverShowState', 'storeRating']),
-        ...mapActions('state', ['postComment', 'deleteComment']),
+        ...mapActions('state', ['postComment', 'deleteComment', 'addStateToArchive']),
         ...mapMutations('state', ['updateRating']),
         createComment() {
             if (this.user && this.commentMessage?.length > 5) {
@@ -134,7 +139,9 @@ export default {
         },
         destroyState() {
             this.deleteShowState(this.showState.id)
-            router.push({ name: 'states.archive' })
+        },
+        archiveState() {
+            this.addStateToArchive(this.showState.id);
         },
         recoverState() {
             this.recoverShowState(this.showState.id)

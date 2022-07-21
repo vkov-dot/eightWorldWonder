@@ -40,18 +40,23 @@ class HeadingService extends BaseService
         return $heading;
     }
 
-    public function update(HeadingRequest $request, int $id)
+    public function update(HeadingRequest $request)
     {
         $heading = $request->except('_token');
         if(asset($heading['image'])) {
             $heading['image'] = $this->saveImage($request);
         }
 
-        Heading::find($id)->update($heading);
+        Heading::find($request->id)->update($heading);
     }
 
     public function getNames()
     {
         return $this->repository->getNames();
+    }
+
+    public function delete(int $id)
+    {
+        $this->repository->delete($id);
     }
 }

@@ -52,6 +52,30 @@ class   MediaFolderController extends Controller
 
         return response()->json(['message' => 'success']);
     }
+    /**
+     * Show the form for editing the specified resource
+     *
+     * @param int $id
+     * @return array
+     */
+    public function edit(int $id)
+    {
+        return $this->service->edit($id);
+    }
+
+    /**
+     * Update the specified resource in storage
+     *
+     * @param MediaFolderRequest $request
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function update(MediaFolderRequest $request)
+    {
+        $this->service->update($request);
+
+        return response()->json([   'message' => 'success']);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -59,7 +83,7 @@ class   MediaFolderController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id)
     {
         $this->service->destroy($id);
 
