@@ -1,6 +1,7 @@
-import App from './App.vue'
+import App from './App.vue';
 import router from './router';
-import store from './store/index'
+import Vuelidate from 'vuelidate';
+import store from './store/index';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -17,6 +18,8 @@ window.Vue = require('vue').default;
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.use(Vuelidate);
 Vue.directive('focus', {
     inserted: el => el.focus()
 })

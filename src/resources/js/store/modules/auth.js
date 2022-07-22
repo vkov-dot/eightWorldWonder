@@ -4,15 +4,15 @@ import router from "../../router";
 export default {
     namespaced: true,
     actions: {
-        getUserData({ commit }, token=null) {
+        getUserData(ctx, token=null) {
             if(token) {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             }
             axiosInstance.get("/api/user")
-                .then(response => commit("setUserData", response.data))
+                .then(response => ctx.commit("setUserData", response.data))
                 .catch(() => {
                     localStorage.removeItem("authToken");
-                    commit("setApiToken", null);
+                    ctx.commit("setApiToken", null);
                 });
         },
         sendLoginRequest({ commit }, data) {
@@ -40,7 +40,6 @@ export default {
             return axiosInstance.post("/api/logout").then(() => {
                 commit("setUserData", null);
                 localStorage.removeItem("authToken");
-                router.push({name: 'start'})
             });
         },
     },

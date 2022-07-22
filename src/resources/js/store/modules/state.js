@@ -41,7 +41,6 @@ export default {
             if (localStorage.getItem("authToken")) {
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
             }
-            console.log(stateId);
             axiosInstance.post(`http://example.palmo/api/states/update/${stateId}`, state)
                 .then(response => {
                     if(response.archived) router.push({ name: 'states.archive'})
